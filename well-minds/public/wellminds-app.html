@@ -1,0 +1,2568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterBeing Care Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--p-50:#eef9f9;--p-100:#d1f0ee;--p-200:#a3e0dc;--p-300:#6ccbc5;--p-400:#3db5ad;--p-500:#1e9e97;--p-600:#18857f;--p-700:#146e69;--p-800:#0f5754;--p-900:#0a3d3b;
+--a-50:#fef5f3;--a-100:#fbe8e4;--a-200:#f6d1ca;--a-300:#f1b2a7;--a-400:#ed9484;--a-500:#e8735e;--a-600:#cc5a44;--a-700:#b84a38;
+--gold-500:#d4a017;--v-500:#7c5cbf;
+--n-50:#f7f8fa;--n-100:#e8ecef;--n-200:#d5dae0;--n-300:#b8bfc9;--n-400:#99a1ad;--n-500:#7a8390;--n-600:#5c6470;--n-700:#444c56;--n-800:#2d333b;--n-900:#1a2028;--n-950:#0f1419;--white:#fff;
+--success:#22a06b;--warning:#cf8600;--danger:#de350b;--info:#0065ff;
+--sidebar-w:248px;--sidebar-collapsed:68px;--header-h:64px;
+--radius-sm:6px;--radius:8px;--radius-lg:12px;--radius-xl:16px;
+--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 2px 8px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--n-900);background:var(--n-50);line-height:1.5;overflow:hidden;height:100vh}
+a{color:var(--p-600);text-decoration:none}
+a:hover{color:var(--p-700);text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit}
+img{max-width:100%}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-weight:500;font-size:.875rem;transition:all .15s;line-height:1.4}
+.btn-primary{background:var(--p-500);color:#fff}.btn-primary:hover{background:var(--p-600)}
+.btn-accent{background:var(--a-500);color:#fff}.btn-accent:hover{background:var(--a-600)}
+.btn-outline{border:1px solid var(--n-200);color:var(--n-700);background:var(--white)}.btn-outline:hover{border-color:var(--p-400);color:var(--p-600);background:var(--p-50)}
+.btn-ghost{color:var(--n-600)}.btn-ghost:hover{background:var(--n-100);color:var(--n-800)}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#c62e08}
+.btn-sm{padding:5px 10px;font-size:.8rem}
+.btn-lg{padding:11px 22px;font-size:1rem}
+.btn-icon{padding:8px;border-radius:var(--radius)}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card-title{font-size:1rem;font-weight:600;color:var(--n-900)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.75rem;font-weight:500}
+.badge-teal{background:var(--p-100);color:var(--p-700)}
+.badge-coral{background:var(--a-100);color:var(--a-700)}
+.badge-gold{background:#fef3cd;color:#856404}
+.badge-violet{background:#ede9f6;color:#5a3ea1}
+.badge-success{background:#e3fcef;color:#006644}
+.badge-warning{background:#fff7e6;color:#974f0c}
+.badge-danger{background:#ffebe6;color:#bf2600}
+.badge-info{background:#deebff;color:#0747a6}
+.badge-neutral{background:var(--n-100);color:var(--n-600)}
+
+/* FORM ELEMENTS */
+.form-group{margin-bottom:16px;position:relative}
+.form-label{display:block;font-size:.8rem;font-weight:500;color:var(--n-600);margin-bottom:4px}
+.form-input{width:100%;padding:9px 12px;border:1px solid var(--n-200);border-radius:var(--radius);background:var(--white);color:var(--n-900);transition:border-color .15s}
+.form-input:focus{outline:none;border-color:var(--p-400);box-shadow:0 0 0 3px var(--p-100)}
+.form-input::placeholder{color:var(--n-400)}
+textarea.form-input{resize:vertical;min-height:80px}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%237a8390' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-check{display:flex;align-items:center;gap:8px;cursor:pointer}
+.form-check input[type="checkbox"]{width:16px;height:16px;accent-color:var(--p-500)}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--n-100)}
+.table{width:100%;border-collapse:collapse}
+.table th{background:var(--n-50);position:sticky;top:0;text-align:left;padding:10px 14px;font-size:.8rem;font-weight:600;color:var(--n-600);text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--n-200)}
+.table td{padding:10px 14px;border-bottom:1px solid var(--n-100);font-size:.875rem}
+.table tbody tr:nth-child(even){background:var(--n-50)}
+.table tbody tr:hover{background:var(--p-50)}
+
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--n-100);margin-bottom:20px}
+.tab-btn{padding:10px 18px;font-weight:500;color:var(--n-500);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;font-size:.875rem}
+.tab-btn:hover{color:var(--n-700)}
+.tab-btn.active{color:var(--p-600);border-bottom-color:var(--p-500)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);width:90%;max-width:600px;max-height:85vh;overflow-y:auto;padding:28px}
+.modal-lg{max-width:800px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-title{font-size:1.15rem;font-weight:700}
+.modal-close{color:var(--n-400);padding:4px;border-radius:var(--radius-sm)}.modal-close:hover{color:var(--n-700);background:var(--n-100)}
+
+/* PROGRESS */
+.progress{height:6px;background:var(--n-100);border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;border-radius:999px;background:var(--p-500);transition:width .3s}
+.progress-ring{transform:rotate(-90deg)}
+
+/* AVATAR */
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--p-200);display:flex;align-items:center;justify-content:center;color:var(--p-700);font-weight:600;font-size:.8rem;flex-shrink:0}
+.avatar-lg{width:64px;height:64px;font-size:1.2rem}
+.avatar-xl{width:96px;height:96px;font-size:1.5rem}
+
+/* STATUS DOT */
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.status-dot.active{background:var(--success)}.status-dot.inactive{background:var(--n-300)}.status-dot.pending{background:var(--warning)}
+
+/* KPI CARD */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-bottom:24px}
+.kpi-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:20px;display:flex;flex-direction:column;gap:8px}
+.kpi-card .kpi-icon{width:40px;height:40px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center}
+.kpi-card .kpi-value{font-size:1.75rem;font-weight:700;color:var(--n-900);line-height:1}
+.kpi-card .kpi-label{font-size:.8rem;color:var(--n-500)}
+.kpi-card .kpi-trend{font-size:.75rem;font-weight:500;display:flex;align-items:center;gap:3px}
+.kpi-trend.up{color:var(--success)}.kpi-trend.down{color:var(--danger)}
+
+/* SIGN IN */
+.sign-in-wrap{display:flex;height:100vh;overflow:hidden}
+.sign-in-left{flex:1;display:flex;align-items:center;justify-content:center;padding:40px}
+.sign-in-form{width:100%;max-width:380px}
+.sign-in-form h1{font-size:1.5rem;font-weight:700;margin-bottom:4px}
+.sign-in-form .subtitle{color:var(--n-500);margin-bottom:28px}
+.sign-in-right{flex:1;background:linear-gradient(135deg,var(--p-600),var(--p-800));display:flex;align-items:center;justify-content:center;color:#fff;padding:40px;position:relative;overflow:hidden}
+.sign-in-right .promo-content{position:relative;z-index:1;text-align:center;max-width:400px}
+.sign-in-right .promo-content h2{font-size:1.75rem;font-weight:700;margin-bottom:12px}
+.sign-in-right .promo-content p{opacity:.85;font-size:1rem;line-height:1.7}
+.sign-in-right .bg-pattern{position:absolute;inset:0;opacity:.08}
+.role-toggle{display:flex;gap:0;border:1px solid var(--n-200);border-radius:var(--radius);overflow:hidden;margin-top:20px}
+.role-toggle button{flex:1;padding:8px;font-size:.8rem;font-weight:500;color:var(--n-500);background:var(--white);transition:.15s}
+.role-toggle button.active{background:var(--p-500);color:#fff}
+
+/* APP LAYOUT */
+.app-layout{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--n-100);display:flex;flex-direction:column;transition:width .2s;overflow:hidden;flex-shrink:0;z-index:100}
+.sidebar.collapsed{width:var(--sidebar-collapsed)}
+.sidebar-logo{height:var(--header-h);display:flex;align-items:center;padding:0 20px;gap:10px;border-bottom:1px solid var(--n-100);flex-shrink:0}
+.sidebar-logo .logo-text{font-size:1rem;font-weight:700;color:var(--p-700);white-space:nowrap}
+.sidebar.collapsed .logo-text,.sidebar.collapsed .nav-label,.sidebar.collapsed .nav-section-title,.sidebar.collapsed .sidebar-user-info,.sidebar.collapsed .nav-badge{display:none}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 10px}
+.nav-section{margin-bottom:16px}
+.nav-section-title{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--n-400);padding:4px 10px;margin-bottom:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--radius);color:var(--n-600);cursor:pointer;transition:all .12s;position:relative;white-space:nowrap}
+.nav-item:hover{background:var(--n-50);color:var(--n-800)}
+.nav-item.active{background:var(--p-50);color:var(--p-700);font-weight:500}
+.nav-item .nav-icon{width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.nav-item .nav-label{font-size:.875rem}
+.nav-badge{background:var(--a-500);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:999px;font-weight:600;margin-left:auto}
+.sidebar-footer{border-top:1px solid var(--n-100);padding:12px;flex-shrink:0}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:6px;margin-bottom:8px}
+.sidebar-user-info{white-space:nowrap;overflow:hidden}
+.sidebar-user-info .user-name{font-size:.8rem;font-weight:600;color:var(--n-800)}
+.sidebar-user-info .user-role{font-size:.7rem;color:var(--n-500)}
+.sidebar-actions{display:flex;gap:4px}
+.sidebar-actions button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px;border-radius:var(--radius);font-size:.75rem;color:var(--n-500);transition:.15s}
+.sidebar-actions button:hover{background:var(--n-100);color:var(--n-700)}
+.sidebar.collapsed .sidebar-actions button span{display:none}
+
+/* MAIN AREA */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.header{height:var(--header-h);background:var(--white);border-bottom:1px solid var(--n-100);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0}
+.header-title{font-size:1.1rem;font-weight:600;color:var(--n-900);white-space:nowrap}
+.header-search{flex:1;max-width:400px;position:relative}
+.header-search input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--n-200);border-radius:var(--radius);background:var(--n-50)}
+.header-search input:focus{outline:none;border-color:var(--p-400);background:var(--white);box-shadow:0 0 0 3px var(--p-100)}
+.header-search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--n-400)}
+.header-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.header-btn{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius);color:var(--n-500);transition:.15s}
+.header-btn:hover{background:var(--n-100);color:var(--n-700)}
+.header-btn .notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--a-500);border-radius:50%;border:1.5px solid var(--white)}
+
+.content{flex:1;overflow-y:auto;padding:28px 32px;background:var(--n-50)}
+.page{display:none}
+.page.active{display:block}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:1.35rem;font-weight:700;color:var(--n-900)}
+.page-desc{font-size:.875rem;color:var(--n-500);margin-top:2px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.flex-row{display:flex;gap:12px;align-items:center}
+.flex-between{display:flex;justify-content:space-between;align-items:center}
+.gap-sm{gap:8px}.gap-md{gap:16px}.gap-lg{gap:24px}
+.mt-sm{margin-top:8px}.mt-md{margin-top:16px}.mt-lg{margin-top:24px}
+.mb-sm{margin-bottom:8px}.mb-md{margin-bottom:16px}.mb-lg{margin-bottom:24px}
+.text-sm{font-size:.8rem}.text-xs{font-size:.7rem}
+.text-muted{color:var(--n-500)}
+.text-success{color:var(--success)}.text-danger{color:var(--danger)}.text-warning{color:var(--warning)}
+.fw-500{font-weight:500}.fw-600{font-weight:600}.fw-700{font-weight:700}
+
+/* MISC */
+.empty-state{text-align:center;padding:48px 20px;color:var(--n-400)}
+.empty-state svg{margin-bottom:12px;opacity:.5}
+.empty-state h3{font-size:1rem;font-weight:600;color:var(--n-600);margin-bottom:4px}
+
+.divider{border:none;border-top:1px solid var(--n-100);margin:16px 0}
+
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:.75rem;background:var(--n-100);color:var(--n-600)}
+
+.search-bar{position:relative;margin-bottom:16px}
+.search-bar input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--n-200);border-radius:var(--radius);background:var(--white)}
+.search-bar input:focus{outline:none;border-color:var(--p-400);box-shadow:0 0 0 3px var(--p-100)}
+.search-bar svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--n-400)}
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.filter-bar select{padding:7px 30px 7px 10px;border:1px solid var(--n-200);border-radius:var(--radius);background:var(--white);font-size:.8rem;color:var(--n-700)}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--n-800);color:#fff;padding:12px 20px;border-radius:var(--radius);font-size:.875rem;z-index:2000;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+.slider-group{margin-bottom:16px}
+.slider-group label{display:flex;justify-content:space-between;font-size:.8rem;font-weight:500;color:var(--n-600);margin-bottom:4px}
+.slider-group input[type="range"]{width:100%;accent-color:var(--p-500)}
+
+.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--n-100)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--n-100);border-radius:var(--radius-lg);overflow:hidden}
+.calendar-grid .cal-header{background:var(--n-50);padding:8px;text-align:center;font-size:.7rem;font-weight:600;color:var(--n-500);text-transform:uppercase}
+.calendar-grid .cal-day{background:var(--white);padding:8px;min-height:80px;font-size:.8rem;color:var(--n-700)}
+.calendar-grid .cal-day.today{background:var(--p-50)}
+.calendar-grid .cal-day.other-month{color:var(--n-300)}
+.cal-dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin:1px}
+
+.post-card{background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:16px}
+.post-header{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.post-meta{font-size:.75rem;color:var(--n-400)}
+.post-actions{display:flex;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid var(--n-100)}
+.post-actions button{display:flex;align-items:center;gap:5px;color:var(--n-500);font-size:.8rem;transition:.15s}
+.post-actions button:hover{color:var(--p-600)}
+
+@media(max-width:1200px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.sign-in-right{display:none}.sidebar{position:fixed;left:0;top:0;height:100vh;z-index:200}}
+</style>
+</head>
+<body>
+
+<!-- ============ SIGN IN PAGE ============ -->
+<div id="sign-in-page" class="sign-in-wrap">
+<div class="sign-in-left">
+<div class="sign-in-form">
+<div style="margin-bottom:28px">
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="16" stroke="var(--p-500)" stroke-width="2"/><path d="M12 18c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="var(--p-500)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="18" r="2" fill="var(--p-500)"/></svg>
+</div>
+<h1>Welcome back</h1>
+<p class="subtitle">Sign in to InterBeing Care Connect</p>
+<div class="form-group">
+<label class="form-label">Email address</label>
+<input type="email" class="form-input" id="login-email" placeholder="you@company.com" value="orgadmin@demo.com">
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<input type="password" class="form-input" id="login-password" placeholder="Enter your password" value="OrgAdmin@123456">
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+<label class="form-check"><input type="checkbox" checked> <span class="text-sm">Remember me</span></label>
+<a href="#" class="text-sm">Forgot password?</a>
+</div>
+<button class="btn btn-primary btn-lg" style="width:100%" onclick="doLogin()">Sign In</button>
+<div class="role-toggle">
+<button class="active" onclick="setLoginRole(this,'employee')">Employee</button>
+<button onclick="setLoginRole(this,'admin')">ICC Admin</button>
+</div>
+</div>
+</div>
+<div class="sign-in-right">
+<svg class="bg-pattern" viewBox="0 0 800 600" fill="none"><circle cx="200" cy="100" r="180" stroke="#fff" stroke-width="1"/><circle cx="600" cy="400" r="220" stroke="#fff" stroke-width="1"/><circle cx="400" cy="300" r="260" stroke="#fff" stroke-width=".5"/><path d="M0 300Q200 250 400 300T800 300" stroke="#fff" stroke-width="1"/><path d="M0 350Q200 300 400 350T800 350" stroke="#fff" stroke-width=".5"/></svg>
+<div class="promo-content">
+<h2>InterBeing Care Connect</h2>
+<p>Empowering holistic wellbeing across your organization. Connect, grow, and thrive together with comprehensive performance, development, and wellbeing tools.</p>
+<div style="margin-top:32px;display:flex;gap:24px;justify-content:center">
+<div style="text-align:center"><div style="font-size:1.75rem;font-weight:700">5,000+</div><div style="font-size:.8rem;opacity:.8">Employees</div></div>
+<div style="text-align:center"><div style="font-size:1.75rem;font-weight:700">92%</div><div style="font-size:.8rem;opacity:.8">Engagement</div></div>
+<div style="text-align:center"><div style="font-size:1.75rem;font-weight:700">4.7</div><div style="font-size:.8rem;opacity:.8">Wellbeing</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============ APP LAYOUT ============ -->
+<div id="app-layout" class="app-layout" style="display:none">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-logo">
+<svg width="28" height="28" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="16" stroke="var(--p-500)" stroke-width="2"/><path d="M12 18c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="var(--p-500)" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="18" r="2" fill="var(--p-500)"/></svg>
+<span class="logo-text">Care Connect</span>
+</div>
+<nav class="sidebar-nav" id="sidebar-nav">
+
+<div class="nav-section">
+<div class="nav-section-title">Main</div>
+<div class="nav-item active" data-page="home" onclick="nav('home')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+<span class="nav-label">Home</span>
+</div>
+<div class="nav-item" data-page="notifications" onclick="nav('notifications')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></span>
+<span class="nav-label">Notifications</span>
+<span class="nav-badge" id="notif-badge">3</span>
+</div>
+<div class="nav-item" data-page="profile" onclick="nav('profile')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+<span class="nav-label">My Profile</span>
+</div>
+</div>
+
+<div class="nav-section">
+<div class="nav-section-title">Wellbeing</div>
+<div class="nav-item" data-page="pulse" onclick="nav('pulse')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+<span class="nav-label">Pulse Check</span>
+</div>
+<div class="nav-item" data-page="wellbeing" onclick="nav('wellbeing')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>
+<span class="nav-label">My Wellbeing</span>
+</div>
+<div class="nav-item" data-page="indicators" onclick="nav('indicators')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+<span class="nav-label">Wellbeing Indicators</span>
+</div>
+<div class="nav-item" data-page="resources" onclick="nav('resources')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span>
+<span class="nav-label">Wellbeing Resources</span>
+</div>
+<div class="nav-item" data-page="professionals" onclick="nav('professionals')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+<span class="nav-label">Professional Connect</span>
+</div>
+<div class="nav-item" data-page="challenges" onclick="nav('challenges')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 000-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg></span>
+<span class="nav-label">Wellbeing Challenges</span>
+</div>
+<div class="nav-item" data-page="learning-sessions" onclick="nav('learning-sessions')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span>
+<span class="nav-label">Learning Sessions</span>
+</div>
+</div>
+
+<div class="nav-section">
+<div class="nav-section-title">Connect</div>
+<div class="nav-item" data-page="performance" onclick="nav('performance')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+<span class="nav-label">Performance Connect</span>
+</div>
+<div class="nav-item" data-page="development" onclick="nav('development')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+<span class="nav-label">Development Connect</span>
+</div>
+<div class="nav-item" data-page="objectives" onclick="nav('objectives')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75"/></svg></span>
+<span class="nav-label">Wellbeing Connect</span>
+</div>
+</div>
+
+<div class="nav-section">
+<div class="nav-section-title">Community</div>
+<div class="nav-item" data-page="feed" onclick="nav('feed')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+<span class="nav-label">Social Wall</span>
+</div>
+<div class="nav-item" data-page="smiles" onclick="nav('smiles')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span>
+<span class="nav-label">Smiles</span>
+</div>
+<div class="nav-item" data-page="events" onclick="nav('events')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+<span class="nav-label">Events</span>
+</div>
+<div class="nav-item" data-page="surveys" onclick="nav('surveys')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+<span class="nav-label">Surveys</span>
+</div>
+</div>
+
+<div class="nav-section" data-role="admin,manager">
+<div class="nav-section-title">HR</div>
+<div class="nav-item" data-page="hr-dashboard" onclick="nav('hr-dashboard')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+<span class="nav-label">Dashboard</span>
+</div>
+<div class="nav-item" data-page="staff" onclick="nav('staff')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+<span class="nav-label">Staff Management</span>
+</div>
+<div class="nav-item" data-page="org-chart" onclick="nav('org-chart')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg></span>
+<span class="nav-label">Org Chart</span>
+</div>
+<div class="nav-item" data-page="reports" onclick="nav('reports')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg></span>
+<span class="nav-label">Reports & Analytics</span>
+</div>
+</div>
+
+<div class="nav-section" data-role="admin">
+<div class="nav-section-title">Settings</div>
+<div class="nav-item" data-page="master-records" onclick="nav('master-records')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>
+<span class="nav-label">Master Records</span>
+</div>
+<div class="nav-item" data-page="company-settings" onclick="nav('company-settings')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span>
+<span class="nav-label">Company Setup</span>
+</div>
+<div class="nav-item" data-page="email-templates" onclick="nav('email-templates')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+<span class="nav-label">Email Templates</span>
+</div>
+<div class="nav-item" data-page="roles" onclick="nav('roles')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+<span class="nav-label">Roles & Permissions</span>
+</div>
+<div class="nav-item" data-page="theme-config" onclick="nav('theme-config')">
+<span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.04-.23-.29-.38-.63-.38-1.02 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-5.17-4.49-8.94-10-8.94z"/></svg></span>
+<span class="nav-label">Theme Config</span>
+</div>
+</div>
+
+</nav>
+<div class="sidebar-footer">
+<div class="sidebar-user">
+<div class="avatar" id="sidebar-avatar">AJ</div>
+<div class="sidebar-user-info">
+<div class="user-name" id="sidebar-name">Alex Johnson</div>
+<div class="user-role" id="sidebar-role">Admin</div>
+</div>
+</div>
+<div class="sidebar-actions">
+<button onclick="toggleSidebar()" title="Collapse"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg><span>Collapse</span></button>
+<button onclick="signOut()" title="Sign Out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Sign Out</span></button>
+</div>
+</div>
+</aside>
+
+<!-- HEADER -->
+<div class="main-area">
+<header class="header">
+<button class="btn-icon" onclick="toggleSidebar()" style="display:none" id="mobile-menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+<h2 class="header-title" id="header-title">Home</h2>
+<div class="header-search">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" placeholder="Search..." id="global-search">
+</div>
+<div class="header-right">
+<button class="header-btn" onclick="nav('notifications')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="notif-dot"></span></button>
+<button class="header-btn" onclick="nav('company-settings')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+<div class="avatar" style="cursor:pointer" onclick="nav('profile')" id="header-avatar">AJ</div>
+</div>
+</header>
+
+<main class="content" id="content-area">
+
+<!-- ==================== PAGE: HOME ==================== -->
+<div class="page active" id="page-home">
+<div class="page-header">
+<div><h1 class="page-title" id="home-greeting">Welcome back</h1><p class="page-desc" id="home-subtitle">Here's what's happening across your organization today.</p></div>
+<button class="btn btn-primary" onclick="nav('pulse')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pulse Check</button>
+</div>
+<div class="kpi-grid">
+<div class="kpi-card">
+<div class="kpi-icon" style="background:var(--p-100);color:var(--p-600)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+<div class="kpi-value" id="kpi-total-employees">—</div>
+<div class="kpi-label">Total Employees</div>
+<div class="kpi-trend up" id="kpi-employees-trend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> <span id="kpi-active-employees">—</span> active</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-icon" style="background:var(--a-100);color:var(--a-600)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+<div class="kpi-value" id="kpi-pulse-checks">—</div>
+<div class="kpi-label">Pulse Checks (30d)</div>
+<div class="kpi-trend up" id="kpi-pulse-trend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> <span id="kpi-participation">—</span> participation</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-icon" style="background:#fef3cd;color:#856404"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+<div class="kpi-value" id="kpi-smiles">—</div>
+<div class="kpi-label">My Smiles Received</div>
+<div class="kpi-trend up" id="kpi-smiles-trend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> <span id="kpi-smiles-sent">—</span> sent</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-icon" style="background:var(--p-100);color:var(--p-600)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+<div class="kpi-value" id="kpi-wellbeing-score">—</div>
+<div class="kpi-label">My Wellbeing Score</div>
+<div class="kpi-trend up" id="kpi-wellbeing-trend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> <span id="kpi-wellbeing-detail">—</span></div>
+</div>
+</div>
+
+<div class="grid-3" style="margin-bottom:24px">
+<div class="card" style="grid-column:span 2">
+<div class="card-header"><span class="card-title">Quick Actions</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn btn-outline" onclick="nav('smiles')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg> Send a Smile</button>
+<button class="btn btn-outline" onclick="nav('pulse')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Pulse Check</button>
+<button class="btn btn-outline" onclick="nav('performance')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Add Objective</button>
+<button class="btn btn-outline" onclick="nav('feed')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Post Update</button>
+<button class="btn btn-outline" onclick="nav('resources')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg> Browse Resources</button>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">Upcoming Events</span><a href="#" class="text-sm" onclick="nav('events');return false">View all</a></div>
+<div id="home-upcoming-events">
+<div class="text-sm text-muted" style="padding:12px">Loading events…</div>
+</div>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="card">
+<div class="card-header"><span class="card-title">Recent Activity</span></div>
+<div id="home-recent-activity">
+<div class="text-sm text-muted" style="padding:12px">Loading activity…</div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">My Wellbeing Snapshot</span></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Mental</span><span class="text-sm text-muted">8.2/10</span></div><div class="progress"><div class="progress-bar" style="width:82%;background:var(--p-500)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Physical</span><span class="text-sm text-muted">7.0/10</span></div><div class="progress"><div class="progress-bar" style="width:70%;background:var(--success)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Emotional</span><span class="text-sm text-muted">7.5/10</span></div><div class="progress"><div class="progress-bar" style="width:75%;background:var(--a-500)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Social</span><span class="text-sm text-muted">8.8/10</span></div><div class="progress"><div class="progress-bar" style="width:88%;background:var(--v-500)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Financial</span><span class="text-sm text-muted">6.5/10</span></div><div class="progress"><div class="progress-bar" style="width:65%;background:var(--gold-500)"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: NOTIFICATIONS ==================== -->
+<div class="page" id="page-notifications">
+<div class="page-header">
+<div><h1 class="page-title">Notifications</h1></div>
+<button class="btn btn-outline btn-sm" onclick="markAllRead()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Mark all read</button>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="notif-unread" onclick="switchTab(this,'notif')">Unread (3)</button>
+<button class="tab-btn" data-tab="notif-all" onclick="switchTab(this,'notif')">All</button>
+</div>
+<div class="tab-pane active" id="notif-unread">
+<div class="card" style="margin-bottom:12px;border-left:3px solid var(--p-500)">
+<div style="display:flex;gap:12px;align-items:start">
+<div class="avatar" style="background:var(--p-100);color:var(--p-600)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+<div style="flex:1"><div class="fw-600 text-sm">Performance Review Due</div><div class="text-sm text-muted mt-sm">Your Q1 2026 performance review is due in 5 days. Please complete your self-assessment.</div><div class="text-xs text-muted mt-sm">30 minutes ago</div></div>
+</div>
+</div>
+<div class="card" style="margin-bottom:12px;border-left:3px solid var(--gold-500)">
+<div style="display:flex;gap:12px;align-items:start">
+<div class="avatar" style="background:#fef3cd;color:#856404"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div>
+<div style="flex:1"><div class="fw-600 text-sm">New Smile Received</div><div class="text-sm text-muted mt-sm">Mike Torres sent you a Smile for "Great Teamwork" - keep up the amazing work!</div><div class="text-xs text-muted mt-sm">2 hours ago</div></div>
+</div>
+</div>
+<div class="card" style="margin-bottom:12px;border-left:3px solid var(--info)">
+<div style="display:flex;gap:12px;align-items:start">
+<div class="avatar" style="background:var(--p-100);color:var(--p-600)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg></div>
+<div style="flex:1"><div class="fw-600 text-sm">Event Reminder</div><div class="text-sm text-muted mt-sm">Mindfulness Workshop starts in 2 days. Don't forget to RSVP!</div><div class="text-xs text-muted mt-sm">5 hours ago</div></div>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="notif-all">
+<div class="card" style="margin-bottom:12px">
+<div style="display:flex;gap:12px;align-items:start">
+<div class="avatar" style="background:var(--n-100);color:var(--n-500)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<div style="flex:1"><div class="fw-500 text-sm">Pulse Check Reminder</div><div class="text-sm text-muted mt-sm">You haven't done a pulse check this week. Take a moment to reflect.</div><div class="text-xs text-muted mt-sm">1 day ago</div></div>
+</div>
+</div>
+<div class="card" style="margin-bottom:12px">
+<div style="display:flex;gap:12px;align-items:start">
+<div class="avatar" style="background:var(--n-100);color:var(--n-500)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+<div style="flex:1"><div class="fw-500 text-sm">New Team Member</div><div class="text-sm text-muted mt-sm">Jordan Kim has joined the Engineering team.</div><div class="text-xs text-muted mt-sm">3 days ago</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: MY PROFILE ==================== -->
+<div class="page" id="page-profile">
+<div class="card" style="margin-bottom:24px">
+<div style="display:flex;gap:24px;align-items:center">
+<div class="avatar avatar-xl" id="profile-avatar">—</div>
+<div>
+<h2 id="profile-name" style="font-size:1.25rem;font-weight:700">—</h2>
+<p class="text-muted" id="profile-title">—</p>
+<p class="text-sm text-muted" id="profile-dept">—</p>
+<div style="display:flex;gap:8px;margin-top:8px">
+<span class="badge badge-teal" id="profile-status-badge">Active</span>
+<span class="badge badge-neutral" id="profile-role-badge">—</span>
+</div>
+</div>
+<div style="margin-left:auto"><button class="btn btn-outline" onclick="toggleProfileEdit()" id="profile-edit-btn">Edit Profile</button></div>
+</div>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="profile-personal" onclick="switchTab(this,'profile')">Personal Info</button>
+<button class="tab-btn" data-tab="profile-employment" onclick="switchTab(this,'profile')">Employment</button>
+<button class="tab-btn" data-tab="profile-documents" onclick="switchTab(this,'profile')">Documents</button>
+<button class="tab-btn" data-tab="profile-training" onclick="switchTab(this,'profile')">Training</button>
+<button class="tab-btn" data-tab="profile-certs" onclick="switchTab(this,'profile')">Certifications</button>
+<button class="tab-btn" data-tab="profile-custom" onclick="switchTab(this,'profile')">Custom Fields</button>
+</div>
+<div class="tab-pane active" id="profile-personal">
+<div class="card">
+<div class="grid-2">
+<div class="form-group"><label class="form-label">First Name</label><input class="form-input" id="profile-input-firstname" readonly></div>
+<div class="form-group"><label class="form-label">Last Name</label><input class="form-input" id="profile-input-lastname" readonly></div>
+<div class="form-group"><label class="form-label">Email</label><input class="form-input" id="profile-input-email" readonly></div>
+<div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="profile-input-phone" readonly></div>
+<div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" id="profile-input-dob" readonly></div>
+<div class="form-group"><label class="form-label">Gender</label><input class="form-input" id="profile-input-gender" readonly></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Address</label><input class="form-input" id="profile-input-address" readonly></div>
+</div>
+<div id="profile-save-row" style="display:none;margin-top:16px"><button class="btn btn-primary" onclick="saveProfile()">Save Changes</button> <button class="btn btn-ghost" onclick="toggleProfileEdit()">Cancel</button></div>
+</div>
+</div>
+<div class="tab-pane" id="profile-employment">
+<div class="card">
+<div class="grid-2">
+<div class="form-group"><label class="form-label">Employee ID</label><input class="form-input" id="profile-input-empid" readonly></div>
+<div class="form-group"><label class="form-label">Job Title</label><input class="form-input" id="profile-input-jobtitle" readonly></div>
+<div class="form-group"><label class="form-label">Department</label><input class="form-input" id="profile-input-dept" readonly></div>
+<div class="form-group"><label class="form-label">Business Unit</label><input class="form-input" id="profile-input-bu" readonly></div>
+<div class="form-group"><label class="form-label">Manager</label><input class="form-input" id="profile-input-manager" readonly></div>
+<div class="form-group"><label class="form-label">Job Level</label><input class="form-input" id="profile-input-level" readonly></div>
+<div class="form-group"><label class="form-label">Start Date</label><input class="form-input" id="profile-input-start" readonly></div>
+<div class="form-group"><label class="form-label">Employment Type</label><input class="form-input" id="profile-input-emptype" value="Full-Time" readonly></div>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="profile-documents">
+<div class="card">
+<div class="table-wrap"><table class="table"><thead><tr><th>Document</th><th>Type</th><th>Uploaded</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Employment Contract</td><td><span class="badge badge-neutral">Contract</span></td><td>Mar 15, 2021</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+<tr><td class="fw-500">ID Verification</td><td><span class="badge badge-neutral">Identity</span></td><td>Mar 15, 2021</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+<tr><td class="fw-500">Tax Form W-4</td><td><span class="badge badge-neutral">Tax</span></td><td>Jan 10, 2026</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div class="tab-pane" id="profile-training">
+<div class="card">
+<div class="table-wrap"><table class="table"><thead><tr><th>Training</th><th>Type</th><th>Date</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Safety Orientation</td><td>Mandatory</td><td>Mar 20, 2021</td><td><span class="badge badge-success">Completed</span></td></tr>
+<tr><td class="fw-500">Leadership Essentials</td><td>Development</td><td>Sep 15, 2025</td><td><span class="badge badge-success">Completed</span></td></tr>
+<tr><td class="fw-500">Data Privacy Workshop</td><td>Compliance</td><td>Apr 30, 2026</td><td><span class="badge badge-warning">Scheduled</span></td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div class="tab-pane" id="profile-certs">
+<div class="card">
+<div class="table-wrap"><table class="table"><thead><tr><th>Certification</th><th>Issuer</th><th>Earned</th><th>Expires</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">AWS Solutions Architect</td><td>Amazon</td><td>Jun 2024</td><td>Jun 2027</td><td><span class="badge badge-success">Active</span></td></tr>
+<tr><td class="fw-500">Scrum Master</td><td>Scrum Alliance</td><td>Jan 2023</td><td>Jan 2025</td><td><span class="badge badge-danger">Expired</span></td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div class="tab-pane" id="profile-custom">
+<div class="card">
+<div class="grid-2">
+<div class="form-group"><label class="form-label">T-Shirt Size</label><input class="form-input" value="Medium" readonly></div>
+<div class="form-group"><label class="form-label">Dietary Preference</label><input class="form-input" value="Vegetarian" readonly></div>
+<div class="form-group"><label class="form-label">Emergency Contact</label><input class="form-input" value="Jane Johnson - (555) 987-6543" readonly></div>
+<div class="form-group"><label class="form-label">Preferred Pronouns</label><input class="form-input" value="He/Him" readonly></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: PULSE CHECK ==================== -->
+<div class="page" id="page-pulse">
+<div class="page-header"><div><h1 class="page-title">Pulse Check</h1><p class="page-desc">How are you feeling today? Take a moment to reflect.</p></div></div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header"><span class="card-title">Today's Check-In</span></div>
+<div class="slider-group"><label><span>Overall Wellbeing</span><span id="pulse-overall-val">7</span></label><input type="range" min="1" max="10" value="7" id="pulse-overall" oninput="document.getElementById('pulse-overall-val').textContent=this.value"></div>
+<div class="slider-group"><label><span>Energy Level</span><span id="pulse-energy-val">6</span></label><input type="range" min="1" max="10" value="6" id="pulse-energy" oninput="document.getElementById('pulse-energy-val').textContent=this.value"></div>
+<div class="slider-group"><label><span>Stress Level</span><span id="pulse-stress-val">4</span></label><input type="range" min="1" max="10" value="4" id="pulse-stress" oninput="document.getElementById('pulse-stress-val').textContent=this.value"></div>
+<div class="slider-group"><label><span>Connection</span><span id="pulse-connection-val">8</span></label><input type="range" min="1" max="10" value="8" id="pulse-connection" oninput="document.getElementById('pulse-connection-val').textContent=this.value"></div>
+<div class="slider-group"><label><span>Purpose</span><span id="pulse-purpose-val">7</span></label><input type="range" min="1" max="10" value="7" id="pulse-purpose" oninput="document.getElementById('pulse-purpose-val').textContent=this.value"></div>
+<div class="form-group"><label class="form-label">Notes (optional)</label><textarea class="form-input" id="pulse-notes" placeholder="Anything on your mind?"></textarea></div>
+<button class="btn btn-primary" onclick="submitPulseCheck()">Submit Check-In</button>
+</div>
+<div>
+<div class="card" style="margin-bottom:20px">
+<div class="card-header"><span class="card-title">Trend (Last 7 Days)</span></div>
+<div id="pulse-trend" style="height:160px;display:flex;align-items:end;gap:8px;padding-top:20px">
+<div style="flex:1;text-align:center"><div style="background:var(--p-200);height:112px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Mon</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-300);height:128px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Tue</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-200);height:104px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Wed</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-400);height:136px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Thu</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-300);height:120px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Fri</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-400);height:144px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Sat</div></div>
+<div style="flex:1;text-align:center"><div style="background:var(--p-500);height:152px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Sun</div></div>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">Recent Check-Ins</span></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--success)"></div><div><div class="text-sm fw-500">Overall: 8, Energy: 7, Stress: 3</div><div class="text-xs text-muted">Apr 15, 2026 - 9:00 AM</div></div></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--p-500)"></div><div><div class="text-sm fw-500">Overall: 7, Energy: 6, Stress: 5</div><div class="text-xs text-muted">Apr 14, 2026 - 8:45 AM</div></div></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div><div class="text-sm fw-500">Overall: 6, Energy: 5, Stress: 6</div><div class="text-xs text-muted">Apr 13, 2026 - 9:15 AM</div></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: MY WELLBEING ==================== -->
+<div class="page" id="page-wellbeing">
+<div class="page-header"><div><h1 class="page-title">My Wellbeing</h1><p class="page-desc">Your holistic wellbeing overview across all dimensions.</p></div></div>
+<div class="kpi-grid" style="grid-template-columns:repeat(5,1fr)">
+<div class="kpi-card" style="text-align:center">
+<div class="kpi-icon" style="background:var(--p-100);color:var(--p-600);margin:0 auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<div class="kpi-value">8.2</div>
+<div class="kpi-label">Mental</div>
+<div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +0.3</div>
+</div>
+<div class="kpi-card" style="text-align:center">
+<div class="kpi-icon" style="background:#e3fcef;color:var(--success);margin:0 auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+<div class="kpi-value">7.0</div>
+<div class="kpi-label">Physical</div>
+<div class="kpi-trend down"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/></svg> -0.2</div>
+</div>
+<div class="kpi-card" style="text-align:center">
+<div class="kpi-icon" style="background:var(--a-100);color:var(--a-600);margin:0 auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+<div class="kpi-value">7.5</div>
+<div class="kpi-label">Emotional</div>
+<div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +0.5</div>
+</div>
+<div class="kpi-card" style="text-align:center">
+<div class="kpi-icon" style="background:#ede9f6;color:var(--v-500);margin:0 auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+<div class="kpi-value">8.8</div>
+<div class="kpi-label">Social</div>
+<div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +0.1</div>
+</div>
+<div class="kpi-card" style="text-align:center">
+<div class="kpi-icon" style="background:#fef3cd;color:#856404;margin:0 auto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+<div class="kpi-value">6.5</div>
+<div class="kpi-label">Financial</div>
+<div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +0.8</div>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header"><span class="card-title">Latest Indicator Results</span></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--p-500)"></div><div style="flex:1"><div class="flex-between"><span class="text-sm fw-500">Stress Assessment</span><span class="badge badge-success">Low Risk</span></div><div class="text-xs text-muted">Completed Apr 10, 2026</div></div></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--v-500)"></div><div style="flex:1"><div class="flex-between"><span class="text-sm fw-500">Social Connection Index</span><span class="badge badge-success">Strong</span></div><div class="text-xs text-muted">Completed Apr 8, 2026</div></div></div>
+<div class="activity-item"><div class="activity-dot" style="background:var(--a-500)"></div><div style="flex:1"><div class="flex-between"><span class="text-sm fw-500">Emotional Resilience</span><span class="badge badge-warning">Moderate</span></div><div class="text-xs text-muted">Completed Apr 5, 2026</div></div></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">Resource Progress</span></div>
+<div style="margin-bottom:14px"><div class="flex-between mb-sm"><span class="text-sm fw-500">Mindfulness Basics</span><span class="text-xs text-muted">4/6 milestones</span></div><div class="progress"><div class="progress-bar" style="width:67%"></div></div></div>
+<div style="margin-bottom:14px"><div class="flex-between mb-sm"><span class="text-sm fw-500">Financial Planning 101</span><span class="text-xs text-muted">2/8 milestones</span></div><div class="progress"><div class="progress-bar" style="width:25%;background:var(--gold-500)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Exercise Fundamentals</span><span class="text-xs text-muted">7/7 milestones</span></div><div class="progress"><div class="progress-bar" style="width:100%;background:var(--success)"></div></div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: WELLBEING INDICATORS ==================== -->
+<div class="page" id="page-indicators">
+<div class="page-header"><div><h1 class="page-title">Wellbeing Indicators</h1><p class="page-desc">Assess your wellbeing across multiple dimensions.</p></div></div>
+<div class="filter-bar"><select class="form-input" style="width:auto"><option>All Categories</option><option>Mental</option><option>Physical</option><option>Social</option><option>Financial</option></select></div>
+<div class="grid-3">
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-teal mb-sm">Mental</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Stress Assessment</h3>
+<p class="text-sm text-muted mb-md">Evaluate your current stress levels and identify triggers that may be affecting your wellbeing.</p>
+<div class="flex-between"><span class="text-xs text-muted">15 questions</span><span class="text-xs text-muted">842 completions</span></div>
+</div>
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-coral mb-sm">Physical</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Sleep Quality Index</h3>
+<p class="text-sm text-muted mb-md">Assess your sleep patterns and quality to improve rest and recovery.</p>
+<div class="flex-between"><span class="text-xs text-muted">12 questions</span><span class="text-xs text-muted">623 completions</span></div>
+</div>
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-violet mb-sm">Social</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Social Connection Index</h3>
+<p class="text-sm text-muted mb-md">Measure the quality and depth of your social relationships and support network.</p>
+<div class="flex-between"><span class="text-xs text-muted">10 questions</span><span class="text-xs text-muted">534 completions</span></div>
+</div>
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-gold mb-sm">Financial</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Financial Wellness Check</h3>
+<p class="text-sm text-muted mb-md">Evaluate your financial health, stress levels and planning habits.</p>
+<div class="flex-between"><span class="text-xs text-muted">18 questions</span><span class="text-xs text-muted">391 completions</span></div>
+</div>
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-teal mb-sm">Mental</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Emotional Resilience</h3>
+<p class="text-sm text-muted mb-md">Assess your ability to cope with challenges and bounce back from adversity.</p>
+<div class="flex-between"><span class="text-xs text-muted">14 questions</span><span class="text-xs text-muted">456 completions</span></div>
+</div>
+<div class="card" style="cursor:pointer" onclick="openModal('indicator-modal')">
+<span class="badge badge-coral mb-sm">Physical</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Activity & Fitness Level</h3>
+<p class="text-sm text-muted mb-md">Gauge your current physical activity levels and fitness habits.</p>
+<div class="flex-between"><span class="text-xs text-muted">10 questions</span><span class="text-xs text-muted">718 completions</span></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: WELLBEING RESOURCES ==================== -->
+<div class="page" id="page-resources">
+<div class="page-header"><div><h1 class="page-title">Wellbeing Resources</h1><p class="page-desc">Explore curated resources to support your wellbeing journey.</p></div></div>
+<div class="search-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search resources..."></div>
+<div class="grid-3">
+<div class="card">
+<div style="height:120px;background:linear-gradient(135deg,var(--p-200),var(--p-400));border-radius:var(--radius);margin-bottom:14px;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<span class="badge badge-teal mb-sm">Mental Health</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:4px">Mindfulness Basics</h3>
+<p class="text-sm text-muted mb-md">Learn foundational mindfulness techniques for daily practice.</p>
+<div class="text-xs text-muted mb-sm">6 milestones - 18 lessons</div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:67%"></div></div>
+<div class="text-xs text-muted">67% complete</div>
+</div>
+<div class="card">
+<div style="height:120px;background:linear-gradient(135deg,var(--a-200),var(--a-400));border-radius:var(--radius);margin-bottom:14px;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+<span class="badge badge-coral mb-sm">Physical</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:4px">Exercise Fundamentals</h3>
+<p class="text-sm text-muted mb-md">Build a sustainable exercise routine that fits your lifestyle.</p>
+<div class="text-xs text-muted mb-sm">7 milestones - 21 lessons</div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:100%;background:var(--success)"></div></div>
+<div class="text-xs text-muted">Completed</div>
+</div>
+<div class="card">
+<div style="height:120px;background:linear-gradient(135deg,#f6e9c8,#d4a017);border-radius:var(--radius);margin-bottom:14px;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+<span class="badge badge-gold mb-sm">Financial</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:4px">Financial Planning 101</h3>
+<p class="text-sm text-muted mb-md">Master budgeting, saving and planning for your financial future.</p>
+<div class="text-xs text-muted mb-sm">8 milestones - 24 lessons</div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:25%;background:var(--gold-500)"></div></div>
+<div class="text-xs text-muted">25% complete</div>
+</div>
+<div class="card">
+<div style="height:120px;background:linear-gradient(135deg,#d8d0f0,var(--v-500));border-radius:var(--radius);margin-bottom:14px;display:flex;align-items:center;justify-content:center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+<span class="badge badge-violet mb-sm">Social</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:4px">Building Connections</h3>
+<p class="text-sm text-muted mb-md">Strengthen workplace relationships and build a support network.</p>
+<div class="text-xs text-muted mb-sm">5 milestones - 15 lessons</div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:0%"></div></div>
+<div class="text-xs text-muted">Not started</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: PROFESSIONAL CONNECT ==================== -->
+<div class="page" id="page-professionals">
+<div class="page-header"><div><h1 class="page-title">Professional Connect</h1><p class="page-desc">Connect with wellbeing professionals for personalized support.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="prof-directory" onclick="switchTab(this,'prof')">Directory</button>
+<button class="tab-btn" data-tab="prof-cases" onclick="switchTab(this,'prof')">My Cases</button>
+<button class="tab-btn" data-tab="prof-eap" onclick="switchTab(this,'prof')">EAP Info</button>
+</div>
+<div class="tab-pane active" id="prof-directory">
+<div class="grid-3">
+<div class="card" style="text-align:center">
+<div class="avatar avatar-lg" style="margin:0 auto 12px">DR</div>
+<h3 class="fw-600" style="font-size:1rem">Dr. Rachel Green</h3>
+<span class="badge badge-teal mt-sm mb-sm">Psychologist</span>
+<p class="text-sm text-muted">Specializations: Anxiety, Stress Management, CBT</p>
+<p class="text-xs text-muted mb-md">Languages: English, Spanish</p>
+<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">
+<span class="chip">In-Person</span><span class="chip">Video</span>
+</div>
+<button class="btn btn-primary btn-sm" style="width:100%">Request Support</button>
+</div>
+<div class="card" style="text-align:center">
+<div class="avatar avatar-lg" style="margin:0 auto 12px;background:var(--a-200);color:var(--a-700)">JM</div>
+<h3 class="fw-600" style="font-size:1rem">James Mitchell</h3>
+<span class="badge badge-coral mt-sm mb-sm">Life Coach</span>
+<p class="text-sm text-muted">Specializations: Career Development, Goal Setting</p>
+<p class="text-xs text-muted mb-md">Languages: English</p>
+<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">
+<span class="chip">Video</span><span class="chip">Phone</span>
+</div>
+<button class="btn btn-primary btn-sm" style="width:100%">Request Support</button>
+</div>
+<div class="card" style="text-align:center">
+<div class="avatar avatar-lg" style="margin:0 auto 12px;background:#ede9f6;color:var(--v-500)">SK</div>
+<h3 class="fw-600" style="font-size:1rem">Dr. Sarah Kim</h3>
+<span class="badge badge-violet mt-sm mb-sm">Counselor</span>
+<p class="text-sm text-muted">Specializations: Relationships, Grief, Trauma</p>
+<p class="text-xs text-muted mb-md">Languages: English, Korean</p>
+<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">
+<span class="chip">In-Person</span><span class="chip">Video</span><span class="chip">Phone</span>
+</div>
+<button class="btn btn-primary btn-sm" style="width:100%">Request Support</button>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="prof-cases">
+<div class="card" style="margin-bottom:12px">
+<div class="flex-between mb-sm"><span class="fw-600">Case #2026-0412</span><span class="badge badge-success">Active</span></div>
+<p class="text-sm text-muted">Professional: Dr. Rachel Green</p>
+<p class="text-sm text-muted">Topic: Stress Management</p>
+<p class="text-sm text-muted">Next Session: Apr 20, 2026 at 2:00 PM</p>
+<div class="mt-md"><button class="btn btn-outline btn-sm">View Details</button></div>
+</div>
+</div>
+<div class="tab-pane" id="prof-eap">
+<div class="card">
+<h3 class="card-title mb-md">Employee Assistance Program (EAP)</h3>
+<p class="text-sm mb-md">Your EAP provides free, confidential support for personal and work-related concerns. Services are available 24/7.</p>
+<div class="grid-2">
+<div><h4 class="text-sm fw-600 mb-sm">Services Include:</h4><ul style="list-style:none;display:flex;flex-direction:column;gap:6px"><li class="text-sm">Counseling (up to 8 sessions)</li><li class="text-sm">Legal consultation</li><li class="text-sm">Financial advising</li><li class="text-sm">Crisis intervention</li></ul></div>
+<div><h4 class="text-sm fw-600 mb-sm">Contact:</h4><p class="text-sm">24/7 Helpline: 1-800-555-0199</p><p class="text-sm">Email: eap@interbeing.care</p><p class="text-sm">Online: portal.interbeing.care/eap</p></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: WELLBEING CHALLENGES ==================== -->
+<div class="page" id="page-challenges">
+<div class="page-header"><div><h1 class="page-title">Wellbeing Challenges</h1><p class="page-desc">Join challenges to build healthy habits and earn rewards.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="chal-browse" onclick="switchTab(this,'chal')">Browse Challenges</button>
+<button class="tab-btn" data-tab="chal-my" onclick="switchTab(this,'chal')">My Challenges</button>
+<button class="tab-btn" data-tab="chal-leader" onclick="switchTab(this,'chal')">Leaderboard</button>
+<button class="tab-btn" data-tab="chal-badges" onclick="switchTab(this,'chal')">Badges</button>
+</div>
+<div class="tab-pane active" id="chal-browse">
+<div class="grid-3">
+<div class="card">
+<div class="flex-between mb-sm"><span class="badge badge-teal">ICC</span><span class="text-xs text-muted">Apr 1 - Apr 30</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:8px">30 Days of Mindfulness</h3>
+<p class="text-sm text-muted mb-md">Practice daily mindfulness for 30 days and track your progress.</p>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--n-200)" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="var(--p-500)" stroke-width="3" stroke-dasharray="125.6" stroke-dashoffset="50.24" stroke-linecap="round"/><text x="24" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="var(--n-800)">60%</text></svg>
+<div><div class="text-sm fw-500">450 points</div><div class="text-xs text-muted">234 participants</div></div>
+</div>
+<button class="btn btn-primary btn-sm" style="width:100%">Join Challenge</button>
+</div>
+<div class="card">
+<div class="flex-between mb-sm"><span class="badge badge-coral">Org</span><span class="text-xs text-muted">Apr 10 - May 10</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:8px">Step It Up</h3>
+<p class="text-sm text-muted mb-md">Walk 10,000 steps daily for 30 days. Track and compete with colleagues.</p>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--n-200)" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="var(--a-500)" stroke-width="3" stroke-dasharray="125.6" stroke-dashoffset="94.2" stroke-linecap="round"/><text x="24" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="var(--n-800)">25%</text></svg>
+<div><div class="text-sm fw-500">300 points</div><div class="text-xs text-muted">189 participants</div></div>
+</div>
+<button class="btn btn-outline btn-sm" style="width:100%">Joined</button>
+</div>
+<div class="card">
+<div class="flex-between mb-sm"><span class="badge badge-violet">Hybrid</span><span class="text-xs text-muted">May 1 - May 31</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:8px">Gratitude Journal</h3>
+<p class="text-sm text-muted mb-md">Write three things you're grateful for each day.</p>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+<svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--n-200)" stroke-width="3"/><circle cx="24" cy="24" r="20" fill="none" stroke="var(--v-500)" stroke-width="3" stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round"/><text x="24" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="var(--n-800)">0%</text></svg>
+<div><div class="text-sm fw-500">200 points</div><div class="text-xs text-muted">Starts May 1</div></div>
+</div>
+<button class="btn btn-primary btn-sm" style="width:100%">Join Challenge</button>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="chal-my">
+<div class="card" style="margin-bottom:12px">
+<div class="flex-between mb-sm"><h3 class="fw-600" style="font-size:1rem">Step It Up</h3><span class="badge badge-success">In Progress</span></div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:25%;background:var(--a-500)"></div></div>
+<p class="text-sm text-muted">Day 6 of 30 - 75 points earned</p>
+</div>
+</div>
+<div class="tab-pane" id="chal-leader">
+<div class="card">
+<div class="table-wrap"><table class="table"><thead><tr><th>Rank</th><th>Employee</th><th>Points</th><th>Challenges</th></tr></thead>
+<tbody>
+<tr><td class="fw-700" style="color:var(--gold-500)">#1</td><td class="fw-500">Sarah Chen</td><td>2,450</td><td>8</td></tr>
+<tr><td class="fw-700" style="color:var(--n-400)">#2</td><td class="fw-500">Mike Torres</td><td>2,180</td><td>7</td></tr>
+<tr><td class="fw-700" style="color:var(--a-500)">#3</td><td class="fw-500">Lisa Park</td><td>1,920</td><td>6</td></tr>
+<tr><td>#4</td><td class="fw-500">Alex Johnson (You)</td><td>1,750</td><td>5</td></tr>
+<tr><td>#5</td><td class="fw-500">Jordan Kim</td><td>1,640</td><td>5</td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div class="tab-pane" id="chal-badges">
+<div class="grid-4" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+<div class="card" style="text-align:center;padding:16px">
+<div style="width:56px;height:56px;border-radius:50%;background:var(--p-100);display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--p-600)" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+<div class="text-sm fw-600">First Pulse</div>
+<div class="text-xs text-muted">Completed first check-in</div>
+</div>
+<div class="card" style="text-align:center;padding:16px">
+<div style="width:56px;height:56px;border-radius:50%;background:#fef3cd;display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div>
+<div class="text-sm fw-600">Smile Starter</div>
+<div class="text-xs text-muted">Sent 10 smiles</div>
+</div>
+<div class="card" style="text-align:center;padding:16px;opacity:.5">
+<div style="width:56px;height:56px;border-radius:50%;background:var(--n-100);display:flex;align-items:center;justify-content:center;margin:0 auto 8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--n-400)" stroke-width="1.8"><path d="M6 9H4.5a2.5 2.5 0 010-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 000-5C17 4 17 7 17 7"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></svg></div>
+<div class="text-sm fw-600">Challenge Master</div>
+<div class="text-xs text-muted">Complete 10 challenges</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: LEARNING SESSIONS ==================== -->
+<div class="page" id="page-learning-sessions">
+<div class="page-header"><div><h1 class="page-title">Learning Sessions</h1><p class="page-desc">Live and recorded wellbeing learning sessions.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="ls-upcoming" onclick="switchTab(this,'ls')">Upcoming</button>
+<button class="tab-btn" data-tab="ls-my" onclick="switchTab(this,'ls')">My Sessions</button>
+<button class="tab-btn" data-tab="ls-recordings" onclick="switchTab(this,'ls')">Recordings</button>
+</div>
+<div class="tab-pane active" id="ls-upcoming">
+<div class="grid-3">
+<div class="card">
+<span class="badge badge-teal mb-sm">Mental Health</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Managing Workplace Anxiety</h3>
+<p class="text-sm text-muted mb-md">Learn practical techniques to manage anxiety in professional settings.</p>
+<div class="text-sm mb-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Dr. Rachel Green</div>
+<div class="text-sm text-muted mb-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Apr 20, 2026 - 2:00 PM</div>
+<button class="btn btn-primary btn-sm" style="width:100%">RSVP</button>
+</div>
+<div class="card">
+<span class="badge badge-coral mb-sm">Physical</span>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Desk Ergonomics Workshop</h3>
+<p class="text-sm text-muted mb-md">Optimize your workspace for better posture and comfort.</p>
+<div class="text-sm mb-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Tom Hayes, PT</div>
+<div class="text-sm text-muted mb-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Apr 24, 2026 - 11:00 AM</div>
+<button class="btn btn-outline btn-sm" style="width:100%">RSVP'd</button>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="ls-my">
+<div class="card"><p class="text-sm text-muted">1 upcoming session: Desk Ergonomics Workshop - Apr 24</p></div>
+</div>
+<div class="tab-pane" id="ls-recordings">
+<div class="search-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search recordings..."></div>
+<div class="grid-3">
+<div class="card">
+<div style="height:100px;background:var(--n-100);border-radius:var(--radius);margin-bottom:12px;display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--n-400)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/></svg></div>
+<h3 style="font-size:.9rem;font-weight:600;margin-bottom:4px">Sleep Hygiene Masterclass</h3>
+<p class="text-xs text-muted">Dr. Lisa Wong - Mar 15, 2026 - 45 min</p>
+</div>
+<div class="card">
+<div style="height:100px;background:var(--n-100);border-radius:var(--radius);margin-bottom:12px;display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--n-400)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16"/></svg></div>
+<h3 style="font-size:.9rem;font-weight:600;margin-bottom:4px">Nutrition for Energy</h3>
+<p class="text-xs text-muted">Mark Davis, RD - Feb 28, 2026 - 60 min</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: PERFORMANCE CONNECT ==================== -->
+<div class="page" id="page-performance">
+<div class="page-header">
+<div><h1 class="page-title">Performance Connect</h1><p class="page-desc">Manage your performance objectives, reflections, and feedback.</p></div>
+<button class="btn btn-primary" onclick="openModal('obj-modal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Objective</button>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="perf-obj" onclick="switchTab(this,'perf')">Objectives</button>
+<button class="tab-btn" data-tab="perf-reflect" onclick="switchTab(this,'perf')">Reflections</button>
+<button class="tab-btn" data-tab="perf-feedback" onclick="switchTab(this,'perf')">Stakeholder Feedback</button>
+<button class="tab-btn" data-tab="perf-notes" onclick="switchTab(this,'perf')">Adhoc Notes</button>
+<button class="tab-btn" data-tab="perf-360" onclick="switchTab(this,'perf')">360 Feedback</button>
+</div>
+<div class="tab-pane active" id="perf-obj">
+<div class="table-wrap"><table class="table"><thead><tr><th>Objective</th><th>Category</th><th>Status</th><th>Approval</th><th>Cycle</th><th>Progress</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Improve API response times by 30%</td><td><span class="badge badge-teal">Technical</span></td><td><span class="badge badge-info">In Progress</span></td><td><span class="badge badge-success">Approved</span></td><td>Q1 2026</td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:65%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Lead cross-team architecture review</td><td><span class="badge badge-violet">Leadership</span></td><td><span class="badge badge-info">In Progress</span></td><td><span class="badge badge-success">Approved</span></td><td>Q1 2026</td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:40%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Complete AWS certification</td><td><span class="badge badge-gold">Development</span></td><td><span class="badge badge-success">Completed</span></td><td><span class="badge badge-success">Approved</span></td><td>Q1 2026</td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:100%;background:var(--success)"></div></div></td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+<tr><td class="fw-500">Reduce deployment failures by 50%</td><td><span class="badge badge-teal">Technical</span></td><td><span class="badge badge-warning">Pending</span></td><td><span class="badge badge-warning">Awaiting</span></td><td>Q2 2026</td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:10%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+</tbody></table></div>
+</div>
+<div class="tab-pane" id="perf-reflect">
+<div class="card" style="margin-bottom:16px">
+<div class="card-header"><span class="card-title">Q1 2026 Reflection</span><span class="badge badge-success">Submitted</span></div>
+<p class="text-sm">This quarter I focused on improving our API performance. I achieved a 28% improvement so far and am on track to reach the 30% target. The architecture review has been a great learning experience and has improved cross-team collaboration.</p>
+<div class="text-xs text-muted mt-md">Submitted on Mar 31, 2026</div>
+</div>
+<button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Reflection</button>
+</div>
+<div class="tab-pane" id="perf-feedback">
+<div class="card" style="margin-bottom:12px">
+<div class="flex-between mb-sm"><span class="fw-600 text-sm">Sarah Chen (Manager)</span><span class="text-xs text-muted">Apr 5, 2026</span></div>
+<p class="text-sm text-muted">Alex consistently delivers high-quality work and has shown great initiative in leading the architecture review. Keep pushing on the API optimization project.</p>
+</div>
+<div class="card">
+<div class="flex-between mb-sm"><span class="fw-600 text-sm">Mike Torres (Peer)</span><span class="text-xs text-muted">Mar 28, 2026</span></div>
+<p class="text-sm text-muted">Great to work with on the cross-team project. Very collaborative and always willing to explain technical concepts.</p>
+</div>
+</div>
+<div class="tab-pane" id="perf-notes">
+<div class="card" style="margin-bottom:12px">
+<div class="flex-between mb-sm"><span class="fw-600 text-sm">1:1 Discussion Notes</span><span class="text-xs text-muted">Apr 10, 2026</span></div>
+<p class="text-sm text-muted">Discussed API optimization progress. Manager suggested exploring caching strategies. Need to coordinate with infrastructure team.</p>
+</div>
+<button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Note</button>
+</div>
+<div class="tab-pane" id="perf-360">
+<div class="empty-state">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+<h3>No 360 Feedback Cycles</h3>
+<p class="text-sm">There are no active 360 feedback cycles at this time.</p>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: DEVELOPMENT CONNECT ==================== -->
+<div class="page" id="page-development">
+<div class="page-header">
+<div><h1 class="page-title">Development Connect</h1><p class="page-desc">Plan and track your professional development goals.</p></div>
+<button class="btn btn-primary" onclick="openModal('obj-modal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Goal</button>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="dev-obj" onclick="switchTab(this,'dev')">Objectives</button>
+<button class="tab-btn" data-tab="dev-reflect" onclick="switchTab(this,'dev')">Reflections</button>
+<button class="tab-btn" data-tab="dev-feedback" onclick="switchTab(this,'dev')">Feedback</button>
+<button class="tab-btn" data-tab="dev-notes" onclick="switchTab(this,'dev')">Notes</button>
+</div>
+<div class="tab-pane active" id="dev-obj">
+<div class="table-wrap"><table class="table"><thead><tr><th>Goal</th><th>Skill Area</th><th>Learning</th><th>Status</th><th>Progress</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Master System Design patterns</td><td><span class="badge badge-teal">Architecture</span></td><td>Book + Online Course</td><td><span class="badge badge-info">In Progress</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:50%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Improve public speaking skills</td><td><span class="badge badge-violet">Communication</span></td><td>Workshop + Practice</td><td><span class="badge badge-info">In Progress</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:30%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Learn Kubernetes administration</td><td><span class="badge badge-gold">DevOps</span></td><td>Certification Course</td><td><span class="badge badge-warning">Planned</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:0%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+</tbody></table></div>
+</div>
+<div class="tab-pane" id="dev-reflect">
+<div class="card"><p class="text-sm text-muted">No reflections submitted yet for this cycle.</p><button class="btn btn-outline mt-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Reflection</button></div>
+</div>
+<div class="tab-pane" id="dev-feedback">
+<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><h3>No Feedback Yet</h3><p class="text-sm">Request feedback from peers on your development goals.</p></div>
+</div>
+<div class="tab-pane" id="dev-notes">
+<div class="card"><p class="text-sm text-muted">No development notes yet.</p><button class="btn btn-outline mt-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Note</button></div>
+</div>
+</div>
+
+<!-- ==================== PAGE: WELLBEING CONNECT ==================== -->
+<div class="page" id="page-objectives">
+<div class="page-header">
+<div><h1 class="page-title">Wellbeing Connect</h1><p class="page-desc">Set personal wellbeing objectives with flexible visibility controls.</p></div>
+<button class="btn btn-primary" onclick="openModal('obj-modal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Objective</button>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="wc-obj" onclick="switchTab(this,'wc')">Objectives</button>
+<button class="tab-btn" data-tab="wc-reflect" onclick="switchTab(this,'wc')">Reflections</button>
+<button class="tab-btn" data-tab="wc-consol" onclick="switchTab(this,'wc')">Consolidation</button>
+</div>
+<div class="tab-pane active" id="wc-obj">
+<div class="table-wrap"><table class="table"><thead><tr><th>Objective</th><th>Category</th><th>Visibility</th><th>Status</th><th>Progress</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Meditate 10 minutes daily</td><td><span class="badge badge-teal">Mental</span></td><td><span class="badge badge-neutral">Private</span></td><td><span class="badge badge-info">In Progress</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:70%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Walk 30 min daily</td><td><span class="badge badge-coral">Physical</span></td><td><span class="badge badge-teal">Manager</span></td><td><span class="badge badge-info">In Progress</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:55%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+<tr><td class="fw-500">Build emergency fund</td><td><span class="badge badge-gold">Financial</span></td><td><span class="badge badge-neutral">Private</span></td><td><span class="badge badge-info">In Progress</span></td><td><div class="progress" style="width:100px"><div class="progress-bar" style="width:40%"></div></div></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+</tbody></table></div>
+</div>
+<div class="tab-pane" id="wc-reflect">
+<div class="card"><p class="text-sm text-muted">Wellbeing reflections are non-rated. They are a space for personal growth notes.</p><button class="btn btn-outline mt-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> New Reflection</button></div>
+</div>
+<div class="tab-pane" id="wc-consol">
+<div class="card">
+<div class="card-header"><span class="card-title">Wellbeing Consolidation</span></div>
+<p class="text-sm text-muted mb-md">Summary of your wellbeing connect progress across all categories for the current cycle.</p>
+<div class="grid-2">
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Mental Objectives</span><span class="text-sm">1 of 1 on track</span></div><div class="progress"><div class="progress-bar" style="width:70%"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Physical Objectives</span><span class="text-sm">1 of 1 on track</span></div><div class="progress"><div class="progress-bar" style="width:55%;background:var(--a-500)"></div></div></div>
+<div><div class="flex-between mb-sm"><span class="text-sm fw-500">Financial Objectives</span><span class="text-sm">1 of 1 on track</span></div><div class="progress"><div class="progress-bar" style="width:40%;background:var(--gold-500)"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: SOCIAL WALL ==================== -->
+<div class="page" id="page-feed">
+<div class="page-header"><div><h1 class="page-title">Social Wall</h1><p class="page-desc">Share updates and connect with your colleagues.</p></div></div>
+<div style="max-width:680px">
+<div class="card mb-md">
+<div style="display:flex;gap:12px">
+<div class="avatar" id="feed-composer-avatar">—</div>
+<div style="flex:1">
+<textarea class="form-input" id="feed-composer-text" placeholder="What's on your mind?" rows="3" style="min-height:60px"></textarea>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+<span class="text-xs text-muted">Posts are visible to everyone in your company.</span>
+<button class="btn btn-primary btn-sm" onclick="submitPost()">Post</button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="feed-posts-container">
+<div class="text-sm text-muted" style="padding:12px">Loading posts…</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: SMILES ==================== -->
+<div class="page" id="page-smiles">
+<div class="page-header"><div><h1 class="page-title">Smiles</h1><p class="page-desc">Recognize your colleagues and spread positivity.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="smile-send" onclick="switchTab(this,'smile')">Send a Smile</button>
+<button class="tab-btn" data-tab="smile-received" onclick="switchTab(this,'smile'); refreshSmilesReceived()">Received <span id="smile-count-received">(–)</span></button>
+<button class="tab-btn" data-tab="smile-sent" onclick="switchTab(this,'smile'); refreshSmilesSent()">Sent <span id="smile-count-sent">(–)</span></button>
+<button class="tab-btn" data-tab="smile-stats" onclick="switchTab(this,'smile'); refreshSmilesStats()">My Stats</button>
+<button class="tab-btn" data-tab="smile-leaderboard" onclick="switchTab(this,'smile'); refreshSmilesLeaderboard()">Leaderboard</button>
+</div>
+<div class="tab-pane active" id="smile-send">
+<div class="card" style="max-width:600px">
+<h3 class="card-title mb-md">Send a Smile</h3>
+<div class="form-group"><label class="form-label">Recipient</label><select class="form-input" id="smile-recipient"><option value="">Select a colleague…</option></select></div>
+<div class="form-group"><label class="form-label">Category</label><select class="form-input" id="smile-category"><option value="">Select category…</option></select></div>
+<div class="form-group"><label class="form-label">Message</label><textarea class="form-input" id="smile-message" placeholder="Write a personal message..." rows="3"></textarea></div>
+<div class="form-group"><label class="form-check"><input type="checkbox" id="smile-public"> <span class="text-sm">Make this public (visible on Social Wall)</span></label></div>
+<button class="btn btn-accent" onclick="submitSmile()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg> Send Smile</button>
+</div>
+</div>
+<div class="tab-pane" id="smile-received">
+<div id="smile-received-list" class="grid-2">
+<div class="text-sm text-muted" style="padding:12px">Loading…</div>
+</div>
+</div>
+<div class="tab-pane" id="smile-sent">
+<div id="smile-sent-list" class="grid-2">
+<div class="text-sm text-muted" style="padding:12px">Loading…</div>
+</div>
+</div>
+<div class="tab-pane" id="smile-stats">
+<div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+<div class="kpi-card" style="text-align:center"><div class="kpi-value" id="smile-stat-received">—</div><div class="kpi-label">Smiles Received</div></div>
+<div class="kpi-card" style="text-align:center"><div class="kpi-value" id="smile-stat-sent">—</div><div class="kpi-label">Smiles Sent</div></div>
+<div class="kpi-card" style="text-align:center"><div class="kpi-value" id="smile-stat-categories">—</div><div class="kpi-label">Categories</div></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">Category Breakdown (Received)</span></div>
+<div id="smile-category-breakdown" style="display:flex;flex-direction:column;gap:10px">
+<div class="text-sm text-muted">Loading…</div>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="smile-leaderboard">
+<div class="card">
+<div class="card-header"><span class="card-title">Top Recipients This Month</span></div>
+<div id="smile-leaderboard-list">
+<div class="text-sm text-muted" style="padding:12px">Loading…</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: EVENTS ==================== -->
+<div class="page" id="page-events">
+<div class="page-header">
+<div><h1 class="page-title">Events</h1><p class="page-desc">Discover and join upcoming organizational events.</p></div>
+<div class="flex-row">
+<button class="btn btn-outline btn-sm active" id="events-list-btn" onclick="document.getElementById('events-calendar').style.display='none';document.getElementById('events-list').style.display='block'">List</button>
+<button class="btn btn-outline btn-sm" id="events-cal-btn" onclick="document.getElementById('events-calendar').style.display='block';document.getElementById('events-list').style.display='none'">Calendar</button>
+<button class="btn btn-primary btn-sm" data-role="admin,manager">Create Event</button>
+</div>
+</div>
+<div id="events-list">
+<div id="events-list-grid" class="grid-2">
+<div class="text-sm text-muted" style="padding:12px">Loading events…</div>
+</div>
+</div>
+<div id="events-calendar" style="display:none">
+<div class="card">
+<div class="flex-between mb-md"><button class="btn btn-ghost btn-sm">Prev</button><span class="fw-600">April 2026</span><button class="btn btn-ghost btn-sm">Next</button></div>
+<div class="calendar-grid">
+<div class="cal-header">Sun</div><div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div>
+<div class="cal-day other-month">29</div><div class="cal-day other-month">30</div><div class="cal-day other-month">31</div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div>
+<div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div>
+<div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day today">16</div><div class="cal-day">17</div><div class="cal-day">18<br><span class="cal-dot" style="background:var(--p-500)"></span></div>
+<div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22<br><span class="cal-dot" style="background:var(--a-500)"></span></div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25<br><span class="cal-dot" style="background:var(--v-500)"></span></div>
+<div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day other-month">1</div><div class="cal-day other-month">2</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: SURVEYS ==================== -->
+<div class="page" id="page-surveys">
+<div class="page-header"><div><h1 class="page-title">Surveys</h1><p class="page-desc">Complete surveys to share your feedback and help improve the organization.</p></div></div>
+<div class="grid-2">
+<div class="card" style="cursor:pointer" onclick="openModal('survey-modal')">
+<div class="flex-between mb-sm"><span class="badge badge-info">New</span><span class="text-xs text-muted">Due: Apr 30, 2026</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Q2 2026 Employee Engagement Survey</h3>
+<p class="text-sm text-muted mb-md">Share your thoughts on workplace culture, leadership, and development opportunities.</p>
+<div class="flex-between"><span class="text-xs text-muted">25 questions - ~10 min</span><span class="badge badge-teal">Start</span></div>
+</div>
+<div class="card" style="opacity:.7">
+<div class="flex-between mb-sm"><span class="badge badge-success">Completed</span><span class="text-xs text-muted">Mar 15, 2026</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Remote Work Preferences Survey</h3>
+<p class="text-sm text-muted mb-md">Insights on hybrid/remote work arrangements and workspace needs.</p>
+<div class="flex-between"><span class="text-xs text-muted">15 questions</span><span class="badge badge-success">Done</span></div>
+</div>
+<div class="card">
+<div class="flex-between mb-sm"><span class="badge badge-warning">In Progress</span><span class="text-xs text-muted">Due: Apr 20, 2026</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">Wellbeing Services Feedback</h3>
+<p class="text-sm text-muted mb-md">Help us improve the wellbeing programs and services offered.</p>
+<div class="flex-between"><span class="text-xs text-muted">12 questions - 60% complete</span></div>
+<div class="progress mt-sm"><div class="progress-bar" style="width:60%"></div></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: HR DASHBOARD ==================== -->
+<div class="page" id="page-hr-dashboard" data-role="admin,manager">
+<div class="page-header"><div><h1 class="page-title">HR Dashboard</h1><p class="page-desc">Organization-wide metrics and insights.</p></div></div>
+<div class="kpi-grid">
+<div class="kpi-card"><div class="kpi-icon" style="background:var(--p-100);color:var(--p-600)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="kpi-value">1,248</div><div class="kpi-label">Total Employees</div><div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +38 this month</div></div>
+<div class="kpi-card"><div class="kpi-icon" style="background:#e3fcef;color:var(--success)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg></div><div class="kpi-value">92%</div><div class="kpi-label">Engagement Score</div><div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +2.1%</div></div>
+<div class="kpi-card"><div class="kpi-icon" style="background:var(--a-100);color:var(--a-600)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="kpi-value">7.8</div><div class="kpi-label">Avg Wellbeing Score</div><div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +0.4</div></div>
+<div class="kpi-card"><div class="kpi-icon" style="background:#fef3cd;color:#856404"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div><div class="kpi-value">2,347</div><div class="kpi-label">Smiles Sent (Q1)</div><div class="kpi-trend up"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg> +18%</div></div>
+</div>
+<div class="grid-2">
+<div class="card"><div class="card-header"><span class="card-title">Engagement Trend</span></div><div style="height:200px;display:flex;align-items:end;gap:6px;padding-top:20px"><div style="flex:1;text-align:center"><div style="background:var(--p-200);height:160px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Jan</div></div><div style="flex:1;text-align:center"><div style="background:var(--p-300);height:168px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Feb</div></div><div style="flex:1;text-align:center"><div style="background:var(--p-400);height:176px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Mar</div></div><div style="flex:1;text-align:center"><div style="background:var(--p-500);height:184px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Apr</div></div></div></div>
+<div class="card"><div class="card-header"><span class="card-title">Wellbeing Distribution</span></div><div style="height:200px;display:flex;align-items:end;gap:16px;padding-top:20px"><div style="flex:1;text-align:center"><div style="background:var(--p-400);height:164px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Mental</div></div><div style="flex:1;text-align:center"><div style="background:var(--success);height:140px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Physical</div></div><div style="flex:1;text-align:center"><div style="background:var(--a-400);height:150px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Emotional</div></div><div style="flex:1;text-align:center"><div style="background:var(--v-500);height:176px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Social</div></div><div style="flex:1;text-align:center"><div style="background:var(--gold-500);height:130px;border-radius:4px 4px 0 0"></div><div class="text-xs text-muted mt-sm">Financial</div></div></div></div>
+</div>
+<div class="card mt-lg">
+<div class="card-header"><span class="card-title">Quick Links</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn btn-outline" onclick="nav('staff')">Staff Management</button>
+<button class="btn btn-outline" onclick="nav('reports')">Reports</button>
+<button class="btn btn-outline" onclick="nav('surveys')">Surveys</button>
+<button class="btn btn-outline" onclick="nav('org-chart')">Org Chart</button>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: STAFF MANAGEMENT ==================== -->
+<div class="page" id="page-staff" data-role="admin,manager">
+<div class="page-header">
+<div><h1 class="page-title">Staff Management</h1><p class="page-desc">Manage employee records and organizational structure.</p></div>
+<div class="flex-row gap-sm"><button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Bulk Upload</button><button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Employee</button></div>
+</div>
+<div class="filter-bar">
+<input class="form-input" id="staff-search" style="width:240px" placeholder="Search employees..." oninput="refreshStaffDebounced()">
+<select class="form-input" id="staff-dept-filter" style="width:auto" onchange="refreshStaff()"><option value="">All Departments</option></select>
+<select class="form-input" id="staff-role-filter" style="width:auto" onchange="refreshStaff()"><option value="">All Roles</option><option value="admin">Admin</option><option value="manager">Manager</option><option value="staff">Employee</option></select>
+<select class="form-input" id="staff-status-filter" style="width:auto" onchange="refreshStaff()"><option value="">All Statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+</div>
+<div class="card">
+<div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="staff-tbody">
+<tr><td colspan="6" class="text-sm text-muted" style="text-align:center;padding:24px">Loading staff…</td></tr>
+</tbody></table></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+<span class="text-sm text-muted">Showing 1-5 of 1,248 employees</span>
+<div class="flex-row gap-sm"><button class="btn btn-outline btn-sm" disabled>Prev</button><button class="btn btn-outline btn-sm active" style="background:var(--p-500);color:#fff;border-color:var(--p-500)">1</button><button class="btn btn-outline btn-sm">2</button><button class="btn btn-outline btn-sm">3</button><button class="btn btn-outline btn-sm">Next</button></div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: ORG CHART ==================== -->
+<div class="page" id="page-org-chart" data-role="admin,manager">
+<div class="page-header">
+<div><h1 class="page-title">Org Chart</h1><p class="page-desc">Visualize your organizational structure.</p></div>
+<div class="flex-row gap-sm">
+<select class="form-input" style="width:auto"><option>By Reporting Line</option><option>By Business Unit</option><option>By Department</option></select>
+<button class="btn btn-outline btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
+</div>
+</div>
+<div class="search-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="Search employees..."></div>
+<div class="card" style="text-align:center;padding:48px;overflow-x:auto">
+<div style="display:inline-flex;flex-direction:column;align-items:center;gap:0">
+<div style="padding:16px 24px;background:var(--p-50);border:2px solid var(--p-400);border-radius:var(--radius-lg);min-width:180px">
+<div class="avatar" style="margin:0 auto 8px">CE</div>
+<div class="fw-600 text-sm">CEO</div>
+<div class="text-xs text-muted">Executive</div>
+</div>
+<div style="width:2px;height:24px;background:var(--n-200)"></div>
+<div style="display:flex;gap:40px;position:relative">
+<div style="position:absolute;top:0;left:25%;right:25%;height:2px;background:var(--n-200)"></div>
+<div style="display:flex;flex-direction:column;align-items:center">
+<div style="width:2px;height:24px;background:var(--n-200)"></div>
+<div style="padding:12px 20px;background:var(--white);border:1px solid var(--n-200);border-radius:var(--radius-lg);min-width:160px">
+<div class="avatar" style="margin:0 auto 6px;width:28px;height:28px;font-size:.65rem">VP</div>
+<div class="fw-600 text-sm">VP Engineering</div>
+<div class="text-xs text-muted">Technology</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center">
+<div style="width:2px;height:24px;background:var(--n-200)"></div>
+<div style="padding:12px 20px;background:var(--white);border:1px solid var(--n-200);border-radius:var(--radius-lg);min-width:160px">
+<div class="avatar" style="margin:0 auto 6px;width:28px;height:28px;font-size:.65rem;background:var(--a-200);color:var(--a-700)">VP</div>
+<div class="fw-600 text-sm">VP Product</div>
+<div class="text-xs text-muted">Product</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center">
+<div style="width:2px;height:24px;background:var(--n-200)"></div>
+<div style="padding:12px 20px;background:var(--white);border:1px solid var(--n-200);border-radius:var(--radius-lg);min-width:160px">
+<div class="avatar" style="margin:0 auto 6px;width:28px;height:28px;font-size:.65rem;background:#ede9f6;color:var(--v-500)">VP</div>
+<div class="fw-600 text-sm">VP People</div>
+<div class="text-xs text-muted">HR</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: REPORTS & ANALYTICS ==================== -->
+<div class="page" id="page-reports" data-role="admin,manager">
+<div class="page-header">
+<div><h1 class="page-title">Reports & Analytics</h1><p class="page-desc">Comprehensive organizational reporting and analytics.</p></div>
+<button class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
+</div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="rpt-overview" onclick="switchTab(this,'rpt')">Overview</button>
+<button class="tab-btn" data-tab="rpt-smiles" onclick="switchTab(this,'rpt')">Smiles</button>
+<button class="tab-btn" data-tab="rpt-perf" onclick="switchTab(this,'rpt')">Performance</button>
+<button class="tab-btn" data-tab="rpt-dev" onclick="switchTab(this,'rpt')">Development</button>
+<button class="tab-btn" data-tab="rpt-well" onclick="switchTab(this,'rpt')">Wellbeing</button>
+<button class="tab-btn" data-tab="rpt-survey" onclick="switchTab(this,'rpt')">Surveys</button>
+<button class="tab-btn" data-tab="rpt-hris" onclick="switchTab(this,'rpt')">HRIS</button>
+<button class="tab-btn" data-tab="rpt-chal" onclick="switchTab(this,'rpt')">Challenges</button>
+<button class="tab-btn" data-tab="rpt-sessions" onclick="switchTab(this,'rpt')">Sessions</button>
+<button class="tab-btn" data-tab="rpt-engage" onclick="switchTab(this,'rpt')">Engagement</button>
+</div>
+<div class="filter-bar">
+<select class="form-input" style="width:auto"><option>Last 30 Days</option><option>Last Quarter</option><option>Last Year</option><option>Custom Range</option></select>
+<select class="form-input" style="width:auto"><option>All Departments</option><option>Engineering</option><option>Product</option><option>Marketing</option></select>
+<select class="form-input" style="width:auto"><option>All Business Units</option><option>Technology</option><option>Operations</option></select>
+</div>
+<div class="tab-pane active" id="rpt-overview">
+<div class="kpi-grid"><div class="kpi-card"><div class="kpi-value">92%</div><div class="kpi-label">Engagement</div></div><div class="kpi-card"><div class="kpi-value">7.8</div><div class="kpi-label">Wellbeing Avg</div></div><div class="kpi-card"><div class="kpi-value">78%</div><div class="kpi-label">Objectives On Track</div></div><div class="kpi-card"><div class="kpi-value">85%</div><div class="kpi-label">Survey Completion</div></div></div>
+<div class="card"><div class="card-header"><span class="card-title">Trend Overview</span></div><div style="height:200px;background:var(--n-50);border-radius:var(--radius);display:flex;align-items:center;justify-content:center"><span class="text-muted">Chart visualization area - integrates with your preferred charting library</span></div></div>
+</div>
+<div class="tab-pane" id="rpt-smiles"><div class="card"><div class="card-header"><span class="card-title">Smiles Analytics</span></div><p class="text-sm text-muted">2,347 smiles sent this quarter across 12 categories. Top category: Great Teamwork (34%).</p></div></div>
+<div class="tab-pane" id="rpt-perf"><div class="card"><div class="card-header"><span class="card-title">Performance Analytics</span></div><p class="text-sm text-muted">342 active objectives. 78% on track. 15% need attention. 7% off track.</p></div></div>
+<div class="tab-pane" id="rpt-dev"><div class="card"><div class="card-header"><span class="card-title">Development Analytics</span></div><p class="text-sm text-muted">189 development goals across the organization. Top skill areas: Leadership, Technical, Communication.</p></div></div>
+<div class="tab-pane" id="rpt-well"><div class="card"><div class="card-header"><span class="card-title">Wellbeing Analytics</span></div><p class="text-sm text-muted">Average wellbeing score: 7.8/10. Highest: Social (8.8). Lowest: Financial (6.5).</p></div></div>
+<div class="tab-pane" id="rpt-survey"><div class="card"><div class="card-header"><span class="card-title">Survey Analytics</span></div><p class="text-sm text-muted">3 surveys conducted. Average completion rate: 85%. Average satisfaction: 4.2/5.</p></div></div>
+<div class="tab-pane" id="rpt-hris"><div class="card"><div class="card-header"><span class="card-title">HRIS Report</span></div><p class="text-sm text-muted">1,248 employees. Turnover rate: 4.2%. Average tenure: 3.4 years.</p></div></div>
+<div class="tab-pane" id="rpt-chal"><div class="card"><div class="card-header"><span class="card-title">Challenges Report</span></div><p class="text-sm text-muted">5 active challenges. 423 unique participants. 68% average completion rate.</p></div></div>
+<div class="tab-pane" id="rpt-sessions"><div class="card"><div class="card-header"><span class="card-title">Sessions Report</span></div><p class="text-sm text-muted">12 sessions held this quarter. Average attendance: 45. Satisfaction: 4.5/5.</p></div></div>
+<div class="tab-pane" id="rpt-engage"><div class="card"><div class="card-header"><span class="card-title">Engagement Report</span></div><p class="text-sm text-muted">Overall engagement: 92%. Highest department: Engineering (95%). Areas for improvement: Finance team connection.</p></div></div>
+</div>
+
+<!-- ==================== PAGE: MASTER RECORDS ==================== -->
+<div class="page" id="page-master-records" data-role="admin">
+<div class="page-header"><div><h1 class="page-title">Master Records</h1><p class="page-desc">Manage system-wide configuration data.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="mr-smile-cats" onclick="switchTab(this,'mr')">Smile Categories</button>
+<button class="tab-btn" data-tab="mr-obj-cats" onclick="switchTab(this,'mr')">Objective Categories</button>
+<button class="tab-btn" data-tab="mr-statuses" onclick="switchTab(this,'mr')">Statuses</button>
+<button class="tab-btn" data-tab="mr-ratings" onclick="switchTab(this,'mr')">Rating Scales</button>
+<button class="tab-btn" data-tab="mr-templates" onclick="switchTab(this,'mr')">Templates</button>
+<button class="tab-btn" data-tab="mr-doc-types" onclick="switchTab(this,'mr')">Document Types</button>
+<button class="tab-btn" data-tab="mr-train-types" onclick="switchTab(this,'mr')">Training Types</button>
+<button class="tab-btn" data-tab="mr-cert-types" onclick="switchTab(this,'mr')">Cert Types</button>
+</div>
+<div class="tab-pane active" id="mr-smile-cats">
+<div class="flex-between mb-md"><span></span><button class="btn btn-primary btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Category</button></div>
+<div class="card"><div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Description</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Great Teamwork</td><td class="text-muted">Recognizing collaborative efforts</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+<tr><td class="fw-500">Going Above & Beyond</td><td class="text-muted">Extra effort and dedication</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+<tr><td class="fw-500">Innovation</td><td class="text-muted">Creative problem solving</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+<tr><td class="fw-500">Helping Others</td><td class="text-muted">Supporting colleagues</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+<tr><td class="fw-500">Positive Attitude</td><td class="text-muted">Bringing positive energy</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+<tr><td class="fw-500">Leadership</td><td class="text-muted">Demonstrating leadership qualities</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm text-danger">Delete</button></td></tr>
+</tbody></table></div></div>
+</div>
+<div class="tab-pane" id="mr-obj-cats"><div class="card"><div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Module</th><th>Status</th><th>Actions</th></tr></thead><tbody><tr><td class="fw-500">Technical</td><td>Performance</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr><tr><td class="fw-500">Leadership</td><td>Performance</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr><tr><td class="fw-500">Development</td><td>Both</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr></tbody></table></div></div></div>
+<div class="tab-pane" id="mr-statuses"><div class="card"><div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Type</th><th>Color</th><th>Actions</th></tr></thead><tbody><tr><td class="fw-500">Pending</td><td>Objective</td><td><span class="badge badge-warning">Warning</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr><tr><td class="fw-500">In Progress</td><td>Objective</td><td><span class="badge badge-info">Info</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr><tr><td class="fw-500">Completed</td><td>Objective</td><td><span class="badge badge-success">Success</span></td><td><button class="btn btn-ghost btn-sm">Edit</button></td></tr></tbody></table></div></div></div>
+<div class="tab-pane" id="mr-ratings"><div class="card"><p class="text-sm text-muted">Rating scales configuration: 1-5 standard scale, 1-10 wellbeing scale.</p></div></div>
+<div class="tab-pane" id="mr-templates"><div class="card"><p class="text-sm text-muted">Objective and reflection templates management.</p></div></div>
+<div class="tab-pane" id="mr-doc-types"><div class="card"><p class="text-sm text-muted">Document type categories: Contract, Identity, Tax, Certification, Other.</p></div></div>
+<div class="tab-pane" id="mr-train-types"><div class="card"><p class="text-sm text-muted">Training types: Mandatory, Development, Compliance, Safety.</p></div></div>
+<div class="tab-pane" id="mr-cert-types"><div class="card"><p class="text-sm text-muted">Certification type categories management.</p></div></div>
+</div>
+
+<!-- ==================== PAGE: COMPANY SETUP ==================== -->
+<div class="page" id="page-company-settings" data-role="admin">
+<div class="page-header"><div><h1 class="page-title">Company Setup</h1><p class="page-desc">Configure company-wide settings and preferences.</p></div></div>
+<div class="tabs">
+<button class="tab-btn active" data-tab="cs-details" onclick="switchTab(this,'cs')">Company Details</button>
+<button class="tab-btn" data-tab="cs-smtp" onclick="switchTab(this,'cs')">SMTP Config</button>
+<button class="tab-btn" data-tab="cs-theme" onclick="switchTab(this,'cs')">Theme</button>
+<button class="tab-btn" data-tab="cs-connect" onclick="switchTab(this,'cs')">Connect Config</button>
+<button class="tab-btn" data-tab="cs-modules" onclick="switchTab(this,'cs')">Module Subscriptions</button>
+</div>
+<div class="tab-pane active" id="cs-details">
+<div class="card"><div class="grid-2">
+<div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="InterBeing Care Connect"></div>
+<div class="form-group"><label class="form-label">Industry</label><select class="form-input"><option>Technology</option><option>Healthcare</option><option>Finance</option></select></div>
+<div class="form-group"><label class="form-label">Country</label><input class="form-input" value="United States"></div>
+<div class="form-group"><label class="form-label">Timezone</label><select class="form-input"><option>UTC-8 Pacific Time</option><option>UTC-5 Eastern Time</option></select></div>
+<div class="form-group" style="grid-column:span 2"><label class="form-label">Address</label><input class="form-input" value="100 Innovation Drive, San Francisco, CA 94102"></div>
+</div><button class="btn btn-primary mt-md">Save Changes</button></div>
+</div>
+<div class="tab-pane" id="cs-smtp">
+<div class="card"><div class="grid-2">
+<div class="form-group"><label class="form-label">SMTP Host</label><input class="form-input" value="smtp.company.com"></div>
+<div class="form-group"><label class="form-label">SMTP Port</label><input class="form-input" value="587"></div>
+<div class="form-group"><label class="form-label">Username</label><input class="form-input" value="noreply@company.com"></div>
+<div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="********"></div>
+<div class="form-group"><label class="form-label">From Name</label><input class="form-input" value="InterBeing Care Connect"></div>
+<div class="form-group"><label class="form-label">Encryption</label><select class="form-input"><option>TLS</option><option>SSL</option><option>None</option></select></div>
+</div><button class="btn btn-primary mt-md">Save</button> <button class="btn btn-outline mt-md">Test Connection</button></div>
+</div>
+<div class="tab-pane" id="cs-theme">
+<div class="card"><div class="grid-2">
+<div class="form-group"><label class="form-label">Primary Color</label><div class="flex-row"><input type="color" value="#1e9e97" style="width:40px;height:36px;border:none;cursor:pointer"><input class="form-input" value="#1e9e97" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Accent Color</label><div class="flex-row"><input type="color" value="#e8735e" style="width:40px;height:36px;border:none;cursor:pointer"><input class="form-input" value="#e8735e" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Background Color</label><div class="flex-row"><input type="color" value="#f7f8fa" style="width:40px;height:36px;border:none;cursor:pointer"><input class="form-input" value="#f7f8fa" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Text Color</label><div class="flex-row"><input type="color" value="#1a2028" style="width:40px;height:36px;border:none;cursor:pointer"><input class="form-input" value="#1a2028" style="flex:1"></div></div>
+</div><button class="btn btn-primary mt-md">Save Theme</button></div>
+</div>
+<div class="tab-pane" id="cs-connect">
+<div class="card">
+<h3 class="card-title mb-md">Connect Weights (must total 100%)</h3>
+<div class="slider-group"><label><span>Performance Connect</span><span id="cw-perf-val">40%</span></label><input type="range" min="0" max="100" value="40" oninput="document.getElementById('cw-perf-val').textContent=this.value+'%'"></div>
+<div class="slider-group"><label><span>Development Connect</span><span id="cw-dev-val">30%</span></label><input type="range" min="0" max="100" value="30" oninput="document.getElementById('cw-dev-val').textContent=this.value+'%'"></div>
+<div class="slider-group"><label><span>Wellbeing Connect</span><span id="cw-well-val">30%</span></label><input type="range" min="0" max="100" value="30" oninput="document.getElementById('cw-well-val').textContent=this.value+'%'"></div>
+<div class="flex-between mt-md"><span class="text-sm fw-600">Total: <span id="cw-total">100%</span></span><button class="btn btn-primary btn-sm">Save Weights</button></div>
+</div>
+</div>
+<div class="tab-pane" id="cs-modules">
+<div class="card">
+<h3 class="card-title mb-md">Module Subscriptions</h3>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Performance Connect</span><p class="text-xs text-muted">Objectives, reflections, feedback management</p></div><label style="position:relative;display:inline-block;width:44px;height:24px"><input type="checkbox" checked style="opacity:0;width:0;height:0" onchange="this.parentElement.style.background=this.checked?'var(--p-500)':'var(--n-300)'"><span style="position:absolute;cursor:pointer;inset:0;background:var(--p-500);border-radius:24px;transition:.3s"></span><span style="position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s"></span></label></div>
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Development Connect</span><p class="text-xs text-muted">Development goals and skill tracking</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Wellbeing Connect</span><p class="text-xs text-muted">Wellbeing objectives and indicators</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Smiles</span><p class="text-xs text-muted">Peer recognition program</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Social Wall</span><p class="text-xs text-muted">Company social feed</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+<div class="flex-between" style="padding:10px 0;border-bottom:1px solid var(--n-100)"><div><span class="fw-500">Challenges</span><p class="text-xs text-muted">Wellbeing challenges and gamification</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+<div class="flex-between" style="padding:10px 0"><div><span class="fw-500">Surveys</span><p class="text-xs text-muted">Employee survey management</p></div><label><input type="checkbox" checked style="accent-color:var(--p-500);width:18px;height:18px"></label></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: EMAIL TEMPLATES ==================== -->
+<div class="page" id="page-email-templates" data-role="admin">
+<div class="page-header"><div><h1 class="page-title">Email Templates</h1><p class="page-desc">Manage system email notifications and templates.</p></div></div>
+<div class="grid-3">
+<div style="grid-column:span 1">
+<div class="card" style="padding:0;overflow:hidden">
+<div style="padding:16px;border-bottom:1px solid var(--n-100)"><input class="form-input" placeholder="Search templates..." style="font-size:.8rem"></div>
+<div style="max-height:500px;overflow-y:auto">
+<div style="padding:12px 16px;background:var(--p-50);border-left:3px solid var(--p-500);cursor:pointer"><div class="fw-500 text-sm">Welcome Email</div><div class="text-xs text-muted">New employee onboarding</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">Password Reset</div><div class="text-xs text-muted">Account recovery</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">Smile Notification</div><div class="text-xs text-muted">Smile received alert</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">Review Reminder</div><div class="text-xs text-muted">Performance review due</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">Event RSVP</div><div class="text-xs text-muted">Event confirmation</div></div>
+<div style="padding:12px 16px;cursor:pointer"><div class="fw-500 text-sm">Survey Invitation</div><div class="text-xs text-muted">New survey available</div></div>
+</div>
+</div>
+</div>
+<div style="grid-column:span 2">
+<div class="card">
+<div class="card-header"><span class="card-title">Welcome Email</span><span class="badge badge-teal">Active</span></div>
+<div class="form-group"><label class="form-label">Subject</label><input class="form-input" value="Welcome to InterBeing Care Connect, {{first_name}}!"></div>
+<div class="form-group"><label class="form-label">Available Tokens</label>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="chip" style="cursor:pointer">{{first_name}}</span><span class="chip" style="cursor:pointer">{{last_name}}</span><span class="chip" style="cursor:pointer">{{email}}</span><span class="chip" style="cursor:pointer">{{company_name}}</span><span class="chip" style="cursor:pointer">{{department}}</span><span class="chip" style="cursor:pointer">{{login_url}}</span></div></div>
+<div class="form-group"><label class="form-label">Body</label><textarea class="form-input" rows="10" style="min-height:200px">Dear {{first_name}},
+
+Welcome to {{company_name}}! We're excited to have you join our team.
+
+Your account has been created. You can log in at: {{login_url}}
+
+Department: {{department}}
+
+If you have any questions, please reach out to your manager or HR team.
+
+Best regards,
+The {{company_name}} Team</textarea></div>
+<div class="flex-row gap-sm"><button class="btn btn-primary">Save Template</button><button class="btn btn-outline">Preview</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: ROLES & PERMISSIONS ==================== -->
+<div class="page" id="page-roles" data-role="admin">
+<div class="page-header">
+<div><h1 class="page-title">Roles & Permissions</h1><p class="page-desc">Configure user roles and access permissions.</p></div>
+<button class="btn btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Role</button>
+</div>
+<div class="grid-3">
+<div>
+<div class="card" style="padding:0;overflow:hidden">
+<div style="padding:12px 16px;background:var(--p-50);border-left:3px solid var(--p-500);cursor:pointer"><div class="fw-600 text-sm">Super Admin</div><div class="text-xs text-muted">Full system access</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">HR Admin</div><div class="text-xs text-muted">HR module access</div></div>
+<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--n-50)"><div class="fw-500 text-sm">Manager</div><div class="text-xs text-muted">Team management</div></div>
+<div style="padding:12px 16px;cursor:pointer"><div class="fw-500 text-sm">Employee</div><div class="text-xs text-muted">Standard access</div></div>
+</div>
+</div>
+<div style="grid-column:span 2">
+<div class="card">
+<div class="card-header"><span class="card-title">Super Admin - Permissions</span></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Module</th><th>View</th><th>Add</th><th>Edit</th><th>Delete</th></tr></thead>
+<tbody>
+<tr><td class="fw-500">Dashboard</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Staff Management</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Performance Connect</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Development Connect</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Wellbeing Connect</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Smiles</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Reports</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+<tr><td class="fw-500">Settings</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+</tbody></table></div>
+<div class="mt-md"><button class="btn btn-primary btn-sm">Save Permissions</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ==================== PAGE: THEME CONFIG ==================== -->
+<div class="page" id="page-theme-config" data-role="admin">
+<div class="page-header"><div><h1 class="page-title">Theme Configuration</h1><p class="page-desc">Customize the look and feel of your platform.</p></div></div>
+<div class="grid-2">
+<div class="card">
+<h3 class="card-title mb-md">Color Settings</h3>
+<div class="form-group"><label class="form-label">Primary Color</label><div class="flex-row"><input type="color" value="#1e9e97" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#1e9e97" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Secondary / Accent Color</label><div class="flex-row"><input type="color" value="#e8735e" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#e8735e" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Background Color</label><div class="flex-row"><input type="color" value="#f7f8fa" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#f7f8fa" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Text Color</label><div class="flex-row"><input type="color" value="#1a2028" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#1a2028" style="flex:1"></div></div>
+<hr class="divider">
+<h3 class="card-title mb-md">Button Style</h3>
+<div class="form-group"><label class="form-label">Border Radius</label><select class="form-input"><option>8px (Default)</option><option>4px (Sharp)</option><option>12px (Rounded)</option><option>999px (Pill)</option></select></div>
+<hr class="divider">
+<h3 class="card-title mb-md">Status Colors</h3>
+<div class="form-group"><label class="form-label">Success</label><div class="flex-row"><input type="color" value="#22a06b" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#22a06b" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Warning</label><div class="flex-row"><input type="color" value="#cf8600" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#cf8600" style="flex:1"></div></div>
+<div class="form-group"><label class="form-label">Danger</label><div class="flex-row"><input type="color" value="#de350b" style="width:48px;height:36px;border:1px solid var(--n-200);border-radius:var(--radius-sm);cursor:pointer"><input class="form-input" value="#de350b" style="flex:1"></div></div>
+<button class="btn btn-primary mt-md">Save Theme</button>
+</div>
+<div class="card">
+<h3 class="card-title mb-md">Preview</h3>
+<div style="background:var(--n-50);border-radius:var(--radius);padding:20px">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+<button class="btn btn-primary">Primary Button</button>
+<button class="btn btn-accent">Accent Button</button>
+<button class="btn btn-outline">Outline Button</button>
+<button class="btn btn-ghost">Ghost Button</button>
+<button class="btn btn-danger">Danger Button</button>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+<span class="badge badge-teal">Teal</span>
+<span class="badge badge-coral">Coral</span>
+<span class="badge badge-gold">Gold</span>
+<span class="badge badge-violet">Violet</span>
+<span class="badge badge-success">Success</span>
+<span class="badge badge-warning">Warning</span>
+<span class="badge badge-danger">Danger</span>
+<span class="badge badge-info">Info</span>
+</div>
+<div style="margin-bottom:16px">
+<div class="progress mb-sm"><div class="progress-bar" style="width:75%"></div></div>
+<div class="progress mb-sm"><div class="progress-bar" style="width:50%;background:var(--a-500)"></div></div>
+<div class="progress"><div class="progress-bar" style="width:90%;background:var(--success)"></div></div>
+</div>
+<div style="display:flex;gap:8px">
+<div class="avatar">AJ</div>
+<div class="avatar" style="background:var(--a-200);color:var(--a-700)">SC</div>
+<div class="avatar" style="background:#ede9f6;color:var(--v-500)">MT</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</main>
+</div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-overlay" id="indicator-modal">
+<div class="modal modal-lg">
+<div class="modal-header"><h3 class="modal-title">Stress Assessment</h3><button class="modal-close" onclick="closeModal('indicator-modal')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="progress mb-md"><div class="progress-bar" style="width:20%"></div></div>
+<p class="text-sm text-muted mb-md">Question 1 of 15</p>
+<h4 style="font-size:1rem;margin-bottom:16px">How often have you felt overwhelmed by your workload in the past two weeks?</h4>
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
+<label class="form-check" style="padding:10px 14px;border:1px solid var(--n-200);border-radius:var(--radius);cursor:pointer"><input type="radio" name="q1" style="accent-color:var(--p-500)"> <span>Never</span></label>
+<label class="form-check" style="padding:10px 14px;border:1px solid var(--n-200);border-radius:var(--radius);cursor:pointer"><input type="radio" name="q1" style="accent-color:var(--p-500)"> <span>Rarely</span></label>
+<label class="form-check" style="padding:10px 14px;border:1px solid var(--n-200);border-radius:var(--radius);cursor:pointer"><input type="radio" name="q1" style="accent-color:var(--p-500)"> <span>Sometimes</span></label>
+<label class="form-check" style="padding:10px 14px;border:1px solid var(--n-200);border-radius:var(--radius);cursor:pointer"><input type="radio" name="q1" style="accent-color:var(--p-500)"> <span>Often</span></label>
+<label class="form-check" style="padding:10px 14px;border:1px solid var(--n-200);border-radius:var(--radius);cursor:pointer"><input type="radio" name="q1" style="accent-color:var(--p-500)"> <span>Always</span></label>
+</div>
+<div class="flex-between"><button class="btn btn-outline" disabled>Previous</button><button class="btn btn-primary" onclick="showToast('Answer saved! Loading next question...')">Next</button></div>
+</div>
+</div>
+
+<div class="modal-overlay" id="obj-modal">
+<div class="modal">
+<div class="modal-header"><h3 class="modal-title">Add Objective</h3><button class="modal-close" onclick="closeModal('obj-modal')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="form-group"><label class="form-label">Title</label><input class="form-input" placeholder="Enter objective title"></div>
+<div class="form-group"><label class="form-label">Description</label><textarea class="form-input" placeholder="Describe your objective..." rows="3"></textarea></div>
+<div class="grid-2">
+<div class="form-group"><label class="form-label">Category</label><select class="form-input"><option>Technical</option><option>Leadership</option><option>Development</option><option>Mental</option><option>Physical</option><option>Financial</option></select></div>
+<div class="form-group"><label class="form-label">Cycle</label><select class="form-input"><option>Q2 2026</option><option>Q1 2026</option><option>Annual 2026</option></select></div>
+</div>
+<div class="form-group"><label class="form-label">Key Results / Milestones</label><textarea class="form-input" placeholder="Define measurable outcomes..." rows="2"></textarea></div>
+<div class="form-group"><label class="form-label">Due Date</label><input class="form-input" type="date"></div>
+<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px">
+<button class="btn btn-outline" onclick="closeModal('obj-modal')">Cancel</button>
+<button class="btn btn-primary" onclick="closeModal('obj-modal');showToast('Objective created successfully!')">Create Objective</button>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="survey-modal">
+<div class="modal modal-lg">
+<div class="modal-header"><h3 class="modal-title">Q2 2026 Employee Engagement Survey</h3><button class="modal-close" onclick="closeModal('survey-modal')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+<div class="progress mb-md"><div class="progress-bar" style="width:0%"></div></div>
+<p class="text-sm text-muted mb-md">Section 1 of 5: Workplace Culture</p>
+<div style="margin-bottom:20px">
+<h4 style="font-size:.95rem;margin-bottom:12px">1. I feel valued as a member of my team.</h4>
+<div style="display:flex;gap:12px;margin-bottom:20px">
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q1" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Strongly Disagree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q1" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Disagree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q1" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Neutral</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q1" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Agree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q1" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Strongly Agree</span></label>
+</div>
+</div>
+<div style="margin-bottom:20px">
+<h4 style="font-size:.95rem;margin-bottom:12px">2. My manager supports my professional development.</h4>
+<div style="display:flex;gap:12px;margin-bottom:20px">
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q2" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Strongly Disagree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q2" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Disagree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q2" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Neutral</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q2" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Agree</span></label>
+<label style="text-align:center;cursor:pointer"><input type="radio" name="s1q2" style="display:block;margin:0 auto 4px;accent-color:var(--p-500)"><span class="text-xs">Strongly Agree</span></label>
+</div>
+</div>
+<div style="margin-bottom:20px">
+<h4 style="font-size:.95rem;margin-bottom:8px">3. What could we improve about our workplace culture?</h4>
+<textarea class="form-input" rows="3" placeholder="Share your thoughts..."></textarea>
+</div>
+<div class="flex-between"><button class="btn btn-outline" disabled>Previous Section</button><button class="btn btn-primary" onclick="showToast('Section saved. Loading next section...')">Next Section</button></div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* =============== CONFIG & STATE =============== */
+const API_BASE = window.location.origin + '/api';
+const PAGE_TITLES = {
+  home:'Home', notifications:'Notifications', profile:'My Profile', pulse:'Pulse Check',
+  wellbeing:'My Wellbeing', indicators:'Wellbeing Indicators', resources:'Wellbeing Resources',
+  professionals:'Professional Connect', challenges:'Wellbeing Challenges',
+  'learning-sessions':'Learning Sessions', performance:'Performance Connect',
+  development:'Development Connect', objectives:'Wellbeing Connect', feed:'Social Wall',
+  smiles:'Smiles', events:'Events', surveys:'Surveys', 'hr-dashboard':'HR Dashboard',
+  staff:'Staff Management', 'org-chart':'Org Chart', reports:'Reports & Analytics',
+  'master-records':'Master Records', 'company-settings':'Company Setup',
+  'email-templates':'Email Templates', roles:'Roles & Permissions', 'theme-config':'Theme Configuration'
+};
+
+let currentUser = null;
+let currentPage = 'home';
+
+/* =============== AUTH =============== */
+async function doLogin() {
+  const email = document.getElementById('login-email').value;
+  const pw = document.getElementById('login-password').value;
+  if(!email || !pw){ showToast('Please enter email and password'); return; }
+
+  // Try real backend login first
+  try {
+    const res = await fetch(API_BASE + '/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({ email: email, password: pw })
+    });
+    const data = await res.json();
+    if (res.ok && data.access_token) {
+      localStorage.setItem('icc_token', data.access_token);
+      if (data.refresh_token) localStorage.setItem('icc_refresh_token', data.refresh_token);
+      const u = data.user || {};
+      currentUser = {
+        id: u.id,
+        firstName: u.first_name || (email.split('@')[0]),
+        lastName: u.last_name || '',
+        email: u.email || email,
+        role: u.role || 'staff',
+        company_id: u.company_id || null,
+        department: u.department || '',
+        title: u.job_title || ''
+      };
+      localStorage.setItem('icc_user', JSON.stringify(currentUser));
+      document.getElementById('sign-in-page').style.display = 'none';
+      document.getElementById('app-layout').style.display = 'flex';
+      applyRole();
+      nav('home');
+      try { refreshNotifCount(); } catch(_) {}
+      showToast('Signed in — welcome back ' + (currentUser.firstName || '') + '!');
+      return;
+    }
+    // Backend responded but rejected credentials
+    if (res.status === 401 || res.status === 403) {
+      showToast((data && data.error) ? data.error : 'Invalid email or password');
+      return;
+    }
+    // Other non-OK from backend, fall through to demo
+    console.warn('Login API returned', res.status, data);
+  } catch (err) {
+    console.warn('Login API unreachable, using demo mode:', err);
+  }
+
+  // Offline / demo fallback — allows the UI to be explored without a DB
+  currentUser = { id: 'demo-1', firstName:'Alex', lastName:'Johnson', email:email, role:'admin', department:'Engineering', title:'Senior Software Engineer', demo: true };
+  localStorage.setItem('icc_user', JSON.stringify(currentUser));
+  document.getElementById('sign-in-page').style.display = 'none';
+  document.getElementById('app-layout').style.display = 'flex';
+  applyRole();
+  nav('home');
+  showToast('Signed in (offline demo mode — data will not persist)');
+}
+
+async function signOut() {
+  const refreshToken = localStorage.getItem('icc_refresh_token');
+  if (refreshToken) {
+    try {
+      await fetch(API_BASE + '/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ refresh_token: refreshToken })
+      });
+    } catch(_) { /* ignore */ }
+  }
+  currentUser = null;
+  localStorage.removeItem('icc_user');
+  localStorage.removeItem('icc_token');
+  localStorage.removeItem('icc_refresh_token');
+  document.getElementById('sign-in-page').style.display = 'flex';
+  document.getElementById('app-layout').style.display = 'none';
+}
+
+function setLoginRole(btn, role) {
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function applyRole() {
+  if(!currentUser) return;
+  const role = currentUser.role || 'staff';
+  document.querySelectorAll('[data-role]').forEach(el => {
+    const roles = el.getAttribute('data-role').split(',');
+    el.style.display = roles.includes(role) ? '' : 'none';
+  });
+  const fn = currentUser.firstName || '';
+  const ln = currentUser.lastName || '';
+  const initials = ((fn[0] || '') + (ln[0] || '')).toUpperCase() || (currentUser.email ? currentUser.email[0].toUpperCase() : 'U');
+  const av = document.getElementById('sidebar-avatar'); if (av) av.textContent = initials;
+  const nm = document.getElementById('sidebar-name'); if (nm) nm.textContent = (fn + ' ' + ln).trim() || (currentUser.email || '');
+  const rl = document.getElementById('sidebar-role'); if (rl) rl.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+  const ha = document.getElementById('header-avatar'); if (ha) ha.textContent = initials;
+}
+
+/* =============== ROUTER =============== */
+function nav(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navItem = document.querySelector('.nav-item[data-page="'+page+'"]');
+  if(navItem) navItem.classList.add('active');
+  document.getElementById('header-title').textContent = PAGE_TITLES[page] || page;
+  document.getElementById('content-area').scrollTop = 0;
+  // Page-specific data refreshes
+  try {
+    if (page === 'pulse') refreshPulseTrend();
+    else if (page === 'home') refreshHome();
+    else if (page === 'profile') refreshProfile();
+    else if (page === 'feed') refreshFeed();
+    else if (page === 'smiles') { refreshSmilesSendForm(); refreshSmilesStats(); }
+    else if (page === 'events') refreshEvents();
+    else if (page === 'staff') { refreshStaffFilters(); refreshStaff(); }
+  } catch(_) {}
+}
+
+/* =============== SIDEBAR =============== */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+/* =============== TABS =============== */
+function switchTab(btn, prefix) {
+  const tabId = btn.getAttribute('data-tab');
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // Find sibling tab panes
+  const container = btn.parentElement.parentElement;
+  container.querySelectorAll('.tab-pane').forEach(p => {
+    if(p.id && p.id.startsWith(prefix + '-')) p.classList.remove('active');
+  });
+  const pane = document.getElementById(tabId);
+  if(pane) pane.classList.add('active');
+}
+
+/* =============== MODALS =============== */
+function openModal(id) {
+  const m = document.getElementById(id);
+  if(m) m.classList.add('open');
+}
+function closeModal(id) {
+  const m = document.getElementById(id);
+  if(m) m.classList.remove('open');
+}
+// Close modal on overlay click
+document.addEventListener('click', function(e) {
+  if(e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('open');
+  }
+});
+
+/* =============== TOAST =============== */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* =============== NOTIFICATIONS =============== */
+function markAllRead() {
+  document.getElementById('notif-badge').textContent = '0';
+  showToast('All notifications marked as read');
+}
+
+/* =============== API WRAPPER (for backend integration) =============== */
+async function api(method, path, body) {
+  const token = localStorage.getItem('icc_token');
+  const opts = {
+    method, headers: { 'Content-Type':'application/json' }
+  };
+  if(token) opts.headers['Authorization'] = 'Bearer ' + token;
+  if(body) opts.body = JSON.stringify(body);
+  try {
+    const res = await fetch(API_BASE + path, opts);
+    if(res.status === 401) { signOut(); return null; }
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, status: res.status, data };
+  } catch(e) {
+    console.log('API unavailable:', e);
+    return { ok: false, status: 0, data: null, offline: true };
+  }
+}
+
+function isDemoUser() {
+  return !localStorage.getItem('icc_token') || (currentUser && currentUser.demo);
+}
+
+/* =============== PULSE CHECK SUBMISSION =============== */
+async function submitPulseCheck() {
+  const payload = {
+    overall: parseInt(document.getElementById('pulse-overall').value, 10),
+    energy: parseInt(document.getElementById('pulse-energy').value, 10),
+    stress: parseInt(document.getElementById('pulse-stress').value, 10),
+    connection: parseInt(document.getElementById('pulse-connection').value, 10),
+    purpose: parseInt(document.getElementById('pulse-purpose').value, 10)
+  };
+  const notesEl = document.getElementById('pulse-notes');
+  if (notesEl && notesEl.value) payload.notes = notesEl.value;
+
+  if (isDemoUser()) {
+    // Demo mode — store locally so the trend bars can reflect it
+    const hist = JSON.parse(localStorage.getItem('icc_demo_pulse') || '[]');
+    hist.unshift({ ...payload, created_at: new Date().toISOString() });
+    localStorage.setItem('icc_demo_pulse', JSON.stringify(hist.slice(0, 60)));
+    showToast('Pulse check saved (demo mode)');
+    if (notesEl) notesEl.value = '';
+    refreshPulseTrend();
+    return;
+  }
+
+  const resp = await api('POST', '/wellbeing/checks', payload);
+  if (resp && resp.ok) {
+    showToast('Pulse check submitted successfully!');
+    if (notesEl) notesEl.value = '';
+    refreshPulseTrend();
+  } else if (resp && resp.data && resp.data.errors) {
+    showToast('Check your inputs: ' + resp.data.errors.join(', '));
+  } else {
+    // Fallback — save locally so the demo is never broken
+    const hist = JSON.parse(localStorage.getItem('icc_demo_pulse') || '[]');
+    hist.unshift({ ...payload, created_at: new Date().toISOString() });
+    localStorage.setItem('icc_demo_pulse', JSON.stringify(hist.slice(0, 60)));
+    showToast('Saved locally — backend unreachable');
+    refreshPulseTrend();
+  }
+}
+
+async function refreshPulseTrend() {
+  const container = document.getElementById('pulse-trend');
+  if (!container) return;
+
+  let checks = [];
+  if (!isDemoUser()) {
+    const resp = await api('GET', '/wellbeing/checks?limit=7');
+    if (resp && resp.ok && resp.data && resp.data.data) {
+      checks = resp.data.data;
+    }
+  }
+  if (!checks.length) {
+    checks = JSON.parse(localStorage.getItem('icc_demo_pulse') || '[]').slice(0, 7);
+  }
+
+  if (!checks.length) return; // keep the hard-coded bars for an empty state
+
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  // Build last-7-day rolling window newest-last
+  const buckets = Array(7).fill(null);
+  const now = new Date();
+  checks.forEach(c => {
+    const d = new Date(c.created_at || Date.now());
+    const dayOffset = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+    if (dayOffset >= 0 && dayOffset < 7) {
+      buckets[6 - dayOffset] = c.overall;
+    }
+  });
+
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const v = buckets[i];
+    const height = v ? Math.round((v / 10) * 140) : 20;
+    const label = days[(now.getDay() - (6 - i) + 7) % 7];
+    const bg = v ? `var(--p-${300 + (v >= 7 ? 200 : v >= 4 ? 100 : 0)})` : 'var(--g-200)';
+    html += `<div style="flex:1;text-align:center"><div style="background:${bg};height:${height}px;border-radius:4px 4px 0 0" title="${v != null ? 'Overall: '+v : 'No data'}"></div><div class="text-xs text-muted mt-sm">${label}</div></div>`;
+  }
+  container.innerHTML = html;
+}
+
+/* =============== HELPERS =============== */
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function initialsFor(user) {
+  const fn = (user && (user.first_name || user.firstName)) || '';
+  const ln = (user && (user.last_name  || user.lastName))  || '';
+  const em = (user && user.email) || '';
+  return ((fn[0] || '') + (ln[0] || '')).toUpperCase() || (em ? em[0].toUpperCase() : 'U');
+}
+function relativeTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const diffSec = Math.round((Date.now() - d.getTime()) / 1000);
+  if (diffSec < 60) return 'just now';
+  if (diffSec < 3600) return Math.floor(diffSec/60) + ' min ago';
+  if (diffSec < 86400) return Math.floor(diffSec/3600) + 'h ago';
+  if (diffSec < 86400*7) return Math.floor(diffSec/86400) + 'd ago';
+  return d.toLocaleDateString();
+}
+function formatEventDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const opts = { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' };
+  return d.toLocaleDateString('en-US', opts);
+}
+function daysUntil(iso) {
+  if (!iso) return '';
+  const diff = Math.ceil((new Date(iso) - Date.now()) / 86400000);
+  if (diff < 0) return 'Past';
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Tomorrow';
+  return 'In ' + diff + ' days';
+}
+
+/* =============== HOME =============== */
+async function refreshHome() {
+  // Greeting
+  const fn = (currentUser && currentUser.firstName) || '';
+  const g = document.getElementById('home-greeting');
+  if (g) g.textContent = fn ? ('Welcome back, ' + fn) : 'Welcome back';
+
+  // Company stats (best-effort)
+  try {
+    const cs = await api('GET', '/company/stats');
+    if (cs && cs.ok && cs.data && cs.data.data) {
+      const d = cs.data.data;
+      const t = document.getElementById('kpi-total-employees'); if (t) t.textContent = d.total_users ?? '—';
+      const a = document.getElementById('kpi-active-employees'); if (a) a.textContent = (d.active_users ?? '—') + '';
+    }
+  } catch(_) {}
+
+  // Wellbeing stats (personal + company)
+  try {
+    const myChecks = await api('GET', '/wellbeing/checks?limit=30');
+    if (myChecks && myChecks.ok && myChecks.data && myChecks.data.data && myChecks.data.data.length) {
+      const rows = myChecks.data.data;
+      const el = document.getElementById('kpi-pulse-checks'); if (el) el.textContent = rows.length;
+      const avg = rows.reduce((s,r) => s + (r.overall || 0), 0) / rows.length;
+      const ws = document.getElementById('kpi-wellbeing-score'); if (ws) ws.textContent = avg.toFixed(1);
+      const wd = document.getElementById('kpi-wellbeing-detail'); if (wd) wd.textContent = rows.length + ' check-ins';
+      const part = document.getElementById('kpi-participation'); if (part) part.textContent = 'Personal';
+    } else {
+      const el = document.getElementById('kpi-pulse-checks'); if (el) el.textContent = '0';
+      const ws = document.getElementById('kpi-wellbeing-score'); if (ws) ws.textContent = '—';
+    }
+  } catch(_) {}
+
+  // My smiles
+  try {
+    const ms = await api('GET', '/smiles/my-stats');
+    if (ms && ms.ok && ms.data && ms.data.data) {
+      const d = ms.data.data;
+      const r = document.getElementById('kpi-smiles'); if (r) r.textContent = d.received_count ?? 0;
+      const s = document.getElementById('kpi-smiles-sent'); if (s) s.textContent = (d.sent_count ?? 0) + '';
+    }
+  } catch(_) {}
+
+  // Upcoming events (home)
+  try {
+    const ev = await api('GET', '/events?upcoming=true&limit=3');
+    const container = document.getElementById('home-upcoming-events');
+    if (container) {
+      const rows = (ev && ev.ok && ev.data && (ev.data.data || ev.data.events)) || [];
+      if (!rows.length) {
+        container.innerHTML = '<div class="text-sm text-muted" style="padding:12px">No upcoming events.</div>';
+      } else {
+        const colors = ['var(--p-500)','var(--a-500)','var(--v-500)'];
+        container.innerHTML = rows.slice(0,3).map((e,i) =>
+          `<div class="activity-item"><div class="activity-dot" style="background:${colors[i%3]}"></div><div><div class="fw-500 text-sm">${escapeHtml(e.title||'Untitled event')}</div><div class="text-xs text-muted">${escapeHtml(formatEventDate(e.start_time || e.start_at))}</div></div></div>`
+        ).join('');
+      }
+    }
+  } catch(_) {}
+
+  // Recent activity feed
+  try {
+    const posts = await api('GET', '/posts?limit=4');
+    const container = document.getElementById('home-recent-activity');
+    if (container) {
+      const rows = (posts && posts.ok && posts.data && (posts.data.data || posts.data.posts)) || [];
+      if (!rows.length) {
+        container.innerHTML = '<div class="text-sm text-muted" style="padding:12px">No recent activity yet. Be the first to post on the Social Wall!</div>';
+      } else {
+        container.innerHTML = rows.slice(0,4).map(p => {
+          const name = ((p.first_name || '') + ' ' + (p.last_name || '')).trim() || p.email || 'Someone';
+          const txt = (p.text || p.content || '').slice(0,80);
+          return `<div class="activity-item"><div class="activity-dot" style="background:var(--info)"></div><div><div class="text-sm"><span class="fw-500">${escapeHtml(name)}</span> ${escapeHtml(txt)}${(p.text||'').length>80?'…':''}</div><div class="text-xs text-muted">${escapeHtml(relativeTime(p.created_at))}</div></div></div>`;
+        }).join('');
+      }
+    }
+  } catch(_) {}
+}
+
+/* =============== PROFILE =============== */
+let _profileEditing = false;
+function toggleProfileEdit() {
+  _profileEditing = !_profileEditing;
+  const ids = ['firstname','lastname','phone','dob','gender','address'];
+  ids.forEach(k => {
+    const el = document.getElementById('profile-input-' + k);
+    if (el) { if (_profileEditing) el.removeAttribute('readonly'); else el.setAttribute('readonly','readonly'); }
+  });
+  const row = document.getElementById('profile-save-row');
+  if (row) row.style.display = _profileEditing ? 'block' : 'none';
+  const btn = document.getElementById('profile-edit-btn');
+  if (btn) btn.textContent = _profileEditing ? 'Cancel Edit' : 'Edit Profile';
+}
+async function refreshProfile() {
+  if (!currentUser) return;
+  const u = currentUser;
+  const fn = u.firstName || '';
+  const ln = u.lastName || '';
+  const name = (fn + ' ' + ln).trim() || u.email || 'User';
+  const av = document.getElementById('profile-avatar'); if (av) av.textContent = initialsFor({first_name:fn,last_name:ln,email:u.email});
+  const nm = document.getElementById('profile-name'); if (nm) nm.textContent = name;
+  const t = document.getElementById('profile-title'); if (t) t.textContent = u.title || '—';
+  const d = document.getElementById('profile-dept'); if (d) d.textContent = u.department || '—';
+  const rb = document.getElementById('profile-role-badge'); if (rb) rb.textContent = (u.role || 'staff').charAt(0).toUpperCase() + (u.role || 'staff').slice(1);
+  const set = (id,v) => { const el = document.getElementById(id); if (el) el.value = v == null ? '' : v; };
+  set('profile-input-firstname', fn);
+  set('profile-input-lastname', ln);
+  set('profile-input-email', u.email || '');
+  set('profile-input-phone', u.phone || '');
+  set('profile-input-dob', u.date_of_birth || '');
+  set('profile-input-gender', u.gender || '');
+  set('profile-input-address', u.address || '');
+  set('profile-input-empid', u.id ? String(u.id).slice(0,8).toUpperCase() : '');
+  set('profile-input-jobtitle', u.title || '');
+  set('profile-input-dept', u.department || '');
+  set('profile-input-bu', u.business_unit || '—');
+  set('profile-input-manager', u.manager_name || '—');
+  set('profile-input-level', u.job_level || '—');
+  set('profile-input-start', u.start_date || '');
+}
+async function saveProfile() {
+  if (!currentUser || isDemoUser()) {
+    currentUser = {
+      ...currentUser,
+      firstName: document.getElementById('profile-input-firstname').value,
+      lastName: document.getElementById('profile-input-lastname').value,
+      phone: document.getElementById('profile-input-phone').value,
+      address: document.getElementById('profile-input-address').value,
+      gender: document.getElementById('profile-input-gender').value,
+      date_of_birth: document.getElementById('profile-input-dob').value
+    };
+    localStorage.setItem('icc_user', JSON.stringify(currentUser));
+    applyRole();
+    refreshProfile();
+    toggleProfileEdit();
+    showToast('Profile saved (demo mode)');
+    return;
+  }
+  const body = {
+    first_name: document.getElementById('profile-input-firstname').value,
+    last_name: document.getElementById('profile-input-lastname').value,
+    phone: document.getElementById('profile-input-phone').value || null,
+    address: document.getElementById('profile-input-address').value || null,
+    gender: document.getElementById('profile-input-gender').value || null,
+    date_of_birth: document.getElementById('profile-input-dob').value || null
+  };
+  const resp = await api('PATCH', '/users/' + currentUser.id, body);
+  if (resp && resp.ok) {
+    currentUser = { ...currentUser, firstName: body.first_name, lastName: body.last_name, phone: body.phone, address: body.address, gender: body.gender, date_of_birth: body.date_of_birth };
+    localStorage.setItem('icc_user', JSON.stringify(currentUser));
+    applyRole(); refreshProfile(); toggleProfileEdit();
+    showToast('Profile updated');
+  } else {
+    showToast((resp && resp.data && resp.data.error) || 'Could not save profile');
+  }
+}
+
+/* =============== FEED / POSTS =============== */
+async function refreshFeed() {
+  const container = document.getElementById('feed-posts-container');
+  const avatar = document.getElementById('feed-composer-avatar');
+  if (avatar && currentUser) avatar.textContent = initialsFor({first_name: currentUser.firstName, last_name: currentUser.lastName, email: currentUser.email});
+  if (!container) return;
+
+  const resp = await api('GET', '/posts?limit=20');
+  const rows = (resp && resp.ok && resp.data && (resp.data.data || resp.data.posts)) || [];
+  if (!rows.length) {
+    const demo = JSON.parse(localStorage.getItem('icc_demo_posts') || '[]');
+    if (demo.length) rows.push(...demo);
+  }
+  if (!rows.length) {
+    container.innerHTML = '<div class="card text-sm text-muted" style="padding:20px;text-align:center">No posts yet. Be the first to share with your team!</div>';
+    return;
+  }
+  container.innerHTML = rows.map(p => {
+    const name = ((p.first_name || '') + ' ' + (p.last_name || '')).trim() || p.author_name || p.email || 'User';
+    const inits = initialsFor({first_name: p.first_name, last_name: p.last_name, email: p.email});
+    const likes = p.reactions_count || p.likes_count || p.like_count || 0;
+    const comments = p.comments_count || p.comment_count || 0;
+    const dept = p.department || '';
+    return `<div class="post-card">
+<div class="post-header">
+  <div class="avatar" style="background:var(--p-200);color:var(--p-700)">${escapeHtml(inits)}</div>
+  <div><div class="fw-600 text-sm">${escapeHtml(name)}</div><div class="post-meta">${dept ? escapeHtml(dept) + ' - ' : ''}${escapeHtml(relativeTime(p.created_at))}</div></div>
+</div>
+<p class="text-sm" style="line-height:1.6;white-space:pre-wrap">${escapeHtml(p.text || p.content || '')}</p>
+<div class="post-actions">
+  <button onclick="reactToPost('${escapeHtml(p.id)}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> ${likes}</button>
+  <button><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> ${comments} comments</button>
+</div>
+</div>`;
+  }).join('');
+}
+async function submitPost() {
+  const text = (document.getElementById('feed-composer-text').value || '').trim();
+  if (!text) { showToast('Write something first'); return; }
+
+  if (isDemoUser()) {
+    const demo = JSON.parse(localStorage.getItem('icc_demo_posts') || '[]');
+    demo.unshift({
+      id: 'local-' + Date.now(),
+      text, created_at: new Date().toISOString(),
+      first_name: currentUser.firstName, last_name: currentUser.lastName,
+      email: currentUser.email, department: currentUser.department || ''
+    });
+    localStorage.setItem('icc_demo_posts', JSON.stringify(demo.slice(0, 50)));
+    document.getElementById('feed-composer-text').value = '';
+    refreshFeed();
+    showToast('Posted (demo mode)');
+    return;
+  }
+  const resp = await api('POST', '/posts', { text });
+  if (resp && resp.ok) {
+    document.getElementById('feed-composer-text').value = '';
+    refreshFeed();
+    showToast('Posted');
+  } else {
+    showToast((resp && resp.data && resp.data.error) || 'Could not post');
+  }
+}
+async function reactToPost(id) {
+  if (isDemoUser() || !id || String(id).startsWith('local-')) { showToast('React (demo mode)'); return; }
+  const resp = await api('POST', '/posts/' + id + '/react', { type: 'like' });
+  if (resp && resp.ok) refreshFeed();
+}
+
+/* =============== SMILES =============== */
+async function refreshSmilesSendForm() {
+  // Populate categories from backend
+  const cat = document.getElementById('smile-category');
+  if (cat && cat.options.length <= 1) {
+    try {
+      const c = await api('GET', '/smiles/categories');
+      const rows = (c && c.ok && c.data && (c.data.data || c.data.categories)) || [];
+      rows.forEach(cat2 => { const o = document.createElement('option'); o.value = cat2.id; o.textContent = cat2.name; cat.appendChild(o); });
+    } catch(_) {}
+  }
+  // Populate recipients from directory
+  const rec = document.getElementById('smile-recipient');
+  if (rec && rec.options.length <= 1) {
+    try {
+      const d = await api('GET', '/users/directory');
+      const rows = (d && d.ok && d.data && (d.data.directory || d.data.data || d.data.users)) || [];
+      rows.forEach(u => {
+        if (currentUser && u.id === currentUser.id) return;
+        const o = document.createElement('option');
+        o.value = u.id;
+        o.textContent = ((u.first_name || '') + ' ' + (u.last_name || '')).trim() || u.email;
+        rec.appendChild(o);
+      });
+    } catch(_) {}
+  }
+}
+async function submitSmile() {
+  const recipient_id = document.getElementById('smile-recipient').value;
+  const category_id = document.getElementById('smile-category').value;
+  const message = document.getElementById('smile-message').value;
+  const isPublic = document.getElementById('smile-public').checked;
+  if (!recipient_id) { showToast('Pick a recipient'); return; }
+  if (!category_id) { showToast('Pick a category'); return; }
+  if (!message) { showToast('Add a message'); return; }
+
+  if (isDemoUser()) {
+    const demo = JSON.parse(localStorage.getItem('icc_demo_smiles') || '[]');
+    demo.unshift({ id: 'local-' + Date.now(), recipient_id, category_id, message, visibility: isPublic ? 'public' : 'private', direction: 'sent', created_at: new Date().toISOString() });
+    localStorage.setItem('icc_demo_smiles', JSON.stringify(demo.slice(0, 50)));
+    document.getElementById('smile-message').value = '';
+    showToast('Smile sent (demo mode)');
+    return;
+  }
+  const resp = await api('POST', '/smiles', { recipient_id, category_id, message, visibility: isPublic ? 'public' : 'private' });
+  if (resp && resp.ok) {
+    showToast('Smile sent!');
+    document.getElementById('smile-message').value = '';
+    refreshSmilesStats();
+  } else {
+    showToast((resp && resp.data && resp.data.error) || 'Could not send smile');
+  }
+}
+async function refreshSmilesReceived() {
+  const list = document.getElementById('smile-received-list');
+  if (!list) return;
+  const resp = await api('GET', '/smiles?limit=20');
+  let rows = (resp && resp.ok && resp.data && (resp.data.data || resp.data.smiles)) || [];
+  if (!rows.length) {
+    const demo = JSON.parse(localStorage.getItem('icc_demo_smiles') || '[]');
+    rows = demo.filter(s => s.direction === 'received');
+  }
+  const badge = document.getElementById('smile-count-received');
+  if (badge) badge.textContent = '(' + rows.length + ')';
+  if (!rows.length) {
+    list.innerHTML = '<div class="text-sm text-muted" style="padding:12px">No smiles yet. When someone recognizes you, they show up here.</div>';
+    return;
+  }
+  list.innerHTML = rows.map(s => renderSmileCard(s, 'from')).join('');
+}
+async function refreshSmilesSent() {
+  const list = document.getElementById('smile-sent-list');
+  if (!list) return;
+  const resp = await api('GET', '/smiles/sent?limit=20');
+  let rows = (resp && resp.ok && resp.data && (resp.data.data || resp.data.smiles)) || [];
+  if (!rows.length) {
+    const demo = JSON.parse(localStorage.getItem('icc_demo_smiles') || '[]');
+    rows = demo.filter(s => s.direction === 'sent');
+  }
+  const badge = document.getElementById('smile-count-sent');
+  if (badge) badge.textContent = '(' + rows.length + ')';
+  if (!rows.length) {
+    list.innerHTML = '<div class="text-sm text-muted" style="padding:12px">You haven\'t sent any smiles yet. Go brighten someone\'s day!</div>';
+    return;
+  }
+  list.innerHTML = rows.map(s => renderSmileCard(s, 'to')).join('');
+}
+function renderSmileCard(s, dir) {
+  const person = dir === 'from'
+    ? (((s.sender_first_name || '') + ' ' + (s.sender_last_name || '')).trim() || s.sender_email || 'Colleague')
+    : (((s.recipient_first_name || '') + ' ' + (s.recipient_last_name || '')).trim() || s.recipient_email || 'Colleague');
+  const date = s.created_at ? new Date(s.created_at).toLocaleDateString() : '';
+  const inits = initialsFor({
+    first_name: dir==='from' ? s.sender_first_name : s.recipient_first_name,
+    last_name: dir==='from' ? s.sender_last_name : s.recipient_last_name,
+    email: dir==='from' ? s.sender_email : s.recipient_email
+  });
+  return `<div class="card" style="border-left:3px solid var(--gold-500)">
+<div class="flex-between mb-sm"><span class="badge badge-gold">${escapeHtml(s.category_name || s.category || 'Recognition')}</span><span class="text-xs text-muted">${escapeHtml(date)}</span></div>
+<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><div class="avatar" style="width:28px;height:28px;font-size:.7rem;background:var(--p-200);color:var(--p-700)">${escapeHtml(inits)}</div><span class="fw-500 text-sm">${dir==='from'?'From: ':'To: '}${escapeHtml(person)}</span></div>
+<p class="text-sm text-muted">${escapeHtml(s.message || '')}</p>
+</div>`;
+}
+async function refreshSmilesStats() {
+  const resp = await api('GET', '/smiles/my-stats');
+  const d = (resp && resp.ok && resp.data && resp.data.data) || {};
+  const set = (id,v) => { const el = document.getElementById(id); if (el) el.textContent = v == null ? '—' : v; };
+  set('smile-stat-received', d.received_count ?? 0);
+  set('smile-stat-sent', d.sent_count ?? 0);
+  const cats = d.received_by_category || d.category_breakdown || [];
+  set('smile-stat-categories', cats.length || 0);
+  const bd = document.getElementById('smile-category-breakdown');
+  if (bd) {
+    if (!cats.length) {
+      bd.innerHTML = '<div class="text-sm text-muted">No recognitions yet.</div>';
+    } else {
+      const total = cats.reduce((s,c) => s + (c.count || c.smile_count || 0), 0) || 1;
+      bd.innerHTML = cats.map(c => {
+        const cnt = c.count || c.smile_count || 0;
+        return `<div><div class="flex-between mb-sm"><span class="text-sm">${escapeHtml(c.category_name || c.name || 'Other')}</span><span class="text-sm fw-500">${cnt}</span></div><div class="progress"><div class="progress-bar" style="width:${Math.round((cnt/total)*100)}%;background:var(--gold-500)"></div></div></div>`;
+      }).join('');
+    }
+  }
+}
+async function refreshSmilesLeaderboard() {
+  const list = document.getElementById('smile-leaderboard-list');
+  if (!list) return;
+  const resp = await api('GET', '/smiles/leaderboard?period=month');
+  const rows = (resp && resp.ok && resp.data && (resp.data.data || resp.data.leaderboard)) || [];
+  if (!rows.length) {
+    list.innerHTML = '<div class="text-sm text-muted" style="padding:12px">No data yet this period.</div>';
+    return;
+  }
+  list.innerHTML = rows.slice(0,10).map((r,i) => {
+    const name = ((r.first_name || '') + ' ' + (r.last_name || '')).trim() || r.email || 'User';
+    return `<div class="activity-item"><div style="width:28px;height:28px;border-radius:50%;background:var(--p-100);color:var(--p-600);display:flex;align-items:center;justify-content:center;font-weight:700">${i+1}</div><div style="flex:1"><div class="fw-500 text-sm">${escapeHtml(name)}</div><div class="text-xs text-muted">${escapeHtml(r.department || '')}</div></div><span class="badge badge-gold">${r.smile_count || r.count || 0} smiles</span></div>`;
+  }).join('');
+}
+
+/* =============== EVENTS =============== */
+async function refreshEvents() {
+  const grid = document.getElementById('events-list-grid');
+  if (!grid) return;
+  const resp = await api('GET', '/events?upcoming=true&limit=20');
+  const rows = (resp && resp.ok && resp.data && (resp.data.data || resp.data.events)) || [];
+  if (!rows.length) {
+    grid.innerHTML = '<div class="card text-sm text-muted" style="padding:20px;text-align:center">No upcoming events. Check back soon!</div>';
+    return;
+  }
+  const palette = ['var(--p-500)','var(--a-500)','var(--v-500)','var(--gold-500)','var(--success)'];
+  grid.innerHTML = rows.map((e,i) => {
+    const when = formatEventDate(e.start_time || e.start_at || e.starts_at);
+    const until = daysUntil(e.start_time || e.start_at || e.starts_at);
+    const loc = e.location || e.venue || 'TBA';
+    const rsvp = e.my_rsvp || e.rsvp_status;
+    const rsvpBtn = rsvp === 'accepted'
+      ? '<button class="btn btn-outline btn-sm" disabled>RSVP\'d</button>'
+      : `<button class="btn btn-primary btn-sm" onclick="rsvpEvent('${escapeHtml(e.id)}')">RSVP</button>`;
+    return `<div class="card" style="border-left:4px solid ${palette[i%palette.length]}">
+<div class="flex-between mb-sm"><span class="badge badge-teal">${escapeHtml(e.category || e.type || 'Event')}</span><span class="text-xs text-muted">${escapeHtml(until)}</span></div>
+<h3 style="font-size:1rem;font-weight:600;margin-bottom:6px">${escapeHtml(e.title || 'Untitled')}</h3>
+<p class="text-sm text-muted mb-sm">${escapeHtml(e.description || '')}</p>
+<div class="text-sm mb-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${escapeHtml(when)}</div>
+<div class="text-sm text-muted mb-md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${escapeHtml(loc)}</div>
+<div class="flex-row">${rsvpBtn}<button class="btn btn-ghost btn-sm">Details</button></div>
+</div>`;
+  }).join('');
+}
+async function rsvpEvent(id) {
+  if (isDemoUser()) { showToast('RSVP saved (demo mode)'); return; }
+  const resp = await api('POST', '/events/' + id + '/rsvp', { status: 'accepted' });
+  if (resp && resp.ok) { showToast('RSVP confirmed'); refreshEvents(); }
+  else showToast((resp && resp.data && resp.data.error) || 'Could not RSVP');
+}
+
+/* =============== STAFF MANAGEMENT =============== */
+let _staffDebounce = null;
+function refreshStaffDebounced() {
+  clearTimeout(_staffDebounce);
+  _staffDebounce = setTimeout(refreshStaff, 300);
+}
+async function refreshStaffFilters() {
+  const sel = document.getElementById('staff-dept-filter');
+  if (!sel || sel.options.length > 1) return;
+  try {
+    const d = await api('GET', '/company/departments');
+    const rows = (d && d.ok && d.data && (d.data.data || d.data.departments)) || [];
+    rows.forEach(dep => {
+      const o = document.createElement('option');
+      o.value = dep.id || dep.name;
+      o.textContent = dep.name;
+      sel.appendChild(o);
+    });
+  } catch(_) {}
+}
+async function refreshStaff() {
+  const tbody = document.getElementById('staff-tbody');
+  if (!tbody) return;
+  const search = document.getElementById('staff-search').value;
+  const dept   = document.getElementById('staff-dept-filter').value;
+  const role   = document.getElementById('staff-role-filter').value;
+  const status = document.getElementById('staff-status-filter').value;
+  const qp = new URLSearchParams();
+  if (search) qp.set('search', search);
+  if (dept) qp.set('department', dept);
+  if (role) qp.set('role', role);
+  if (status) qp.set('status', status);
+  qp.set('limit', '50');
+  const resp = await api('GET', '/users?' + qp.toString());
+  const rows = (resp && resp.ok && resp.data && (resp.data.users || resp.data.data)) || [];
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="text-sm text-muted" style="text-align:center;padding:24px">No matching staff found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(u => {
+    const name = ((u.first_name || '') + ' ' + (u.last_name || '')).trim() || u.email;
+    const inits = initialsFor(u);
+    const roleBadge = u.role === 'admin' ? 'badge-teal' : u.role === 'manager' ? 'badge-violet' : 'badge-neutral';
+    const roleLabel = (u.role || 'staff').charAt(0).toUpperCase() + (u.role || 'staff').slice(1);
+    const active = (u.status || 'active') === 'active';
+    return `<tr>
+<td><div class="flex-row"><div class="avatar" style="width:28px;height:28px;font-size:.65rem">${escapeHtml(inits)}</div><span class="fw-500">${escapeHtml(name)}</span></div></td>
+<td>${escapeHtml(u.email || '')}</td>
+<td>${escapeHtml(u.department || '—')}</td>
+<td><span class="badge ${roleBadge}">${escapeHtml(roleLabel)}</span></td>
+<td><span class="status-dot ${active?'active':'pending'}"></span> ${escapeHtml((u.status||'active').charAt(0).toUpperCase() + (u.status||'active').slice(1))}</td>
+<td><button class="btn btn-ghost btn-sm">Edit</button></td>
+</tr>`;
+  }).join('');
+}
+
+/* =============== NOTIFICATIONS BADGE =============== */
+async function refreshNotifCount() {
+  try {
+    const resp = await api('GET', '/notifications/count');
+    if (resp && resp.ok && resp.data) {
+      const c = (resp.data.data && resp.data.data.unread) ?? resp.data.unread ?? null;
+      if (c != null) {
+        const b = document.getElementById('notif-badge');
+        if (b) b.textContent = c;
+      }
+    }
+  } catch(_) {}
+}
+
+/* =============== INIT =============== */
+(async function init() {
+  const saved = localStorage.getItem('icc_user');
+  const token = localStorage.getItem('icc_token');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    document.getElementById('sign-in-page').style.display = 'none';
+    document.getElementById('app-layout').style.display = 'flex';
+    applyRole();
+    nav('home');
+    try { refreshNotifCount(); } catch(_) {}
+
+    // If we have a real token, refresh the profile from the server (non-blocking)
+    if (token && !currentUser.demo) {
+      try {
+        const resp = await api('GET', '/auth/me');
+        if (resp && resp.ok && resp.data && resp.data.user) {
+          const u = resp.data.user;
+          currentUser = {
+            ...currentUser,
+            id: u.id,
+            firstName: u.first_name || currentUser.firstName,
+            lastName: u.last_name || currentUser.lastName,
+            email: u.email || currentUser.email,
+            role: u.role || currentUser.role,
+            company_id: u.company_id || currentUser.company_id,
+            department: u.department || currentUser.department || '',
+            title: u.job_title || currentUser.title || ''
+          };
+          localStorage.setItem('icc_user', JSON.stringify(currentUser));
+          applyRole();
+        } else if (resp && resp.status === 401) {
+          signOut();
+        }
+      } catch (_) { /* offline — keep cached user */ }
+    }
+  }
+})();
+</script>
+</body>
+</html>

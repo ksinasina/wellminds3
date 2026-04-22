@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterBeing Care Connect — v2 Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p-50:#eef9f9;--p-100:#d1f0ee;--p-200:#a3e0dc;--p-300:#6ccbc5;--p-400:#3db5ad;--p-500:#1e9e97;--p-600:#18857f;--p-700:#146e69;--p-800:#0f5754;--p-900:#0a3d3b;
+  --a-50:#fef5f3;--a-100:#fbe8e4;--a-200:#f6d1ca;--a-500:#e8735e;--a-600:#cc5a44;--a-700:#b84a38;
+  --gold-500:#d4a017;--v-500:#7c5cbf;
+  --n-50:#f7f8fa;--n-100:#e8ecef;--n-200:#d5dae0;--n-300:#b8bfc9;--n-400:#99a1ad;--n-500:#7a8390;--n-600:#5c6470;--n-700:#444c56;--n-800:#2d333b;--n-900:#1a2028;
+  --success:#22a06b;--warning:#cf8600;--danger:#de350b;--info:#0065ff;
+  --sidebar-w:248px;--header-h:64px;
+  --radius-sm:6px;--radius:8px;--radius-lg:12px;--radius-xl:16px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 2px 8px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--n-900);background:var(--n-50);line-height:1.5;height:100vh;overflow:hidden}
+a{color:var(--p-600);text-decoration:none}a:hover{color:var(--p-700)}
+button{font-family:inherit;cursor:pointer;border:none;background:none;font-size:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-weight:500;font-size:.875rem;transition:all .15s}
+.btn-primary{background:var(--p-500);color:#fff}.btn-primary:hover{background:var(--p-600)}
+.btn-accent{background:var(--a-500);color:#fff}.btn-accent:hover{background:var(--a-600)}
+.btn-outline{border:1px solid var(--n-200);color:var(--n-700);background:#fff}.btn-outline:hover{border-color:var(--p-400);color:var(--p-600);background:var(--p-50)}
+.btn-ghost{color:var(--n-600)}.btn-ghost:hover{background:var(--n-100);color:var(--n-800)}
+.btn-sm{padding:5px 10px;font-size:.8rem}
+
+/* Card */
+.card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:24px}
+.card-title{font-size:1rem;font-weight:600;color:var(--n-900);margin-bottom:4px}
+.card-sub{font-size:.8rem;color:var(--n-500);margin-bottom:16px}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.72rem;font-weight:500}
+.badge-teal{background:var(--p-100);color:var(--p-700)}
+.badge-coral{background:var(--a-100);color:var(--a-700)}
+.badge-amber{background:#fef3cd;color:#856404}
+.badge-success{background:#e3fcef;color:#006644}
+.badge-warning{background:#fff7e6;color:#974f0c}
+.badge-danger{background:#ffebe6;color:#bf2600}
+.badge-neutral{background:var(--n-100);color:var(--n-600)}
+
+/* Layout */
+.app{display:flex;height:100vh}
+.sidebar{width:var(--sidebar-w);background:#fff;border-right:1px solid var(--n-100);display:flex;flex-direction:column;flex-shrink:0;z-index:10}
+.sidebar-logo{height:var(--header-h);display:flex;align-items:center;padding:0 20px;gap:10px;border-bottom:1px solid var(--n-100);font-weight:700;color:var(--p-700)}
+.sidebar-logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--p-400),var(--p-700));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem}
+.nav{flex:1;overflow-y:auto;padding:12px 10px}
+.nav-section-title{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--n-400);padding:4px 10px;margin-bottom:2px;margin-top:10px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius);color:var(--n-600);cursor:pointer;transition:.12s;font-size:.875rem}
+.nav-item:hover{background:var(--n-50);color:var(--n-800)}
+.nav-item.active{background:var(--p-50);color:var(--p-700);font-weight:500}
+.nav-item svg{width:18px;height:18px;flex-shrink:0}
+.nav-badge{background:var(--a-500);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:999px;font-weight:600;margin-left:auto}
+
+.sidebar-footer{padding:12px;border-top:1px solid var(--n-100);display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--p-200);color:var(--p-700);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.8rem;flex-shrink:0}
+
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.header{height:var(--header-h);background:#fff;border-bottom:1px solid var(--n-100);display:flex;align-items:center;padding:0 28px;gap:16px}
+.header-title{font-weight:600;font-size:1.05rem}
+.demo-mode{margin-left:auto;display:flex;align-items:center;gap:10px}
+.demo-mode-pill{font-size:.7rem;padding:3px 9px;border-radius:999px;font-weight:600;background:var(--a-100);color:var(--a-700)}
+
+.content{flex:1;overflow-y:auto;padding:28px 32px;background:var(--n-50)}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:1.4rem;font-weight:700}
+.page-sub{font-size:.875rem;color:var(--n-500);margin-top:2px;margin-bottom:22px}
+
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media (max-width:960px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}}
+
+/* KPI */
+.kpi{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:18px}
+.kpi-label{font-size:.75rem;color:var(--n-500);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.kpi-value{font-size:1.75rem;font-weight:800;color:var(--n-900);margin-top:6px;line-height:1}
+.kpi-delta{font-size:.72rem;margin-top:6px;color:var(--success);font-weight:500}
+.kpi-delta.down{color:var(--danger)}
+
+/* Timeline */
+.timeline{display:flex;align-items:center;margin-top:16px;overflow-x:auto;padding-bottom:8px}
+.tl-step{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:110px;position:relative}
+.tl-step::after{content:'';position:absolute;top:14px;left:55%;right:-45%;height:2px;background:var(--n-200);z-index:0}
+.tl-step:last-child::after{display:none}
+.tl-step.done::after{background:var(--p-500)}
+.tl-dot{width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--n-200);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--n-400);z-index:1;position:relative}
+.tl-step.done .tl-dot{background:var(--p-500);border-color:var(--p-500);color:#fff}
+.tl-step.current .tl-dot{background:#fff;border-color:var(--p-500);color:var(--p-600);box-shadow:0 0 0 4px var(--p-100)}
+.tl-label{font-size:.72rem;color:var(--n-600);text-align:center;font-weight:500}
+.tl-step.current .tl-label{color:var(--p-700);font-weight:600}
+
+/* Pulse */
+.pulse-question{margin-bottom:16px}
+.pulse-question label{display:block;font-size:.875rem;font-weight:500;margin-bottom:6px}
+.likert{display:flex;gap:4px}
+.likert button{flex:1;padding:10px;border:1px solid var(--n-200);border-radius:var(--radius);background:#fff;color:var(--n-600);font-weight:500;transition:.15s}
+.likert button:hover{border-color:var(--p-400);color:var(--p-600)}
+.likert button.selected{background:var(--p-500);color:#fff;border-color:var(--p-500)}
+
+/* Post */
+.post{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:18px;margin-bottom:16px}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.post-meta{flex:1}
+.post-author{font-size:.875rem;font-weight:600}
+.post-time{font-size:.72rem;color:var(--n-500)}
+.post-aud{font-size:.7rem;padding:2px 7px;border-radius:999px;background:var(--n-100);color:var(--n-600)}
+.post-body{font-size:.9rem;line-height:1.55;color:var(--n-700)}
+.post-actions{margin-top:10px;display:flex;gap:12px;border-top:1px solid var(--n-100);padding-top:10px}
+.post-action{font-size:.8rem;color:var(--n-500);cursor:pointer;display:inline-flex;gap:4px;align-items:center}
+.post-action:hover{color:var(--p-600)}
+
+/* Indicator bands */
+.band{padding:10px 14px;border-radius:var(--radius);margin-bottom:8px;border-left:4px solid var(--n-300)}
+.band-header{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.875rem;margin-bottom:4px}
+.band-body{font-size:.82rem;color:var(--n-600)}
+
+/* Leaderboard */
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--n-100)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{width:24px;height:24px;border-radius:50%;background:var(--n-100);color:var(--n-600);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.lb-rank.top{background:var(--gold-500);color:#fff}
+.lb-name{flex:1;font-size:.875rem;font-weight:500}
+.lb-count{font-size:.8rem;color:var(--n-500)}
+
+/* Smile card */
+.smile{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:16px;border-top:3px solid var(--a-500)}
+.smile-from-to{font-size:.78rem;color:var(--n-500);margin-bottom:4px}
+.smile-msg{font-size:.875rem;color:var(--n-800);margin-bottom:8px;font-style:italic}
+
+/* Objective card */
+.obj{padding:14px;border:1px solid var(--n-100);border-radius:var(--radius);margin-bottom:10px;background:#fff}
+.obj-title{font-weight:600;font-size:.9rem;margin-bottom:2px}
+.obj-meta{font-size:.75rem;color:var(--n-500);display:flex;gap:10px;align-items:center}
+
+/* Toggle */
+.switch{position:relative;display:inline-block;width:40px;height:22px}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--n-200);border-radius:999px;cursor:pointer;transition:.2s}
+.slider::before{content:'';position:absolute;height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked + .slider{background:var(--p-500)}
+.switch input:checked + .slider::before{transform:translateX(18px)}
+
+/* Report page */
+.report-hero{background:linear-gradient(135deg,var(--p-600),var(--p-800));color:#fff;border-radius:var(--radius-lg);padding:24px;margin-bottom:20px}
+.report-hero h2{font-size:1.4rem;font-weight:700}
+.report-hero p{opacity:.9;margin-top:6px}
+
+/* EAP service */
+.eap-svc{background:#fff;padding:16px;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:flex-start}
+.eap-icon{width:42px;height:42px;border-radius:10px;background:var(--p-100);color:var(--p-700);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* Indicator category nav */
+.cat-nav{display:flex;gap:10px;overflow-x:auto;margin-bottom:20px;padding-bottom:6px}
+.cat-pill{padding:8px 14px;background:#fff;border:1px solid var(--n-200);border-radius:999px;font-size:.8rem;font-weight:500;color:var(--n-600);cursor:pointer;white-space:nowrap}
+.cat-pill.active{background:var(--p-500);color:#fff;border-color:var(--p-500)}
+
+/* Tabs */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--n-100);margin-bottom:18px}
+.tab-btn{padding:10px 16px;color:var(--n-500);border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:500;font-size:.875rem}
+.tab-btn.active{color:var(--p-600);border-bottom-color:var(--p-500)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+
+/* Banner */
+.banner{background:linear-gradient(135deg,var(--p-500),var(--p-700));color:#fff;border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.banner h2{font-size:1.2rem;font-weight:700}
+.banner p{font-size:.875rem;opacity:.9;margin-top:4px}
+
+.form-input{width:100%;padding:9px 12px;border:1px solid var(--n-200);border-radius:var(--radius);background:#fff}
+.form-input:focus{outline:none;border-color:var(--p-400);box-shadow:0 0 0 3px var(--p-100)}
+textarea.form-input{resize:vertical;min-height:80px}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);width:90%;max-width:500px;padding:24px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+
+.empty{padding:40px;text-align:center;color:var(--n-500)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">W</div>
+      <div>WellMinds <span style="color:var(--a-500);font-size:.7rem;font-weight:600">v2</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section-title">For you</div>
+      <div class="nav-item active" data-page="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Home</span>
+      </div>
+      <div class="nav-item" data-page="pulse">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <span>Pulse Check</span><span class="nav-badge">New</span>
+      </div>
+      <div class="nav-item" data-page="indicators">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Wellbeing Indicators</span>
+      </div>
+      <div class="nav-item" data-page="report">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>My Report</span>
+      </div>
+
+      <div class="nav-section-title">Grow</div>
+      <div class="nav-item" data-page="performance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Performance Connect</span>
+      </div>
+      <div class="nav-item" data-page="development">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-6 4 2 7-6-4-6 4 2-7-6-4h7z"/></svg>
+        <span>Development Connect</span>
+      </div>
+      <div class="nav-item" data-page="wellbeing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Wellbeing Connect</span>
+      </div>
+
+      <div class="nav-section-title">Community</div>
+      <div class="nav-item" data-page="social">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2H7a5 5 0 0 0-5 5v10a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5V7a5 5 0 0 0-5-5z"/><path d="M12 7v10M7 12h10"/></svg>
+        <span>Social Wall</span>
+      </div>
+      <div class="nav-item" data-page="smiles">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        <span>Smiles</span>
+      </div>
+      <div class="nav-item" data-page="eap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span>EAP</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">LM</div>
+      <div style="overflow:hidden">
+        <div style="font-size:.8rem;font-weight:600">Liz Martinez</div>
+        <div style="font-size:.7rem;color:var(--n-500)">Engineering · Employee</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="header">
+      <div class="header-title" id="header-title">Good morning, Liz</div>
+      <div class="demo-mode">
+        <span id="mode-indicator" class="demo-mode-pill">Demo data</span>
+        <button class="btn btn-outline btn-sm" id="try-api-btn">Try live API</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- HOME -->
+      <section class="page active" id="page-home">
+        <div class="banner">
+          <div>
+            <h2>Your FY26 H1 Cycle</h2>
+            <p>You're in the <strong>Manager reflection</strong> phase — time to respond to Ben's notes.</p>
+          </div>
+          <button class="btn btn-accent" data-goto="performance">Open cycle</button>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:20px">
+          <div class="kpi"><div class="kpi-label">Pulse score</div><div class="kpi-value" id="kpi-pulse">3.8 / 5</div><div class="kpi-delta">+0.2 vs last week</div></div>
+          <div class="kpi"><div class="kpi-label">Objectives on track</div><div class="kpi-value">4 / 5</div><div class="kpi-delta">1 to revise</div></div>
+          <div class="kpi"><div class="kpi-label">Smiles received</div><div class="kpi-value">7</div><div class="kpi-delta">+3 this quarter</div></div>
+          <div class="kpi"><div class="kpi-label">Growth completion</div><div class="kpi-value">60%</div><div class="kpi-delta">Stakeholder phase next</div></div>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card">
+            <div class="card-title">Your growth across three modules</div>
+            <div class="card-sub">Performance · Development · Wellbeing — same phase model, one view.</div>
+            <div id="growth-modules">
+              <!-- module mini-timelines rendered by JS -->
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Today's pulse</div>
+            <div class="card-sub">Takes 60 seconds. Responses are anonymous in company-wide reports.</div>
+            <button class="btn btn-primary" data-goto="pulse">Answer pulse</button>
+            <div style="margin-top:16px">
+              <div class="card-title" style="font-size:.85rem">Recent smiles for you</div>
+              <div id="home-smiles" style="margin-top:10px"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Company leaderboard</div>
+          <div class="card-sub">Opt-in. Colleagues who turned off their name show as "Team member".</div>
+          <div id="leaderboard"></div>
+        </div>
+      </section>
+
+      <!-- PULSE -->
+      <section class="page" id="page-pulse">
+        <h1 class="page-title">Pulse Check</h1>
+        <p class="page-sub">Five questions — ICC-pushed global pulse. Your scores feed into anonymized company trends.</p>
+        <div class="card" id="pulse-card">
+          <div id="pulse-questions"></div>
+          <button class="btn btn-primary" id="pulse-submit">Submit</button>
+          <div id="pulse-result" style="margin-top:16px"></div>
+        </div>
+      </section>
+
+      <!-- INDICATORS -->
+      <section class="page" id="page-indicators">
+        <h1 class="page-title">Wellbeing Indicators</h1>
+        <p class="page-sub">Pick a category, complete the snapshot, get a personalised narrative — not a generic score.</p>
+        <div class="cat-nav">
+          <div class="cat-pill active">All</div>
+          <div class="cat-pill">Burnout</div>
+          <div class="cat-pill">Sleep</div>
+          <div class="cat-pill">Connection</div>
+          <div class="cat-pill">Purpose</div>
+        </div>
+        <div class="grid-3" id="indicator-grid"></div>
+      </section>
+
+      <!-- REPORT -->
+      <section class="page" id="page-report">
+        <div class="report-hero">
+          <h2>Wellbeing Snapshot · Q2</h2>
+          <p>A narrative report — not a traffic light. Driven by the ranges and verbiage ICC configured.</p>
+        </div>
+        <div class="card" id="report-card"></div>
+      </section>
+
+      <!-- CONNECT: PERFORMANCE -->
+      <section class="page" id="page-performance">
+        <h1 class="page-title">Performance Connect</h1>
+        <p class="page-sub">FY26 H1 Cycle — Manager reflection phase</p>
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">Cycle timeline</div>
+          <div class="timeline" id="connect-timeline-perf"></div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="obj">Objectives</button>
+          <button class="tab-btn" data-tab="refl">Reflections</button>
+          <button class="tab-btn" data-tab="signoff">Sign-off</button>
+        </div>
+        <div class="tab-pane active" id="tab-obj">
+          <div id="perf-objectives"></div>
+        </div>
+        <div class="tab-pane" id="tab-refl">
+          <div class="card">
+            <div class="card-title">Q2 Reflection</div>
+            <div class="card-sub">Write your own take. Your manager adds theirs alongside.</div>
+            <textarea class="form-input" placeholder="How did it go? What would you change?"></textarea>
+            <button class="btn btn-primary" style="margin-top:12px">Save reflection</button>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab-signoff">
+          <div class="card">
+            <div class="card-title">Sign-off progress</div>
+            <div style="margin-top:14px">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                <span class="badge badge-success">✓ Employee signed</span>
+                <span style="font-size:.8rem;color:var(--n-500)">Liz Martinez · today</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+                <span class="badge badge-amber">⋯ Awaiting manager</span>
+                <span style="font-size:.8rem;color:var(--n-500)">Ben Chen</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span class="badge badge-neutral">Not yet required</span>
+                <span style="font-size:.8rem;color:var(--n-500)">Functional manager</span>
+              </div>
+            </div>
+            <button class="btn btn-outline" style="margin-top:16px">Revoke my sign-off</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- DEVELOPMENT -->
+      <section class="page" id="page-development">
+        <h1 class="page-title">Development Connect</h1>
+        <p class="page-sub">Skills and growth objectives — same phase model, same flow.</p>
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">Cycle timeline</div>
+          <div class="timeline" id="connect-timeline-dev"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Your development objectives</div>
+          <div id="dev-objectives" style="margin-top:10px"></div>
+        </div>
+      </section>
+
+      <!-- WELLBEING CONNECT -->
+      <section class="page" id="page-wellbeing">
+        <h1 class="page-title">Wellbeing Connect</h1>
+        <p class="page-sub">Private by default — turn on sharing if you want your manager to see these.</p>
+        <div class="card" style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">Share with my manager</div>
+            <div style="font-size:.8rem;color:var(--n-500)">Off by default. You control the switch.</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="share-toggle"><span class="slider"></span></label>
+        </div>
+        <div class="card">
+          <div class="card-title">Your wellbeing objectives</div>
+          <div id="well-objectives" style="margin-top:10px"></div>
+        </div>
+      </section>
+
+      <!-- SOCIAL -->
+      <section class="page" id="page-social">
+        <h1 class="page-title">Social Wall</h1>
+        <p class="page-sub">Posts filtered by audience rules — you see all-company + Engineering department + direct mentions.</p>
+        <div class="card" style="margin-bottom:20px">
+          <textarea class="form-input" placeholder="Share something with the team…" id="post-input"></textarea>
+          <div style="display:flex;gap:10px;margin-top:10px;align-items:center">
+            <select class="form-input" style="width:auto" id="post-audience">
+              <option value="all">Everyone</option>
+              <option value="team">My team</option>
+              <option value="department">My department</option>
+            </select>
+            <label style="font-size:.8rem;color:var(--n-600);display:flex;align-items:center;gap:6px">
+              <input type="checkbox" id="post-compliance"> Requires acknowledgement
+            </label>
+            <button class="btn btn-primary" style="margin-left:auto" id="post-btn">Post</button>
+          </div>
+        </div>
+        <div id="social-feed"></div>
+      </section>
+
+      <!-- SMILES -->
+      <section class="page" id="page-smiles">
+        <h1 class="page-title">Smiles</h1>
+        <p class="page-sub">Peer recognition tied to your culture behaviours.</p>
+        <div class="grid-3" id="smile-grid"></div>
+      </section>
+
+      <!-- EAP -->
+      <section class="page" id="page-eap">
+        <h1 class="page-title">Employee Assistance Programme</h1>
+        <p class="page-sub">Confidential, free, for you and your household.</p>
+        <div class="banner" style="background:linear-gradient(135deg,var(--a-500),var(--a-700))">
+          <div>
+            <h2>InterBeing Care · 24/7</h2>
+            <p><strong>Call:</strong> +44 20 7946 0000 · <strong>Email:</strong> eap@demo.com</p>
+          </div>
+          <button class="btn" style="background:#fff;color:var(--a-700)">Start a session</button>
+        </div>
+        <div class="grid-2" id="eap-services"></div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Dialog</h3>
+      <button class="btn-ghost" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ==========================================================================
+// Demo-mode fallback data. Page works entirely offline, then upgrades to
+// real API responses if an /api/v2 backend is reachable.
+// ==========================================================================
+const MOCK = {
+  me: { id: 'liz-uuid', first_name: 'Liz', last_name: 'Martinez', company_id: 'demo-co', role: 'staff', department: 'Engineering' },
+  pulse_active: {
+    id: '11111111-1111-1111-1111-111111111111',
+    title: 'Weekly Pulse',
+    description: 'Five quick questions.',
+    questions: [
+      { question_key: 'mood',       prompt: 'Overall mood this week' },
+      { question_key: 'energy',     prompt: 'Energy levels' },
+      { question_key: 'stress',     prompt: 'Stress levels (5 = calm)' },
+      { question_key: 'connection', prompt: 'Connection with teammates' },
+      { question_key: 'purpose',    prompt: 'Sense of purpose' },
+    ],
+  },
+  growth: [
+    { module: 'performance', cycle_name: 'FY26 H1', current_phase: 'manager', pct_complete: 60, next_action_for_user: 'Reply to manager reflection notes' },
+    { module: 'development', cycle_name: 'FY26 H1', current_phase: 'self_reflect', pct_complete: 40, next_action_for_user: 'Complete Q2 self-reflection' },
+    { module: 'wellbeing',   cycle_name: 'FY26 H1', current_phase: 'setup', pct_complete: 20, next_action_for_user: 'Add your wellbeing objectives' },
+  ],
+  leaderboard: [
+    { display_name: 'Amara O.',    perf_goals: 8, dev_goals: 4, well_goals: 3 },
+    { display_name: 'Ben C.',      perf_goals: 7, dev_goals: 5, well_goals: 2 },
+    { display_name: 'Liz M.',      perf_goals: 6, dev_goals: 4, well_goals: 3 },
+    { display_name: 'Team member', perf_goals: 5, dev_goals: 3, well_goals: 2 },
+    { display_name: 'Mo A.',       perf_goals: 5, dev_goals: 2, well_goals: 4 },
+  ],
+  smiles: [
+    { from: 'Ben Chen',        to: 'Liz Martinez', category: 'Ownership',  msg: 'You owned the release even when it got messy.' },
+    { from: 'Priya Rao',       to: 'Liz Martinez', category: 'Curiosity',  msg: 'Your question at all-hands made the team think differently.' },
+    { from: 'Dan Kelly',       to: 'Liz Martinez', category: 'Kindness',   msg: 'Stayed late to help me debug. Thank you.' },
+  ],
+  indicators: [
+    { id: 'ind-1', title: 'Wellbeing Snapshot', category: 'All',        desc: 'Quick 3-dimension snapshot', length: '9 questions' },
+    { id: 'ind-2', title: 'Burnout Risk',       category: 'Burnout',    desc: 'Maslach-inspired',         length: '12 questions' },
+    { id: 'ind-3', title: 'Sleep Health',       category: 'Sleep',      desc: 'Based on NHS guidance',    length: '7 questions' },
+    { id: 'ind-4', title: 'Team Connection',    category: 'Connection', desc: 'Belonging + inclusion',    length: '8 questions' },
+    { id: 'ind-5', title: 'Meaning Check',      category: 'Purpose',    desc: 'Purpose alignment',        length: '6 questions' },
+    { id: 'ind-6', title: 'Stress Signals',     category: 'Burnout',    desc: 'PSS-10',                   length: '10 questions' },
+  ],
+  report_demo: {
+    overall: { band: 'Amber', html: '<p>You are managing, but a couple of dimensions are flagging. The two recommended resources below are a light touch starting point.</p>', resources: [{ title: 'Sleep hygiene guide', description: '7-minute read' }, { title: 'Micro-breaks for focus', description: '4-minute video' }] },
+    sections: [
+      { title: 'Energy & Sleep',        band: 'Low',      score: 6,  max_score: 15, html: '<p>Scores in this range suggest significant strain. Consider exploring the supporting resources below and, if it helps, reaching out to a professional.</p>' },
+      { title: 'Connection & Belonging', band: 'Strong',   score: 13, max_score: 15, html: '<p>You are in a strong place here. Keep the practices that are working for you — and consider sharing them with the team.</p>' },
+      { title: 'Purpose & Meaning',     band: 'Moderate', score: 10, max_score: 15, html: '<p>You are coping, but there are clear levers to pull. Pick one resource from the recommendations and try it for two weeks.</p>' },
+    ],
+  },
+  posts: [
+    { author: 'Amara Okafor',  when: '2h',  audience: 'all', title: 'Welcome back', body: 'Big welcome to our new joiners this week. Say hi in #introductions.', compliance: false },
+    { author: 'Ben Chen',      when: '1d',  audience: 'department', title: 'Engineering demo day', body: 'Friday 3pm — come watch the team ship!', compliance: false },
+    { author: 'Priya Rao',     when: '3d',  audience: 'all', title: 'Code of conduct update', body: 'Please read and acknowledge by Friday.', compliance: true },
+    { author: 'Amara Okafor',  when: '5d',  audience: 'all', title: 'Q2 all-hands recap', body: 'Slides and recording are in Resources.', compliance: false },
+  ],
+  objectives_perf: [
+    { title: 'Ship Q3 launch', category: 'delivery',    status: 'approved',                note: 'Approved by Ben on 12 Apr' },
+    { title: 'Mentor one junior', category: 'leadership', status: 'pending',              note: 'Awaiting manager review' },
+    { title: 'Cut deploy time 30%', category: 'efficiency', status: 'alternative_suggested', note: 'Ben suggested a different measure — see note' },
+  ],
+  objectives_dev: [
+    { title: 'Learn system design', category: 'skill',   status: 'approved',  note: 'Course starts in 2 weeks' },
+    { title: 'Present at conference', category: 'visibility', status: 'approved', note: 'Target: DevFest 2026' },
+  ],
+  objectives_well: [
+    { title: 'Protect sleep routine',     category: 'sleep',     status: 'approved', note: 'Lights out by 11pm on weeknights' },
+    { title: 'Take a daily 10-min walk', category: 'activity', status: 'approved',  note: 'Between lunch and 2pm' },
+  ],
+  eap_page: {
+    services: [
+      { title: 'Counselling (24/7)',  description: 'Up to 6 sessions per issue per year.', icon: '🫂' },
+      { title: 'Legal advice',        description: 'Initial consultation with a qualified solicitor.', icon: '⚖️' },
+      { title: 'Financial coaching',  description: 'Pension, debt, mortgage support.', icon: '💷' },
+      { title: 'Bereavement support', description: 'Dedicated specialist counselling.', icon: '🌿' },
+    ],
+  },
+};
+
+const PHASES = [
+  { key: 'setup',        label: 'Setup' },
+  { key: 'self_reflect', label: 'Self-reflect' },
+  { key: 'manager',      label: 'Manager' },
+  { key: 'stakeholder',  label: 'Stakeholder' },
+  { key: 'consolidate',  label: 'Consolidate' },
+  { key: 'signoff',      label: 'Sign-off' },
+];
+
+let apiMode = false;
+const API_BASE = '';
+
+// ==========================================================================
+// API helpers (fall back to mock on any failure)
+// ==========================================================================
+async function tryApi(path, fallback) {
+  if (!apiMode) return fallback;
+  try {
+    const token = localStorage.getItem('demo_token') || '';
+    const r = await fetch(API_BASE + path, {
+      headers: token ? { Authorization: 'Bearer ' + token } : {},
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } catch (e) {
+    console.warn('[v2-demo] API fallback for', path, e.message);
+    return fallback;
+  }
+}
+
+async function ensureToken() {
+  let token = localStorage.getItem('demo_token') || '';
+  if (token) return token;
+  // prompt for demo creds — auto-prefilled
+  const email = prompt('Sign in to hit the live v2 API.\n\nEmail:', 'liz@demo.interbeing.care');
+  if (!email) return '';
+  const password = prompt('Password:', 'Demo@123456');
+  if (!password) return '';
+  try {
+    const r = await fetch(API_BASE + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    token = data.token || data.access_token || '';
+    if (token) localStorage.setItem('demo_token', token);
+    return token;
+  } catch (e) {
+    alert('Live API unreachable — staying in demo mode. (' + e.message + ')');
+    return '';
+  }
+}
+
+document.getElementById('try-api-btn').addEventListener('click', async () => {
+  if (!apiMode) {
+    // flipping on — get a token first (no-op if already stored)
+    await ensureToken();
+  } else {
+    // flipping off — clear token so next live attempt re-auths
+    localStorage.removeItem('demo_token');
+  }
+  apiMode = !apiMode;
+  document.getElementById('mode-indicator').textContent = apiMode ? 'Live API' : 'Demo data';
+  document.getElementById('mode-indicator').style.background = apiMode ? 'var(--p-100)' : 'var(--a-100)';
+  document.getElementById('mode-indicator').style.color = apiMode ? 'var(--p-700)' : 'var(--a-700)';
+  document.getElementById('try-api-btn').textContent = apiMode ? 'Back to demo data' : 'Try live API';
+  renderAll();
+});
+
+// ==========================================================================
+// Navigation
+// ==========================================================================
+document.querySelectorAll('.nav-item').forEach((el) => {
+  el.addEventListener('click', () => {
+    const page = el.dataset.page;
+    if (!page) return;
+    document.querySelectorAll('.nav-item').forEach((n) => n.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.getElementById('header-title').textContent = el.querySelector('span').textContent;
+  });
+});
+document.querySelectorAll('[data-goto]').forEach((el) => {
+  el.addEventListener('click', () => {
+    document.querySelector(`.nav-item[data-page="${el.dataset.goto}"]`).click();
+  });
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach((el) => {
+  el.addEventListener('click', () => {
+    const tab = el.dataset.tab;
+    el.parentNode.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+    el.classList.add('active');
+    const parent = el.closest('section');
+    parent.querySelectorAll('.tab-pane').forEach((p) => p.classList.remove('active'));
+    parent.querySelector('#tab-' + tab).classList.add('active');
+  });
+});
+
+// ==========================================================================
+// Renderers
+// ==========================================================================
+function renderTimeline(el, currentPhase) {
+  const idx = PHASES.findIndex((p) => p.key === currentPhase);
+  el.innerHTML = PHASES.map((p, i) => {
+    const cls = i < idx ? 'done' : i === idx ? 'current' : '';
+    const dot = i < idx ? '✓' : (i + 1);
+    return `<div class="tl-step ${cls}"><div class="tl-dot">${dot}</div><div class="tl-label">${p.label}</div></div>`;
+  }).join('');
+}
+
+function renderGrowthModules(data) {
+  const el = document.getElementById('growth-modules');
+  el.innerHTML = data.map((m) => {
+    const label = { performance: 'Performance', development: 'Development', wellbeing: 'Wellbeing' }[m.module];
+    const pct = m.pct_complete;
+    const pctColor = pct >= 60 ? 'var(--success)' : pct >= 40 ? 'var(--warning)' : 'var(--n-400)';
+    return `
+      <div style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px">
+          <span style="font-weight:600">${label}</span>
+          <span style="color:${pctColor};font-weight:600">${pct}%</span>
+        </div>
+        <div style="height:6px;background:var(--n-100);border-radius:999px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${pctColor};border-radius:999px"></div>
+        </div>
+        <div style="font-size:.72rem;color:var(--n-500);margin-top:4px">${m.next_action_for_user}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderLeaderboard(rows) {
+  const el = document.getElementById('leaderboard');
+  el.innerHTML = rows.map((r, i) => {
+    const total = (r.perf_goals || 0) + (r.dev_goals || 0) + (r.well_goals || 0);
+    return `
+      <div class="lb-row">
+        <div class="lb-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
+        <div class="avatar">${(r.display_name || '?').split(' ').map((s) => s[0]).join('').slice(0, 2)}</div>
+        <div class="lb-name">${r.display_name}</div>
+        <div class="lb-count">${total} goals · ${r.perf_goals}P / ${r.dev_goals}D / ${r.well_goals}W</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderSmiles(rows, target) {
+  const el = document.getElementById(target);
+  el.innerHTML = rows.slice(0, 3).map((s) => `
+    <div class="smile" style="margin-bottom:8px">
+      <div class="smile-from-to">${s.from} → ${s.to || 'you'}</div>
+      <div class="smile-msg">"${s.msg}"</div>
+      <span class="badge badge-coral">${s.category}</span>
+    </div>
+  `).join('');
+}
+
+function renderPulseQuestions() {
+  const el = document.getElementById('pulse-questions');
+  el.innerHTML = MOCK.pulse_active.questions.map((q) => `
+    <div class="pulse-question" data-key="${q.question_key}">
+      <label>${q.prompt}</label>
+      <div class="likert">
+        ${[1, 2, 3, 4, 5].map((n) => `<button data-val="${n}">${n}</button>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.likert button').forEach((b) => {
+    b.addEventListener('click', () => {
+      b.parentNode.querySelectorAll('button').forEach((x) => x.classList.remove('selected'));
+      b.classList.add('selected');
+    });
+  });
+}
+
+document.getElementById('pulse-submit').addEventListener('click', async () => {
+  const answers = {};
+  document.querySelectorAll('.pulse-question').forEach((q) => {
+    const sel = q.querySelector('button.selected');
+    if (sel) answers[q.dataset.key] = Number(sel.dataset.val);
+  });
+  if (Object.keys(answers).length === 0) {
+    document.getElementById('pulse-result').innerHTML = `<div class="badge badge-amber">Select at least one answer.</div>`;
+    return;
+  }
+  if (apiMode) {
+    const r = await fetch(API_BASE + '/api/v2/pulse/' + MOCK.pulse_active.id + '/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers }),
+    }).catch(() => null);
+  }
+  const avg = Object.values(answers).reduce((a, b) => a + b, 0) / Object.values(answers).length;
+  document.getElementById('pulse-result').innerHTML = `
+    <div class="card" style="background:var(--p-50);box-shadow:none;padding:14px">
+      <strong>Submitted · Your average: ${avg.toFixed(1)} / 5</strong>
+      <div style="font-size:.82rem;color:var(--n-600);margin-top:4px">Your individual response is never shown to anyone — only aggregated scores of ≥5 respondents.</div>
+    </div>
+  `;
+});
+
+function renderIndicators() {
+  document.getElementById('indicator-grid').innerHTML = MOCK.indicators.map((ind) => `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div class="card-title" style="margin-bottom:2px">${ind.title}</div>
+          <div style="font-size:.75rem;color:var(--n-500)">${ind.category} · ${ind.length}</div>
+        </div>
+        <span class="badge badge-teal">New</span>
+      </div>
+      <div style="font-size:.85rem;color:var(--n-600);margin-bottom:12px">${ind.desc}</div>
+      <button class="btn btn-outline btn-sm" onclick="document.querySelector('[data-page=report]').click()">Start</button>
+    </div>
+  `).join('');
+}
+
+function renderReport() {
+  const r = MOCK.report_demo;
+  document.getElementById('report-card').innerHTML = `
+    <div style="margin-bottom:16px">
+      <div class="card-title">Overall — ${r.overall.band}</div>
+      ${r.overall.html}
+    </div>
+    <div style="margin:18px 0 8px 0;font-weight:600">By dimension</div>
+    ${r.sections.map((s) => {
+      const bandColor = s.band === 'Strong' ? 'var(--p-500)' : s.band === 'Moderate' ? 'var(--gold-500)' : 'var(--a-500)';
+      return `
+        <div class="band" style="border-left-color:${bandColor}">
+          <div class="band-header">${s.title}<span class="badge" style="background:${bandColor};color:#fff">${s.band} · ${s.score}/${s.max_score}</span></div>
+          <div class="band-body">${s.html}</div>
+        </div>
+      `;
+    }).join('')}
+    <div style="margin-top:18px">
+      <div class="card-title" style="font-size:.9rem">Recommended resources</div>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+        ${r.overall.resources.map((res) => `
+          <div style="flex:1;min-width:200px;padding:12px;border:1px solid var(--n-100);border-radius:var(--radius)">
+            <div style="font-weight:600;font-size:.85rem">${res.title}</div>
+            <div style="font-size:.75rem;color:var(--n-500);margin-top:2px">${res.description}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div style="margin-top:18px;display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="window.print()">Download PDF</button>
+      <button class="btn btn-outline" onclick="alert('Grant sent — colleague will see this report for 30 days (demo).')">Grant a colleague access</button>
+    </div>
+  `;
+}
+
+function renderObjectives(target, data) {
+  const el = document.getElementById(target);
+  el.innerHTML = data.map((o) => {
+    const badge = {
+      approved: 'badge-success',
+      pending: 'badge-amber',
+      alternative_suggested: 'badge-warning',
+      rejected: 'badge-danger',
+    }[o.status] || 'badge-neutral';
+    const label = o.status.replace(/_/g, ' ');
+    return `
+      <div class="obj">
+        <div class="obj-title">${o.title}</div>
+        <div class="obj-meta">
+          <span class="badge ${badge}">${label}</span>
+          <span>${o.category}</span>
+          <span style="margin-left:auto;font-size:.75rem;color:var(--n-500)">${o.note}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderSocial() {
+  document.getElementById('social-feed').innerHTML = MOCK.posts.map((p) => `
+    <div class="post">
+      <div class="post-head">
+        <div class="avatar">${p.author.split(' ').map((s) => s[0]).join('')}</div>
+        <div class="post-meta">
+          <div class="post-author">${p.author}</div>
+          <div class="post-time">${p.when} ago · <span class="post-aud">${p.audience}</span>${p.compliance ? ' · <span class="badge badge-danger">Ack required</span>' : ''}</div>
+        </div>
+      </div>
+      <div style="font-weight:600;margin-bottom:4px">${p.title}</div>
+      <div class="post-body">${p.body}</div>
+      <div class="post-actions">
+        <div class="post-action">♥ Like</div>
+        <div class="post-action">💬 Comment</div>
+        ${p.compliance ? '<div class="post-action" style="margin-left:auto;color:var(--a-600);font-weight:600">Acknowledge</div>' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('post-btn').addEventListener('click', () => {
+  const body = document.getElementById('post-input').value.trim();
+  const audience = document.getElementById('post-audience').value;
+  const compliance = document.getElementById('post-compliance').checked;
+  if (!body) return;
+  MOCK.posts.unshift({
+    author: 'Liz Martinez', when: 'now', audience,
+    title: compliance ? 'Please read and acknowledge' : 'Note to the team',
+    body, compliance,
+  });
+  document.getElementById('post-input').value = '';
+  document.getElementById('post-compliance').checked = false;
+  renderSocial();
+});
+
+function renderSmilesGrid() {
+  document.getElementById('smile-grid').innerHTML = MOCK.smiles.concat([
+    { from: 'Mo Ali',   to: 'Dan Kelly',   category: 'Kindness',  msg: 'Took my on-call shift at short notice.' },
+    { from: 'Sana Patel', to: 'Kai Jensen', category: 'Ownership', msg: 'Ran with the onboarding project end to end.' },
+    { from: 'Leo Burns', to: 'Sana Patel', category: 'Curiosity', msg: 'Asked the question that reframed our week.' },
+  ]).map((s) => `
+    <div class="smile">
+      <div class="smile-from-to">${s.from} → ${s.to}</div>
+      <div class="smile-msg">"${s.msg}"</div>
+      <span class="badge badge-coral">${s.category}</span>
+    </div>
+  `).join('');
+}
+
+function renderEap() {
+  document.getElementById('eap-services').innerHTML = MOCK.eap_page.services.map((s) => `
+    <div class="eap-svc">
+      <div class="eap-icon" style="font-size:1.4rem">${s.icon}</div>
+      <div>
+        <div style="font-weight:600;font-size:.9rem">${s.title}</div>
+        <div style="font-size:.8rem;color:var(--n-600);margin-top:4px">${s.description}</div>
+        <button class="btn btn-outline btn-sm" style="margin-top:10px">Learn more</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==========================================================================
+// Boot
+// ==========================================================================
+async function renderAll() {
+  const growth = await tryApi('/api/v2/growth/me', MOCK.growth);
+  renderGrowthModules(growth);
+  const lb = await tryApi('/api/v2/growth/leaderboard', MOCK.leaderboard);
+  renderLeaderboard(lb);
+  renderSmiles(MOCK.smiles, 'home-smiles');
+  renderPulseQuestions();
+  renderIndicators();
+  renderReport();
+  renderTimeline(document.getElementById('connect-timeline-perf'), 'manager');
+  renderTimeline(document.getElementById('connect-timeline-dev'), 'self_reflect');
+  renderObjectives('perf-objectives', MOCK.objectives_perf);
+  renderObjectives('dev-objectives', MOCK.objectives_dev);
+  renderObjectives('well-objectives', MOCK.objectives_well);
+  renderSocial();
+  renderSmilesGrid();
+  renderEap();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+renderAll();
+</script>
+</body>
+</html>

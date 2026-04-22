@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICC Admin v2 — InterBeing Care Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+--p-50:#f0faf9;--p-100:#d4f1ef;--p-200:#a8e4de;--p-300:#6dcfc6;--p-400:#3ab8ad;--p-500:#1e9e97;--p-600:#1a847e;--p-700:#166a65;--p-800:#11504d;--p-900:#0d3836;
+--a-50:#fef4f1;--a-100:#fce0d8;--a-200:#f8c1b1;--a-300:#f3a18a;--a-400:#ee8264;--a-500:#e8735e;--a-600:#c5543f;--a-700:#9e3f2f;--a-800:#772f23;--a-900:#511f17;
+--gold-50:#fdf8e8;--gold-100:#faefc5;--gold-200:#f5df8b;--gold-300:#efcf51;--gold-400:#e2bc24;--gold-500:#d4a017;--gold-600:#b38512;--gold-700:#8c680e;--gold-800:#664c0a;
+--v-50:#f5f1fc;--v-100:#e6ddf7;--v-200:#ccbbef;--v-300:#b299e7;--v-400:#9877df;--v-500:#7c5cbf;--v-600:#6347a0;--v-700:#4d3780;--v-800:#382860;
+--n-0:#ffffff;--n-50:#faf9f7;--n-100:#f3f1ee;--n-200:#e8e5e0;--n-300:#d5d1ca;--n-400:#b8b3a9;--n-500:#9a9488;--n-600:#7c7568;--n-700:#5e584d;--n-800:#403c34;--n-900:#24211c;
+--success:#22a06b;--warning:#cf8600;--danger:#de350b;--info:#0065ff;
+--sidebar-w:260px;--header-h:64px;
+--radius-sm:6px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;
+--shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 24px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--n-800);background:var(--n-50);line-height:1.5;-webkit-font-smoothing:antialiased}
+input,select,textarea,button{font-family:inherit;font-size:inherit}
+a{text-decoration:none;color:inherit}
+
+/* LAYOUT */
+#app{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:var(--p-900);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow:hidden}
+.sb-header{padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-logo-icon{width:36px;height:36px;border-radius:10px;background:var(--a-500);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.sb-logo-text h2{font-size:1rem;font-weight:700}
+.sb-logo-text span{font-size:.65rem;opacity:.6;text-transform:uppercase;letter-spacing:.6px}
+.sb-nav{flex:1;overflow-y:auto;padding:12px 0}
+.sb-group-title{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;opacity:.45;padding:16px 20px 6px;font-weight:600}
+.sb-item{display:flex;align-items:center;padding:9px 20px;cursor:pointer;transition:all .15s;color:rgba(255,255,255,.7);font-size:.88rem;font-weight:500;gap:12px}
+.sb-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.12);color:#fff;border-right:3px solid var(--a-500)}
+.sb-footer{border-top:1px solid rgba(255,255,255,.1);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.sb-avatar{width:36px;height:36px;border-radius:50%;background:var(--p-600);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem}
+.sb-user-info .name{font-size:.85rem;font-weight:600}
+.sb-user-info .role{font-size:.7rem;opacity:.6}
+
+.main-area{margin-left:var(--sidebar-w);flex:1;min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:var(--header-h);background:var(--n-0);border-bottom:1px solid var(--n-200);display:flex;align-items:center;padding:0 32px;position:sticky;top:0;z-index:50;gap:16px}
+.tb-title{font-size:1.15rem;font-weight:700;color:var(--n-900)}
+.tb-spacer{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--p-100);color:var(--p-700);padding:5px 12px;border-radius:999px;font-size:.78rem;font-weight:600}
+.pill.warn{background:var(--gold-100);color:var(--gold-700)}
+.pill.on{background:var(--success);color:#fff}
+.content{flex:1;padding:32px;overflow-y:auto;max-width:1400px;width:100%}
+
+.page{display:none}
+.page.active{display:block}
+.page-title{font-size:1.5rem;font-weight:800;color:var(--n-900);margin-bottom:6px}
+.page-sub{font-size:.9rem;color:var(--n-500);margin-bottom:24px}
+
+/* CARDS */
+.card{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.card-header h3{font-size:1.05rem;font-weight:700;color:var(--n-900)}
+.card-header .sub{font-size:.82rem;color:var(--n-500);font-weight:400}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.kpi{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.kpi .label{font-size:.72rem;color:var(--n-500);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.kpi .value{font-size:1.75rem;font-weight:800;color:var(--n-900);margin-top:4px}
+.kpi .delta{font-size:.75rem;font-weight:600;margin-top:2px}
+.kpi .delta.up{color:var(--success)}
+.kpi .delta.down{color:var(--danger)}
+.kpi.accent{background:linear-gradient(135deg,var(--p-500),var(--p-600));color:#fff;border:none}
+.kpi.accent .label,.kpi.accent .value,.kpi.accent .delta{color:#fff}
+.kpi.accent .label{opacity:.85}
+.kpi.accent .delta{opacity:.9}
+
+/* ADOPTION BARS */
+.adoption-row{display:grid;grid-template-columns:200px 1fr 80px;gap:16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--n-100)}
+.adoption-row:last-child{border-bottom:none}
+.adoption-name{font-size:.88rem;font-weight:600;color:var(--n-800)}
+.adoption-bar-track{height:10px;border-radius:10px;background:var(--n-100);overflow:hidden;position:relative}
+.adoption-bar-fill{height:100%;background:linear-gradient(90deg,var(--p-400),var(--p-500));border-radius:10px}
+.adoption-bar-fill.warn{background:linear-gradient(90deg,var(--gold-400),var(--gold-500))}
+.adoption-bar-fill.danger{background:linear-gradient(90deg,var(--a-400),var(--a-500))}
+.adoption-value{font-size:.88rem;font-weight:700;color:var(--n-800);text-align:right}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--n-200);border-radius:var(--radius-lg);background:var(--n-0)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:12px 16px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--n-500);background:var(--n-50);border-bottom:1px solid var(--n-200);white-space:nowrap}
+td{padding:12px 16px;font-size:.88rem;border-bottom:1px solid var(--n-100);color:var(--n-700)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--n-50)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;line-height:1.6}
+.badge-success,.badge-active,.badge-published,.badge-approved{background:#d4edda;color:#155724}
+.badge-pending,.badge-warn{background:#fef3cd;color:#856404}
+.badge-danger,.badge-inactive,.badge-rejected{background:#f8d7da;color:#721c24}
+.badge-info{background:#cce5ff;color:#004085}
+.badge-gold{background:var(--gold-100);color:var(--gold-700)}
+.badge-violet{background:var(--v-100);color:var(--v-700)}
+.badge-coral{background:var(--a-100);color:var(--a-700)}
+.badge-teal{background:var(--p-100);color:var(--p-700)}
+.badge-neutral{background:var(--n-100);color:var(--n-600)}
+.badge-lg{padding:5px 14px;font-size:.8rem}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-md);font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--p-500);color:#fff}
+.btn-primary:hover{background:var(--p-600)}
+.btn-secondary{background:var(--n-100);color:var(--n-700);border:1px solid var(--n-200)}
+.btn-secondary:hover{background:var(--n-200)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#c5300a}
+.btn-success{background:var(--success);color:#fff}
+.btn-ghost{background:transparent;color:var(--p-600);padding:6px 10px}
+.btn-ghost:hover{background:var(--p-50)}
+.btn-sm{padding:5px 12px;font-size:.78rem}
+
+/* FORMS */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.78rem;font-weight:600;color:var(--n-700);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:.88rem;background:var(--n-0);color:var(--n-800)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--p-500);box-shadow:0 0 0 3px rgba(30,158,151,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.form-row-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--n-200);margin-bottom:20px}
+.tab{padding:10px 20px;font-size:.88rem;font-weight:600;color:var(--n-500);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--p-600);border-bottom-color:var(--p-500)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* TOGGLE */
+.toggle{width:40px;height:22px;background:var(--n-300);border-radius:12px;cursor:pointer;position:relative;transition:background .2s;display:inline-block;vertical-align:middle}
+.toggle.on{background:var(--p-500)}
+.toggle::after{content:'';width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:transform .2s;box-shadow:var(--shadow-sm)}
+.toggle.on::after{transform:translateX(18px)}
+
+/* RBAC MATRIX */
+.matrix-wrap{overflow-x:auto;border:1px solid var(--n-200);border-radius:var(--radius-lg);background:var(--n-0)}
+.matrix{width:100%;border-collapse:collapse;font-size:.85rem}
+.matrix th{text-align:center;padding:12px 8px;background:var(--n-50);border-bottom:1px solid var(--n-200);color:var(--n-700);font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;font-weight:700;white-space:nowrap}
+.matrix th.module-col{text-align:left;padding-left:16px;width:240px}
+.matrix td{padding:10px 8px;border-bottom:1px solid var(--n-100);text-align:center;color:var(--n-700)}
+.matrix td.module-col{text-align:left;padding-left:16px;font-weight:600;color:var(--n-800)}
+.matrix td.module-col small{display:block;color:var(--n-500);font-weight:400;font-size:.75rem;margin-top:1px}
+.matrix .chk{width:20px;height:20px;border:1.5px solid var(--n-300);border-radius:4px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;background:var(--n-0);transition:all .15s}
+.matrix .chk.on{background:var(--p-500);border-color:var(--p-500);color:#fff}
+.matrix .chk.on::after{content:'✓';font-size:13px;font-weight:700}
+
+/* BAND EDITOR */
+.band-row{display:grid;grid-template-columns:100px 100px 100px 1fr 120px;gap:10px;align-items:start;padding:10px;border:1px solid var(--n-200);border-radius:var(--radius-md);margin-bottom:8px;background:var(--n-50)}
+.band-row input,.band-row textarea,.band-row select{padding:7px 10px;border:1px solid var(--n-200);border-radius:var(--radius-sm);font-size:.82rem;background:#fff;color:var(--n-800);width:100%}
+.band-row textarea{min-height:64px;resize:vertical;grid-column:4}
+.band-swatch{width:16px;height:16px;border-radius:4px;display:inline-block;vertical-align:middle;margin-right:6px;border:1px solid var(--n-200)}
+
+/* SECTION EDITOR */
+.section-block{border:1px solid var(--n-200);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px;background:var(--n-50)}
+.section-block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px}
+.section-block-title{font-weight:700;color:var(--n-900);font-size:.95rem}
+
+/* COMMS TEMPLATE CARDS */
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.tpl-card{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--radius-lg);padding:16px;transition:all .15s;cursor:pointer}
+.tpl-card:hover{border-color:var(--p-400);box-shadow:var(--shadow-md)}
+.tpl-card .tpl-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.tpl-card .tpl-name{font-weight:700;color:var(--n-900);font-size:.95rem}
+.tpl-card .tpl-subject{font-size:.82rem;color:var(--n-600);margin-bottom:10px;font-style:italic}
+.tpl-card .tpl-preview{font-size:.82rem;color:var(--n-500);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tpl-card .tpl-footer{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.72rem;color:var(--n-500)}
+
+/* CLIENT CARDS */
+.client-card{background:var(--n-0);border:1px solid var(--n-200);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px;display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center}
+.client-icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--p-400),var(--p-600));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem}
+.client-meta{display:flex;flex-direction:column;gap:2px}
+.client-name{font-weight:700;color:var(--n-900);font-size:1rem}
+.client-url{font-size:.8rem;color:var(--n-500)}
+.client-stats{display:flex;gap:18px;margin-top:6px}
+.client-stats .stat{font-size:.75rem;color:var(--n-600)}
+.client-stats .stat strong{color:var(--n-900);font-weight:700;display:block;font-size:1rem}
+
+/* ALERTS */
+.alert{padding:12px 16px;border-radius:var(--radius-md);font-size:.85rem;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px}
+.alert-info{background:var(--p-50);color:var(--p-800);border:1px solid var(--p-200)}
+.alert-warn{background:var(--gold-50);color:var(--gold-800);border:1px solid var(--gold-200)}
+.alert-danger{background:var(--a-50);color:var(--a-800);border:1px solid var(--a-200)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--n-0);border-radius:var(--radius-xl);max-width:720px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-lg{max-width:980px}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--n-200);display:flex;align-items:center;justify-content:space-between}
+.modal-body{padding:20px 24px}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--n-200);display:flex;justify-content:flex-end;gap:8px}
+
+/* MISC */
+.two-col{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.flex-gap{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.text-muted{color:var(--n-500)}
+.text-right{text-align:right}
+.mb-0{margin-bottom:0}
+.mt-20{margin-top:20px}
+.hidden{display:none}
+
+@media (max-width:1100px){.two-col{grid-template-columns:1fr}.form-row,.form-row-3,.form-row-4{grid-template-columns:1fr}.adoption-row{grid-template-columns:140px 1fr 60px}}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo-icon">IC</div>
+      <div class="sb-logo-text">
+        <h2>ICC Admin</h2>
+        <span>InterBeing Care</span>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-group-title">Overview</div>
+      <div class="sb-item active" data-nav="dashboard">Dashboard</div>
+      <div class="sb-item" data-nav="clients">Client Companies</div>
+      <div class="sb-item" data-nav="users">Admin Users</div>
+      <div class="sb-group-title">Content</div>
+      <div class="sb-item" data-nav="indicators">Indicator Builder</div>
+      <div class="sb-item" data-nav="pulse">Pulse Library</div>
+      <div class="sb-item" data-nav="comms">Comm Templates</div>
+      <div class="sb-item" data-nav="resources">Resources</div>
+      <div class="sb-group-title">Platform</div>
+      <div class="sb-item" data-nav="rbac">Roles &amp; Permissions</div>
+      <div class="sb-item" data-nav="registrations">Public Registrations</div>
+      <div class="sb-item" data-nav="billing">Billing &amp; Tiers</div>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-avatar">AR</div>
+      <div class="sb-user-info">
+        <div class="name">Aarav Roy</div>
+        <div class="role">ICC Super Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="tb-title" id="tb-title">Dashboard</div>
+      <div class="tb-spacer"></div>
+      <span class="pill" id="mode-pill">Demo data</span>
+      <button class="btn btn-secondary btn-sm" id="mode-toggle">Try live API</button>
+    </div>
+    <main class="content">
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-title">ICC Admin Dashboard</div>
+        <div class="page-sub">Cross-client performance for all InterBeing Care companies — live adoption, pulse participation, and connect cycle status.</div>
+
+        <div class="kpi-grid">
+          <div class="kpi accent">
+            <div class="label">Active Client Companies</div>
+            <div class="value" id="kpi-clients">14</div>
+            <div class="delta">+2 this quarter</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total Employees</div>
+            <div class="value" id="kpi-employees">8,420</div>
+            <div class="delta up">+312 MoM</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Pulse Participation</div>
+            <div class="value" id="kpi-pulse">74%</div>
+            <div class="delta up">+6pp</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Active Connect Cycles</div>
+            <div class="value" id="kpi-cycles">11</div>
+            <div class="delta">3 in signoff</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header">
+              <h3>Module adoption across all clients</h3>
+              <span class="sub">rolling 30 days</span>
+            </div>
+            <div id="adoption-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Recent activity</h3></div>
+            <div id="activity-list" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Pulse participation by client</h3>
+            <button class="btn btn-ghost btn-sm" data-nav-btn="clients">View all clients →</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Employees</th>
+                  <th>Active users</th>
+                  <th>Pulse participation</th>
+                  <th>Avg wellbeing</th>
+                  <th>Connect cycle</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="client-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLIENTS -->
+      <section class="page" id="page-clients">
+        <div class="page-title">Client Companies</div>
+        <div class="page-sub">Manage active clients, their subdomain, tier, HRIS, and EAP enablement.</div>
+        <div class="flex-gap" style="margin-bottom:16px">
+          <button class="btn btn-primary" onclick="openClientModal()">+ Onboard company</button>
+          <input class="form-group" style="padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:280px;max-width:360px" placeholder="Search client…" id="client-search" oninput="renderClients()">
+          <select class="form-group" style="padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:120px" id="client-tier" onchange="renderClients()">
+            <option value="">All tiers</option>
+            <option>Starter</option><option>Growth</option><option>Enterprise</option>
+          </select>
+        </div>
+        <div id="client-cards"></div>
+      </section>
+
+      <!-- ADMIN USERS -->
+      <section class="page" id="page-users">
+        <div class="page-title">Admin Users</div>
+        <div class="page-sub">ICC-side administrators. Role assignments are governed by the RBAC matrix.</div>
+        <div class="flex-gap" style="margin-bottom:16px">
+          <button class="btn btn-primary">+ Invite admin</button>
+          <button class="btn btn-secondary" data-nav-btn="rbac">Manage RBAC →</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Role</th><th>Last active</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="admin-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- INDICATOR BUILDER -->
+      <section class="page" id="page-indicators">
+        <div class="page-title">Indicator Builder</div>
+        <div class="page-sub">Build wellbeing indicators with sections, questions, and <strong>narrative band ranges</strong> — the narrative engine that powers each user report.</div>
+
+        <div class="flex-gap" style="margin-bottom:16px">
+          <select id="indicator-pick" class="form-group" style="padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:300px" onchange="loadIndicator()"></select>
+          <button class="btn btn-primary" onclick="newIndicatorFromScratch()">+ New indicator</button>
+          <button class="btn btn-secondary" onclick="saveIndicator()">Save changes</button>
+          <span class="pill on" id="indicator-status" style="display:none">Saved ✓</span>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Indicator metadata</h3></div>
+          <div class="form-row">
+            <div class="form-group"><label>Name</label><input id="ind-name"></div>
+            <div class="form-group"><label>Short code</label><input id="ind-code"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Category</label>
+              <select id="ind-category">
+                <option>wellbeing</option><option>performance</option><option>development</option><option>culture</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Cadence</label>
+              <select id="ind-cadence"><option>once</option><option>monthly</option><option>quarterly</option><option>annually</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label>Description</label><textarea id="ind-desc" rows="2"></textarea></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Sections &amp; questions</h3>
+            <button class="btn btn-ghost btn-sm" onclick="addSection()">+ Add section</button>
+          </div>
+          <div id="section-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Overall bands &amp; report narrative</h3>
+            <span class="sub">The overall score combines sections and drives the top-level narrative shown to the user.</span>
+          </div>
+          <div id="overall-bands"></div>
+          <button class="btn btn-ghost btn-sm mt-20" onclick="addOverallBand()">+ Add band</button>
+        </div>
+
+        <div class="alert alert-info">
+          <strong>How bands work:</strong>&nbsp;When a user completes this indicator, their raw score is matched against these ranges. The <em>report_verbiage_html</em> for the matching band is inserted into their report alongside resource recommendations.
+        </div>
+      </section>
+
+      <!-- PULSE LIBRARY -->
+      <section class="page" id="page-pulse">
+        <div class="page-title">Pulse Library</div>
+        <div class="page-sub">ICC-global pulse packs. Company admins can adopt these or author their own. Anonymity gate (min 5) is enforced globally.</div>
+        <div class="flex-gap" style="margin-bottom:16px">
+          <button class="btn btn-primary">+ New pulse pack</button>
+          <span class="badge badge-teal">5-respondent anonymity gate</span>
+          <span class="badge badge-violet">14 companies running a pulse</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Pack</th><th>Questions</th><th>Cadence</th><th>Scope</th><th>Adopted by</th><th>Avg response</th><th></th></tr></thead>
+            <tbody id="pulse-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- COMMS -->
+      <section class="page" id="page-comms">
+        <div class="page-title">Communication Templates</div>
+        <div class="page-sub">Default copy across <strong>email, in-app, WhatsApp, nudge</strong> channels. Client admins can override per-channel. Tokens like <code>{{first_name}}</code> and <code>{{deadline}}</code> are interpolated at send time.</div>
+
+        <div class="tabs">
+          <div class="tab active" data-tpl-chan="all">All channels</div>
+          <div class="tab" data-tpl-chan="email">Email</div>
+          <div class="tab" data-tpl-chan="in_app">In-app</div>
+          <div class="tab" data-tpl-chan="whatsapp">WhatsApp</div>
+          <div class="tab" data-tpl-chan="nudge">Nudge</div>
+        </div>
+        <div class="flex-gap" style="margin-bottom:16px">
+          <button class="btn btn-primary">+ New template</button>
+          <input id="tpl-search" oninput="renderTemplates()" placeholder="Search by name, trigger, or body…" class="form-group" style="padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:340px">
+        </div>
+        <div id="tpl-grid" class="tpl-grid"></div>
+      </section>
+
+      <!-- RESOURCES -->
+      <section class="page" id="page-resources">
+        <div class="page-title">Wellbeing Resources Library</div>
+        <div class="page-sub">The content library attached to indicator bands and EAP pages across all clients.</div>
+        <div class="flex-gap" style="margin-bottom:16px">
+          <button class="btn btn-primary">+ New resource</button>
+          <select class="form-group" style="padding:9px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:160px">
+            <option>All types</option><option>article</option><option>video</option><option>audio</option><option>pdf</option><option>link</option>
+          </select>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Type</th><th>Topic</th><th>Duration</th><th>Attached to</th><th>Status</th></tr></thead>
+            <tbody id="resource-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- RBAC -->
+      <section class="page" id="page-rbac">
+        <div class="page-title">Roles &amp; Permissions</div>
+        <div class="page-sub">RBAC matrix — toggle view/add/edit/delete per module for each role. Changes take effect after cache refresh (60s).</div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>ICC-side roles</h3>
+            <div class="flex-gap">
+              <select id="rbac-role-pick" class="form-group" style="padding:8px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);min-width:220px" onchange="renderMatrix()"></select>
+              <button class="btn btn-ghost btn-sm" onclick="cloneCurrentRole()">Clone</button>
+              <button class="btn btn-primary btn-sm" onclick="saveMatrix()">Save matrix</button>
+            </div>
+          </div>
+          <div class="matrix-wrap">
+            <table class="matrix">
+              <thead>
+                <tr>
+                  <th class="module-col">Module</th>
+                  <th>View</th><th>Add</th><th>Edit</th><th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="alert alert-warn">
+          <strong>Caching note:</strong>&nbsp;User permissions are cached in memory for 60 seconds. The backend invalidates cached permissions for every user assigned to this role when you save.
+        </div>
+      </section>
+
+      <!-- PUBLIC REGISTRATIONS -->
+      <section class="page" id="page-registrations">
+        <div class="page-title">Public Registrations</div>
+        <div class="page-sub">Inbound inquiries from the public intake form. Promote qualified leads into client companies.</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Company</th><th>Contact</th><th>Size</th><th>Industry</th><th>Source</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+            <tbody id="reg-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- BILLING -->
+      <section class="page" id="page-billing">
+        <div class="page-title">Billing &amp; Tiers</div>
+        <div class="page-sub">Subscription tiers, seat counts, and renewal dates.</div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="label">MRR</div><div class="value">$ 48,220</div><div class="delta up">+11% MoM</div></div>
+          <div class="kpi"><div class="label">Paid seats</div><div class="value">7,844</div><div class="delta up">+248 MoM</div></div>
+          <div class="kpi"><div class="label">Renewals due (90d)</div><div class="value">4</div><div class="delta">$ 62k ARR</div></div>
+          <div class="kpi"><div class="label">Churn (90d)</div><div class="value">0.8%</div><div class="delta up">-0.3pp</div></div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Company</th><th>Tier</th><th>Seats</th><th>MRR</th><th>Contract start</th><th>Renewal</th><th>Status</th></tr></thead>
+            <tbody id="billing-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- CLIENT MODAL -->
+<div class="modal-overlay" id="client-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Onboard new client company</h3>
+      <button class="btn btn-ghost btn-sm" onclick="closeClientModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Company name</label><input placeholder="Acme Corp"></div>
+        <div class="form-group"><label>Subdomain</label><input placeholder="acme"></div>
+      </div>
+      <div class="form-row-3">
+        <div class="form-group"><label>Tier</label><select><option>Starter</option><option>Growth</option><option>Enterprise</option></select></div>
+        <div class="form-group"><label>Employee count</label><input type="number" placeholder="250"></div>
+        <div class="form-group"><label>Primary contact</label><input type="email" placeholder="hr@acme.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>HRIS</label><select><option>None</option><option>BambooHR</option><option>Workday</option><option>SAP SuccessFactors</option><option>Darwinbox</option></select></div>
+        <div class="form-group"><label>EAP enabled</label><select><option>Yes</option><option>No</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeClientModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="closeClientModal();alert('Client provisioned (demo). Subdomain activated, default RBAC applied, seeded with starter indicators.')">Provision</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// DEMO MOCK DATA
+// ================================================================
+const MOCK = {
+  adoption: [
+    {module:'Pulse Check',          v:78, cls:''},
+    {module:'Wellbeing Indicators', v:65, cls:''},
+    {module:'Performance Connect',  v:82, cls:''},
+    {module:'Development Connect',  v:58, cls:'warn'},
+    {module:'Wellbeing Connect',    v:41, cls:'warn'},
+    {module:'Social Wall',          v:71, cls:''},
+    {module:'Smiles',               v:88, cls:''},
+    {module:'EAP',                  v:19, cls:'danger'},
+    {module:'Learning Sessions',    v:52, cls:'warn'},
+  ],
+  activity: [
+    {icon:'🟢', text:'Ashoka Textiles activated the EAP module',              when:'2h ago'},
+    {icon:'📊', text:'Q1 FY26 connect cycle closed for Halcyon Logistics',    when:'4h ago'},
+    {icon:'📝', text:'New indicator "Team Cohesion" published (global)',      when:'yesterday'},
+    {icon:'✉️',  text:'WhatsApp template "Pulse reminder v3" approved',        when:'yesterday'},
+    {icon:'🏢', text:'Kestrel BPO onboarded as Enterprise tier (920 seats)',  when:'2d ago'},
+    {icon:'⚠️', text:'Pulse response rate for Riverdale Bank < 50%',          when:'2d ago'},
+  ],
+  clients: [
+    {name:'InterBeing Demo Co',   tier:'Enterprise', subdomain:'demo',        employees:6,    active:6,    pulse:100, wellbeing:74, cycle:'FY26 H1 — Reflection',       status:'active'},
+    {name:'Halcyon Logistics',    tier:'Enterprise', subdomain:'halcyon',     employees:1842, active:1610, pulse:87,  wellbeing:71, cycle:'FY26 H1 — Signoff',          status:'active'},
+    {name:'Ashoka Textiles',      tier:'Growth',     subdomain:'ashoka',      employees:428,  active:355,  pulse:83,  wellbeing:68, cycle:'FY26 H1 — Manager',          status:'active'},
+    {name:'Kestrel BPO',          tier:'Enterprise', subdomain:'kestrel',     employees:920,  active:701,  pulse:76,  wellbeing:65, cycle:'Onboarding',                 status:'onboarding'},
+    {name:'Nimbus Media',         tier:'Growth',     subdomain:'nimbus',      employees:312,  active:244,  pulse:78,  wellbeing:72, cycle:'FY26 H1 — Consolidate',      status:'active'},
+    {name:'Orchid Health',        tier:'Enterprise', subdomain:'orchid',      employees:1120, active:945,  pulse:81,  wellbeing:74, cycle:'FY26 H1 — Self reflect',     status:'active'},
+    {name:'Riverdale Bank',       tier:'Growth',     subdomain:'riverdale',   employees:540,  active:412,  pulse:48,  wellbeing:62, cycle:'FY26 H1 — Setup',            status:'at-risk'},
+    {name:'Skyglass Education',   tier:'Starter',    subdomain:'skyglass',    employees:96,   active:80,   pulse:72,  wellbeing:69, cycle:'FY26 H1 — Self reflect',     status:'active'},
+    {name:'Copperleaf Retail',    tier:'Growth',     subdomain:'copperleaf',  employees:680,  active:520,  pulse:68,  wellbeing:67, cycle:'FY26 H1 — Manager',          status:'active'},
+    {name:'Velora Pharma',        tier:'Enterprise', subdomain:'velora',      employees:1408, active:1180, pulse:80,  wellbeing:73, cycle:'FY26 H1 — Consolidate',      status:'active'},
+    {name:'Juniper Studios',      tier:'Starter',    subdomain:'juniper',     employees:44,   active:38,   pulse:91,  wellbeing:78, cycle:'FY26 H1 — Signoff',          status:'active'},
+    {name:'Aurelia Aviation',     tier:'Enterprise', subdomain:'aurelia',     employees:2180, active:1720, pulse:70,  wellbeing:68, cycle:'FY26 H1 — Manager',          status:'active'},
+    {name:'Pinebrook Legal',      tier:'Growth',     subdomain:'pinebrook',   employees:220,  active:178,  pulse:74,  wellbeing:72, cycle:'FY26 H1 — Self reflect',     status:'active'},
+    {name:'Saffron Grocers',      tier:'Starter',    subdomain:'saffron',     employees:180,  active:122,  pulse:55,  wellbeing:64, cycle:'Paused',                     status:'paused'},
+  ],
+  admins: [
+    {name:'Aarav Roy',       email:'aarav@interbeing.care',   role:'Super Admin',         last:'Now',       status:'active'},
+    {name:'Meera Iyer',      email:'meera@interbeing.care',   role:'Customer Success',    last:'15m ago',   status:'active'},
+    {name:'Rohan Banerjee',  email:'rohan@interbeing.care',   role:'Content Admin',       last:'2h ago',    status:'active'},
+    {name:'Lena Fischer',    email:'lena@interbeing.care',    role:'Implementation',      last:'yesterday', status:'active'},
+    {name:'Kunal Das',       email:'kunal@interbeing.care',   role:'Billing',             last:'3d ago',    status:'active'},
+    {name:'Priya Nair',      email:'priya@interbeing.care',   role:'Viewer',              last:'2w ago',    status:'inactive'},
+  ],
+  indicators: [
+    {
+      id:'ind-burnout',
+      name:'Burnout Signal',
+      code:'BRN',
+      category:'wellbeing',
+      cadence:'monthly',
+      description:'Combines emotional exhaustion, work demands and recovery to surface burnout risk early.',
+      sections:[
+        {name:'Exhaustion',        scale:'Likert-5', questions:['I feel emotionally drained by my work','Working a full day leaves me physically tired','I wake up unrefreshed most days'],
+          bands:[{label:'Low',min:0,max:2.3,color:'#1a847e',verbiage:'You appear to be recovering well. Keep your routines.'},{label:'Moderate',min:2.31,max:3.5,color:'#d4a017',verbiage:'Some tiredness is showing — check recovery and sleep.'},{label:'High',min:3.51,max:5.0,color:'#e8735e',verbiage:'Elevated exhaustion signals. Consider reducing load this cycle.'}]},
+        {name:'Work Demands',      scale:'Likert-5', questions:['Workload feels manageable','I have enough time for focused work','Deadlines are realistic'],
+          bands:[{label:'Healthy',min:3.51,max:5.0,color:'#1a847e',verbiage:'Your workload feels sustainable right now.'},{label:'Stretched',min:2.31,max:3.5,color:'#d4a017',verbiage:'Some friction around demand. Talk to your manager if this persists.'},{label:'Overloaded',min:0,max:2.3,color:'#e8735e',verbiage:'Demands appear to exceed capacity. This is the first place to address.'}]},
+        {name:'Recovery',          scale:'Likert-5', questions:['I can disconnect from work','Weekends leave me rested','I use my leave'],
+          bands:[{label:'Strong',min:3.51,max:5.0,color:'#1a847e',verbiage:'Recovery habits are working for you — protect them.'},{label:'Moderate',min:2.31,max:3.5,color:'#d4a017',verbiage:'Recovery is partial — try protecting one full off-day weekly.'},{label:'Low',min:0,max:2.3,color:'#e8735e',verbiage:'Recovery is compromised. This amplifies burnout risk.'}]},
+      ],
+      overall:[
+        {label:'Thriving',      min:0,    max:2.3,  color:'#1a847e', verbiage:'<p>Your overall burnout signal is <strong>low</strong>. Continue current routines and share what is working with peers.</p>', resources:['5-minute breathing reset','Weekly recovery checklist']},
+        {label:'Watch',         min:2.31, max:3.5,  color:'#d4a017', verbiage:'<p>Your burnout signal is <strong>moderate</strong>. This is a good point to adjust before things compound.</p>', resources:['Boundaries playbook','Manager 1:1 script: workload conversation']},
+        {label:'At Risk',       min:3.51, max:5.0,  color:'#e8735e', verbiage:'<p>Your burnout signal is <strong>elevated</strong>. We recommend a conversation with your manager and, if available, your EAP.</p>', resources:['Contact EAP (confidential)','Recovery conversation guide','3-week recovery plan']},
+      ],
+    },
+    {id:'ind-engagement', name:'Engagement Index',  code:'ENG', category:'culture',     cadence:'quarterly', description:'Commitment, connection, and energy toward the team and mission.', sections:[], overall:[]},
+    {id:'ind-growth',     name:'Growth Mindset',    code:'GRW', category:'development', cadence:'quarterly', description:'Willingness to take on new challenges and orientation to learning.', sections:[], overall:[]},
+    {id:'ind-purpose',    name:'Purpose Alignment', code:'PRP', category:'culture',     cadence:'annually',  description:'Clarity of personal purpose and its alignment with role.',           sections:[], overall:[]},
+  ],
+  pulse: [
+    {name:'Weekly Mood',         questions:5,  cadence:'weekly',    scope:'global', adopted:12, response:78},
+    {name:'Manager Support',     questions:6,  cadence:'monthly',   scope:'global', adopted:11, response:72},
+    {name:'Stress Monitor',      questions:4,  cadence:'weekly',    scope:'global', adopted:9,  response:81},
+    {name:'Flexibility & Focus', questions:6,  cadence:'monthly',   scope:'global', adopted:7,  response:68},
+    {name:'Recognition Pulse',   questions:3,  cadence:'bi-weekly', scope:'global', adopted:13, response:84},
+  ],
+  templates: [
+    {name:'Pulse Reminder — Employee',      channel:'email',    trigger:'pulse_open',          subject:'Your weekly pulse is waiting',                   body:'Hi {{first_name}}, your weekly pulse for {{pulse_name}} is open. It takes 2 minutes and your responses stay anonymous (min 5). Start now: {{link}}',               overrides:3, updated:'Mar 12'},
+    {name:'Pulse Reminder — Manager',       channel:'email',    trigger:'pulse_low_response',  subject:'Team pulse participation is below target',       body:'Hello {{first_name}}, your team\'s pulse participation is {{rate}}%. A brief nudge during your next standup often helps.',                                            overrides:1, updated:'Mar 10'},
+    {name:'Reflection Due',                 channel:'in_app',   trigger:'reflection_due',      subject:'',                                                body:'Your {{cycle_name}} reflection is due in {{days}} days. Start drafting now.',                                                                                          overrides:0, updated:'Feb 28'},
+    {name:'Connect Signoff — Ready',        channel:'in_app',   trigger:'signoff_ready',       subject:'',                                                body:'Your {{cycle_name}} consolidation is ready for sign-off. Review and confirm.',                                                                                         overrides:2, updated:'Mar 2'},
+    {name:'Objective Cascaded',             channel:'in_app',   trigger:'objective_cascaded',  subject:'',                                                body:'{{manager_name}} has cascaded an objective to you for {{cycle_name}}. Review and confirm.',                                                                            overrides:0, updated:'Jan 18'},
+    {name:'EAP Access',                     channel:'whatsapp', trigger:'eap_request',         subject:'',                                                body:'Hi {{first_name}}, you can reach InterBeing Care EAP 24/7 at {{eap_phone}}. Conversations are fully confidential.',                                                    overrides:5, updated:'Mar 14'},
+    {name:'Pulse Nudge',                    channel:'nudge',    trigger:'pulse_forgotten',     subject:'',                                                body:'{{first_name}}, a 60-second pulse awaits — tap to answer.',                                                                                                            overrides:0, updated:'Mar 14'},
+    {name:'Objective Approved',             channel:'email',    trigger:'objective_approved',  subject:'Your objective has been approved',                body:'Good news {{first_name}} — your objective "{{objective_title}}" was approved by {{manager_name}}.',                                                                     overrides:0, updated:'Feb 22'},
+    {name:'Objective Alternative',          channel:'email',    trigger:'objective_alt',       subject:'Your manager has suggested an alternative',       body:'Your manager suggested an alternative phrasing for "{{objective_title}}". Review their comment and respond.',                                                          overrides:0, updated:'Feb 22'},
+    {name:'Smile Received',                 channel:'in_app',   trigger:'smile_received',      subject:'',                                                body:'{{sender_name}} sent you a smile: {{message}}',                                                                                                                        overrides:0, updated:'Jan 30'},
+  ],
+  resources: [
+    {title:'5-Minute Breathing Reset',              type:'audio',   topic:'stress',     duration:'5 min',  attached:'Burnout, Stress',           status:'published'},
+    {title:'Weekly Recovery Checklist',             type:'pdf',     topic:'recovery',   duration:'—',       attached:'Burnout',                   status:'published'},
+    {title:'Boundaries Playbook',                   type:'article', topic:'boundaries', duration:'7 min',  attached:'Burnout, Engagement',       status:'published'},
+    {title:'Manager 1:1 — Workload Script',         type:'pdf',     topic:'management', duration:'—',       attached:'Burnout',                   status:'published'},
+    {title:'Recovery Conversation Guide',           type:'article', topic:'recovery',   duration:'9 min',  attached:'Burnout',                   status:'published'},
+    {title:'Sleep & Stress — a 10-min Explainer',   type:'video',   topic:'sleep',      duration:'10 min', attached:'Burnout',                   status:'published'},
+    {title:'Growth Conversations (for managers)',   type:'article', topic:'growth',     duration:'12 min', attached:'Growth Mindset',            status:'published'},
+    {title:'Finding Purpose at Work',               type:'video',   topic:'purpose',    duration:'14 min', attached:'Purpose Alignment',         status:'draft'},
+  ],
+  registrations: [
+    {company:'Luma Healthcare',    contact:'ceo@luma.health',       size:'200-500',  industry:'Healthcare', source:'Website',  submitted:'2d ago',  status:'new'},
+    {company:'Tenzin Technologies',contact:'hr@tenzin.io',          size:'50-200',   industry:'Tech',       source:'Referral', submitted:'4d ago',  status:'contacted'},
+    {company:'Dovetail Industries',contact:'people@dovetail.com',   size:'500-2000', industry:'Manufacturing', source:'Webinar', submitted:'6d ago', status:'demo-scheduled'},
+    {company:'Marigold Studios',   contact:'founders@marigold.art', size:'10-50',    industry:'Creative',   source:'Website',  submitted:'1w ago',  status:'disqualified'},
+    {company:'Stellar Logistics',  contact:'ops@stellarlog.com',    size:'200-500',  industry:'Logistics',  source:'Website',  submitted:'2w ago',  status:'converted'},
+  ],
+  billing: [
+    {name:'InterBeing Demo Co',tier:'Enterprise',seats:6,    mrr:'$ 0',      start:'2024-01-01', renewal:'2026-01-01', status:'active'},
+    {name:'Halcyon Logistics', tier:'Enterprise',seats:1842, mrr:'$ 11,900', start:'2024-09-01', renewal:'2026-09-01', status:'active'},
+    {name:'Ashoka Textiles',   tier:'Growth',    seats:428,  mrr:'$ 2,140',  start:'2025-02-15', renewal:'2026-02-15', status:'active'},
+    {name:'Kestrel BPO',       tier:'Enterprise',seats:920,  mrr:'$ 6,200',  start:'2026-04-01', renewal:'2027-04-01', status:'active'},
+    {name:'Nimbus Media',      tier:'Growth',    seats:312,  mrr:'$ 1,560',  start:'2025-04-10', renewal:'2026-04-10', status:'renewing'},
+    {name:'Riverdale Bank',    tier:'Growth',    seats:540,  mrr:'$ 2,700',  start:'2025-06-01', renewal:'2026-06-01', status:'at-risk'},
+    {name:'Saffron Grocers',   tier:'Starter',   seats:180,  mrr:'$ 720',    start:'2025-01-20', renewal:'2026-01-20', status:'paused'},
+  ],
+  modules: [
+    {key:'dashboard',               label:'Dashboard',               group:'Overview'},
+    {key:'clients',                 label:'Client Companies',        group:'Overview'},
+    {key:'admin_users',             label:'Admin Users',             group:'Overview'},
+    {key:'indicators_build',        label:'Indicator Builder',       group:'Content'},
+    {key:'pulse_library',           label:'Pulse Library',           group:'Content'},
+    {key:'comm_templates',          label:'Communication Templates', group:'Content'},
+    {key:'resources',               label:'Wellbeing Resources',     group:'Content'},
+    {key:'rbac',                    label:'RBAC Matrix',             group:'Platform'},
+    {key:'public_registrations',    label:'Public Registrations',    group:'Platform'},
+    {key:'billing',                 label:'Billing & Tiers',         group:'Platform'},
+    {key:'audit_log',               label:'Audit Log',               group:'Platform'},
+    {key:'system_settings',         label:'System Settings',         group:'Platform'},
+  ],
+  roles: [
+    {name:'Super Admin',        system:true,  permissions:'all'},
+    {name:'Customer Success',   system:false, permissions:{dashboard:['view'],clients:['view','edit'],admin_users:['view'],indicators_build:['view'],pulse_library:['view'],comm_templates:['view','edit'],resources:['view','edit'],rbac:['view'],public_registrations:['view','edit'],billing:['view'],audit_log:['view'],system_settings:[]}},
+    {name:'Content Admin',      system:false, permissions:{dashboard:['view'],clients:['view'],admin_users:[],indicators_build:['view','add','edit'],pulse_library:['view','add','edit'],comm_templates:['view','add','edit'],resources:['view','add','edit','delete'],rbac:[],public_registrations:[],billing:[],audit_log:[],system_settings:[]}},
+    {name:'Implementation',     system:false, permissions:{dashboard:['view'],clients:['view','add','edit'],admin_users:['view'],indicators_build:['view'],pulse_library:['view'],comm_templates:['view'],resources:['view'],rbac:['view'],public_registrations:['view','edit'],billing:['view'],audit_log:['view'],system_settings:[]}},
+    {name:'Billing',            system:false, permissions:{dashboard:['view'],clients:['view'],admin_users:[],indicators_build:[],pulse_library:[],comm_templates:[],resources:[],rbac:[],public_registrations:['view'],billing:['view','add','edit'],audit_log:['view'],system_settings:[]}},
+    {name:'Viewer',             system:false, permissions:{dashboard:['view'],clients:['view'],admin_users:[],indicators_build:['view'],pulse_library:['view'],comm_templates:['view'],resources:['view'],rbac:[],public_registrations:[],billing:[],audit_log:['view'],system_settings:[]}},
+  ],
+};
+
+let apiMode = false;   // live API mode toggle
+let currentIndicatorId = 'ind-burnout';
+let currentRole = 'Super Admin';
+let tplChannel = 'all';
+
+// ================================================================
+// API HELPER — falls through to mock on any error
+// ================================================================
+async function tryApi(path, fallback) {
+  if (!apiMode) return fallback;
+  try {
+    const token = localStorage.getItem('icc_token') || '';
+    const r = await fetch(path, {
+      credentials: 'include',
+      headers: token ? { Authorization: 'Bearer ' + token } : {},
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    return data && (Array.isArray(data) ? data.length : Object.keys(data).length) ? data : fallback;
+  } catch (e) {
+    console.warn('API fallback:', path, e.message);
+    return fallback;
+  }
+}
+
+async function ensureIccToken() {
+  let token = localStorage.getItem('icc_token') || '';
+  if (token) return token;
+  const email = prompt('Sign in to hit the live v2 API.\n\nICC admin email:', 'icc@interbeing.care');
+  if (!email) return '';
+  const password = prompt('Password:', 'Demo@123456');
+  if (!password) return '';
+  try {
+    const r = await fetch('/api/icc/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    token = data.token || data.access_token || '';
+    if (token) localStorage.setItem('icc_token', token);
+    return token;
+  } catch (e) {
+    alert('Live ICC API unreachable — staying in demo mode. (' + e.message + ')');
+    return '';
+  }
+}
+
+// ================================================================
+// NAV
+// ================================================================
+document.querySelectorAll('.sb-item').forEach(item => {
+  item.addEventListener('click', () => navigate(item.dataset.nav));
+});
+document.querySelectorAll('[data-nav-btn]').forEach(btn => {
+  btn.addEventListener('click', () => navigate(btn.dataset.navBtn));
+});
+function navigate(page) {
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.toggle('active', i.dataset.nav === page));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `page-${page}`));
+  const titles = {dashboard:'Dashboard',clients:'Client Companies',users:'Admin Users',indicators:'Indicator Builder',pulse:'Pulse Library',comms:'Communication Templates',resources:'Resources',rbac:'Roles & Permissions',registrations:'Public Registrations',billing:'Billing & Tiers'};
+  document.getElementById('tb-title').textContent = titles[page] || 'ICC Admin';
+  window.scrollTo(0,0);
+}
+
+// ================================================================
+// API MODE TOGGLE
+// ================================================================
+document.getElementById('mode-toggle').addEventListener('click', async () => {
+  if (!apiMode) {
+    await ensureIccToken();
+  } else {
+    localStorage.removeItem('icc_token');
+  }
+  apiMode = !apiMode;
+  document.getElementById('mode-pill').textContent = apiMode ? 'Live API' : 'Demo data';
+  document.getElementById('mode-pill').classList.toggle('warn', apiMode);
+  document.getElementById('mode-toggle').textContent = apiMode ? 'Back to demo' : 'Try live API';
+  await renderAll();
+});
+
+// ================================================================
+// DASHBOARD
+// ================================================================
+function renderAdoption() {
+  document.getElementById('adoption-list').innerHTML = MOCK.adoption.map(a => `
+    <div class="adoption-row">
+      <div class="adoption-name">${a.module}</div>
+      <div class="adoption-bar-track"><div class="adoption-bar-fill ${a.cls}" style="width:${a.v}%"></div></div>
+      <div class="adoption-value">${a.v}%</div>
+    </div>
+  `).join('');
+}
+function renderActivity() {
+  document.getElementById('activity-list').innerHTML = MOCK.activity.map(a => `
+    <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--n-100)">
+      <div style="font-size:1.2rem;flex-shrink:0">${a.icon}</div>
+      <div style="flex:1;font-size:.85rem;color:var(--n-700)">${a.text}</div>
+      <div style="font-size:.72rem;color:var(--n-500);white-space:nowrap">${a.when}</div>
+    </div>
+  `).join('');
+}
+function renderClientRows() {
+  document.getElementById('client-rows').innerHTML = MOCK.clients.slice(0,8).map(c => {
+    const badge = c.status === 'active' ? 'badge-success' : c.status === 'at-risk' ? 'badge-warn' : c.status === 'onboarding' ? 'badge-info' : 'badge-neutral';
+    const pulseCls = c.pulse >= 75 ? 'badge-success' : c.pulse >= 60 ? 'badge-warn' : 'badge-danger';
+    return `<tr>
+      <td><strong style="color:var(--n-900)">${c.name}</strong><br><span class="text-muted" style="font-size:.75rem">${c.subdomain}.interbeing.care</span></td>
+      <td>${c.employees.toLocaleString()}</td>
+      <td>${c.active.toLocaleString()}</td>
+      <td><span class="badge ${pulseCls}">${c.pulse}%</span></td>
+      <td>${c.wellbeing}/100</td>
+      <td>${c.cycle}</td>
+      <td><span class="badge ${badge}">${c.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ================================================================
+// CLIENTS PAGE
+// ================================================================
+function renderClients() {
+  const search = (document.getElementById('client-search').value || '').toLowerCase();
+  const tier = document.getElementById('client-tier').value;
+  const filtered = MOCK.clients.filter(c =>
+    (!search || c.name.toLowerCase().includes(search) || c.subdomain.includes(search)) &&
+    (!tier || c.tier === tier)
+  );
+  document.getElementById('client-cards').innerHTML = filtered.map(c => {
+    const badge = c.status === 'active' ? 'badge-success' : c.status === 'at-risk' ? 'badge-warn' : c.status === 'onboarding' ? 'badge-info' : 'badge-neutral';
+    return `<div class="client-card">
+      <div class="client-icon">${c.name.slice(0,2).toUpperCase()}</div>
+      <div class="client-meta">
+        <div class="client-name">${c.name} <span class="badge ${badge}" style="margin-left:6px">${c.status}</span> <span class="badge badge-teal" style="margin-left:4px">${c.tier}</span></div>
+        <div class="client-url">${c.subdomain}.interbeing.care</div>
+        <div class="client-stats">
+          <div class="stat"><strong>${c.employees.toLocaleString()}</strong>employees</div>
+          <div class="stat"><strong>${c.active.toLocaleString()}</strong>active</div>
+          <div class="stat"><strong>${c.pulse}%</strong>pulse</div>
+          <div class="stat"><strong>${c.wellbeing}/100</strong>wellbeing</div>
+          <div class="stat"><strong>${c.cycle}</strong>cycle</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-direction:column">
+        <button class="btn btn-ghost btn-sm">Open</button>
+        <button class="btn btn-secondary btn-sm">Impersonate</button>
+      </div>
+    </div>`;
+  }).join('') || '<div class="alert alert-info">No clients match your filter.</div>';
+}
+
+// ================================================================
+// ADMIN USERS
+// ================================================================
+function renderAdmins() {
+  document.getElementById('admin-rows').innerHTML = MOCK.admins.map(a => `
+    <tr>
+      <td><strong style="color:var(--n-900)">${a.name}</strong></td>
+      <td>${a.email}</td>
+      <td><span class="badge badge-violet">${a.role}</span></td>
+      <td>${a.last}</td>
+      <td><span class="badge badge-${a.status === 'active' ? 'success' : 'neutral'}">${a.status}</span></td>
+      <td class="text-right"><button class="btn btn-ghost btn-sm">Edit</button></td>
+    </tr>`).join('');
+}
+
+// ================================================================
+// INDICATOR BUILDER
+// ================================================================
+function renderIndicatorDropdown() {
+  document.getElementById('indicator-pick').innerHTML = MOCK.indicators.map(i =>
+    `<option value="${i.id}" ${i.id === currentIndicatorId ? 'selected' : ''}>${i.name} (${i.code}) — ${i.category}</option>`
+  ).join('');
+}
+function loadIndicator() {
+  currentIndicatorId = document.getElementById('indicator-pick').value;
+  renderIndicator();
+}
+function renderIndicator() {
+  const ind = MOCK.indicators.find(i => i.id === currentIndicatorId) || MOCK.indicators[0];
+  document.getElementById('ind-name').value = ind.name;
+  document.getElementById('ind-code').value = ind.code;
+  document.getElementById('ind-category').value = ind.category;
+  document.getElementById('ind-cadence').value = ind.cadence;
+  document.getElementById('ind-desc').value = ind.description;
+  renderSections(ind);
+  renderOverall(ind);
+}
+function renderSections(ind) {
+  document.getElementById('section-list').innerHTML = (ind.sections && ind.sections.length ? ind.sections : []).map((s, idx) => `
+    <div class="section-block">
+      <div class="section-block-head">
+        <div class="section-block-title">Section ${idx + 1} — <input value="${s.name}" style="border:none;border-bottom:1px dashed var(--n-300);font-size:.95rem;font-weight:700;padding:2px 0;width:240px;background:transparent"></div>
+        <div class="flex-gap">
+          <select style="padding:6px 10px;border:1px solid var(--n-200);border-radius:var(--radius-sm);font-size:.82rem;background:#fff"><option ${s.scale === 'Likert-5' ? 'selected' : ''}>Likert-5</option><option ${s.scale === 'Likert-7' ? 'selected' : ''}>Likert-7</option><option ${s.scale === 'Yes/No' ? 'selected' : ''}>Yes/No</option></select>
+          <button class="btn btn-ghost btn-sm">Delete</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Questions (${s.questions.length})</label>
+        ${s.questions.map((q, qi) => `<input value="${q}" style="margin-bottom:6px" placeholder="Question ${qi + 1}">`).join('')}
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px">+ Add question</button>
+      </div>
+      <div>
+        <label style="display:block;font-size:.78rem;font-weight:600;color:var(--n-700);margin-bottom:6px">Section band ranges</label>
+        ${s.bands.map(b => `
+          <div class="band-row">
+            <input value="${b.label}" placeholder="Label">
+            <input value="${b.min}" type="number" step="0.01" placeholder="Min">
+            <input value="${b.max}" type="number" step="0.01" placeholder="Max">
+            <textarea placeholder="Narrative verbiage (HTML)">${b.verbiage}</textarea>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <input type="color" value="${b.color}" style="height:32px">
+              <button class="btn btn-ghost btn-sm" style="padding:3px 6px;font-size:.7rem">Remove</button>
+            </div>
+          </div>
+        `).join('')}
+        <button class="btn btn-ghost btn-sm" style="margin-top:4px">+ Add band</button>
+      </div>
+    </div>
+  `).join('') || '<div class="text-muted" style="padding:20px;text-align:center">This indicator does not have sections yet. Click "+ Add section" to begin.</div>';
+}
+function renderOverall(ind) {
+  document.getElementById('overall-bands').innerHTML = (ind.overall && ind.overall.length ? ind.overall : []).map(b => `
+    <div class="band-row" style="grid-template-columns:100px 80px 80px 1fr 200px">
+      <input value="${b.label}" placeholder="Band label">
+      <input value="${b.min}" type="number" step="0.01">
+      <input value="${b.max}" type="number" step="0.01">
+      <textarea placeholder="Overall narrative (HTML)">${b.verbiage}</textarea>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <input type="color" value="${b.color}" style="height:28px">
+        <small class="text-muted" style="font-size:.7rem">Resources:</small>
+        <select multiple size="3" style="padding:4px;border:1px solid var(--n-200);border-radius:var(--radius-sm);font-size:.76rem;background:#fff">
+          ${b.resources.map(r => `<option selected>${r}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+  `).join('') || '<div class="text-muted" style="padding:16px;text-align:center">No overall bands yet. Add one to power the top-level report narrative.</div>';
+}
+function addSection() {
+  const ind = MOCK.indicators.find(i => i.id === currentIndicatorId);
+  if (!ind) return;
+  ind.sections = ind.sections || [];
+  ind.sections.push({
+    name: 'New section', scale: 'Likert-5',
+    questions: ['Draft question 1', 'Draft question 2'],
+    bands: [
+      { label: 'Strong',  min: 3.51, max: 5.0, color: '#1a847e', verbiage: 'Strong section — narrative.' },
+      { label: 'Moderate',min: 2.31, max: 3.5, color: '#d4a017', verbiage: 'Moderate section — narrative.' },
+      { label: 'Low',     min: 0,    max: 2.3, color: '#e8735e', verbiage: 'Low section — narrative.' },
+    ],
+  });
+  renderIndicator();
+}
+function addOverallBand() {
+  const ind = MOCK.indicators.find(i => i.id === currentIndicatorId);
+  if (!ind) return;
+  ind.overall = ind.overall || [];
+  ind.overall.push({
+    label: 'New band', min: 0, max: 1, color: '#d4a017',
+    verbiage: '<p>Draft overall narrative.</p>',
+    resources: [],
+  });
+  renderOverall(ind);
+}
+function newIndicatorFromScratch() {
+  const code = 'NEW' + (MOCK.indicators.length + 1);
+  const id = 'ind-new-' + Date.now();
+  MOCK.indicators.push({
+    id, name: 'Untitled indicator', code, category: 'wellbeing', cadence: 'quarterly',
+    description: 'Describe what this indicator measures.',
+    sections: [], overall: [],
+  });
+  currentIndicatorId = id;
+  renderIndicatorDropdown();
+  renderIndicator();
+  alert('New indicator scaffold created. Fill in metadata, sections, and bands — then save.');
+}
+function cloneCurrentRole() {
+  const base = MOCK.roles.find(r => r.name === currentRole);
+  if (!base) return;
+  const newRole = { name: base.name + ' (copy)', system: false, permissions: base.permissions === 'all' ? 'all' : JSON.parse(JSON.stringify(base.permissions)) };
+  MOCK.roles.push(newRole);
+  currentRole = newRole.name;
+  renderRoleDropdown();
+  document.getElementById('rbac-role-pick').value = newRole.name;
+  renderMatrix();
+}
+function saveIndicator() {
+  const status = document.getElementById('indicator-status');
+  status.style.display = 'inline-flex';
+  setTimeout(() => { status.style.display = 'none'; }, 2000);
+}
+
+// ================================================================
+// PULSE LIBRARY
+// ================================================================
+function renderPulse() {
+  document.getElementById('pulse-rows').innerHTML = MOCK.pulse.map(p => `
+    <tr>
+      <td><strong style="color:var(--n-900)">${p.name}</strong></td>
+      <td>${p.questions}</td>
+      <td><span class="badge badge-teal">${p.cadence}</span></td>
+      <td><span class="badge badge-violet">${p.scope}</span></td>
+      <td>${p.adopted} companies</td>
+      <td>${p.response}%</td>
+      <td class="text-right"><button class="btn btn-ghost btn-sm">Edit</button> <button class="btn btn-ghost btn-sm">Preview</button></td>
+    </tr>`).join('');
+}
+
+// ================================================================
+// COMMS
+// ================================================================
+document.querySelectorAll('[data-tpl-chan]').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('[data-tpl-chan]').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    tplChannel = t.dataset.tplChan;
+    renderTemplates();
+  });
+});
+function renderTemplates() {
+  const search = (document.getElementById('tpl-search').value || '').toLowerCase();
+  const filtered = MOCK.templates.filter(t =>
+    (tplChannel === 'all' || t.channel === tplChannel) &&
+    (!search || t.name.toLowerCase().includes(search) || (t.subject || '').toLowerCase().includes(search) || t.body.toLowerCase().includes(search))
+  );
+  const channelBadge = {
+    email:'badge-info',
+    in_app:'badge-teal',
+    whatsapp:'badge-success',
+    nudge:'badge-violet'
+  };
+  document.getElementById('tpl-grid').innerHTML = filtered.map(t => `
+    <div class="tpl-card">
+      <div class="tpl-header">
+        <div class="tpl-name">${t.name}</div>
+        <span class="badge ${channelBadge[t.channel] || 'badge-neutral'}">${t.channel}</span>
+      </div>
+      ${t.subject ? `<div class="tpl-subject">Subject: ${t.subject}</div>` : ''}
+      <div class="tpl-preview">${t.body}</div>
+      <div class="tpl-footer">
+        <span class="badge badge-neutral">${t.trigger}</span>
+        <span>· ${t.overrides} overrides</span>
+        <span>· updated ${t.updated}</span>
+        <span style="margin-left:auto"><button class="btn btn-ghost btn-sm">Edit</button></span>
+      </div>
+    </div>
+  `).join('') || '<div class="alert alert-info">No templates match.</div>';
+}
+
+// ================================================================
+// RESOURCES
+// ================================================================
+function renderResources() {
+  const iconMap = {article:'📄',video:'🎬',audio:'🎧',pdf:'📕',link:'🔗'};
+  document.getElementById('resource-rows').innerHTML = MOCK.resources.map(r => `
+    <tr>
+      <td>${iconMap[r.type] || '📎'} <strong style="color:var(--n-900);margin-left:6px">${r.title}</strong></td>
+      <td><span class="badge badge-neutral">${r.type}</span></td>
+      <td>${r.topic}</td>
+      <td>${r.duration}</td>
+      <td>${r.attached}</td>
+      <td><span class="badge badge-${r.status === 'published' ? 'success' : 'warn'}">${r.status}</span></td>
+    </tr>`).join('');
+}
+
+// ================================================================
+// RBAC MATRIX
+// ================================================================
+function renderRoleDropdown() {
+  document.getElementById('rbac-role-pick').innerHTML = MOCK.roles.map(r =>
+    `<option ${r.name === currentRole ? 'selected' : ''}>${r.name}${r.system ? ' (system)' : ''}</option>`
+  ).join('');
+  currentRole = MOCK.roles.find(r => r.name === currentRole) ? currentRole : MOCK.roles[0].name;
+}
+function renderMatrix() {
+  const roleName = document.getElementById('rbac-role-pick').value.replace(' (system)', '');
+  currentRole = roleName;
+  const role = MOCK.roles.find(r => r.name === roleName);
+  const allActions = role.permissions === 'all';
+  let currentGroup = null;
+  let html = '';
+  for (const m of MOCK.modules) {
+    if (m.group !== currentGroup) {
+      currentGroup = m.group;
+      html += `<tr><td class="module-col" colspan="5" style="background:var(--n-50);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--n-500);font-weight:700">${currentGroup}</td></tr>`;
+    }
+    const perms = allActions ? ['view','add','edit','delete'] : (role.permissions[m.key] || []);
+    const labels = {view:'View',add:'Add',edit:'Edit',delete:'Delete'};
+    const modLabel = MOCK.modules.find(x => x.key === m.key)?.label || m.label;
+    html += `<tr data-module="${m.key}">
+      <td class="module-col">${modLabel}<small>${m.key}</small></td>
+      ${['view','add','edit','delete'].map(action =>
+        `<td><span class="chk ${perms.includes(action) ? 'on' : ''}" onclick="this.classList.toggle('on')" title="${labels[action]} ${modLabel}"></span></td>`
+      ).join('')}
+    </tr>`;
+  }
+  document.getElementById('matrix-body').innerHTML = html;
+}
+document.getElementById('rbac-role-pick').addEventListener('change', renderMatrix);
+function saveMatrix() {
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = 'Saved ✓';
+  btn.classList.remove('btn-primary');
+  btn.classList.add('btn-success');
+  setTimeout(() => { btn.textContent = orig; btn.classList.add('btn-primary'); btn.classList.remove('btn-success'); }, 1800);
+}
+
+// ================================================================
+// REGISTRATIONS
+// ================================================================
+function renderRegistrations() {
+  const statusBadge = {
+    'new':'badge-info',
+    'contacted':'badge-warn',
+    'demo-scheduled':'badge-teal',
+    'disqualified':'badge-danger',
+    'converted':'badge-success'
+  };
+  document.getElementById('reg-rows').innerHTML = MOCK.registrations.map(r => `
+    <tr>
+      <td><strong style="color:var(--n-900)">${r.company}</strong></td>
+      <td>${r.contact}</td>
+      <td>${r.size}</td>
+      <td>${r.industry}</td>
+      <td>${r.source}</td>
+      <td>${r.submitted}</td>
+      <td><span class="badge ${statusBadge[r.status] || 'badge-neutral'}">${r.status}</span></td>
+      <td class="text-right">
+        <button class="btn btn-ghost btn-sm">Contact</button>
+        <button class="btn btn-ghost btn-sm">Convert →</button>
+      </td>
+    </tr>`).join('');
+}
+
+// ================================================================
+// BILLING
+// ================================================================
+function renderBilling() {
+  const statusBadge = {'active':'badge-success','renewing':'badge-info','at-risk':'badge-warn','paused':'badge-neutral'};
+  document.getElementById('billing-rows').innerHTML = MOCK.billing.map(b => `
+    <tr>
+      <td><strong style="color:var(--n-900)">${b.name}</strong></td>
+      <td><span class="badge badge-teal">${b.tier}</span></td>
+      <td>${b.seats.toLocaleString()}</td>
+      <td>${b.mrr}</td>
+      <td>${b.start}</td>
+      <td>${b.renewal}</td>
+      <td><span class="badge ${statusBadge[b.status] || 'badge-neutral'}">${b.status}</span></td>
+    </tr>`).join('');
+}
+
+// ================================================================
+// MODAL
+// ================================================================
+function openClientModal() { document.getElementById('client-modal').classList.add('show'); }
+function closeClientModal() { document.getElementById('client-modal').classList.remove('show'); }
+
+// ================================================================
+// BOOT
+// ================================================================
+async function renderAll() {
+  // try live API for ICC endpoints; fall through to mocks
+  await tryApi('/api/v2/rbac/icc/roles', MOCK.roles);
+  await tryApi('/api/v2/indicator-ranges/ind-burnout', MOCK.indicators[0]);
+  await tryApi('/api/v2/communication-templates', MOCK.templates);
+  renderAdoption();
+  renderActivity();
+  renderClientRows();
+  renderClients();
+  renderAdmins();
+  renderIndicatorDropdown();
+  renderIndicator();
+  renderPulse();
+  renderTemplates();
+  renderResources();
+  renderRoleDropdown();
+  renderMatrix();
+  renderRegistrations();
+  renderBilling();
+}
+renderAll();
+</script>
+</body>
+</html>

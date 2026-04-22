@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: wellminds-v2
+    runtime: node
+    plan: free
+    buildCommand: |
+      cd well-minds && npm install --omit=dev
+      cd ../well-minds-v2 && npm install --omit=dev
+    startCommand: node well-minds-v2/scripts/bootstrap.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wellminds-db
+          property: connectionString
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: PGSSLMODE
+        value: require
+      - key: SEED_ON_BOOT
+        value: "true"
+
+databases:
+  - name: wellminds-db
+    plan: free
+    databaseName: wellminds
+    user: wellminds
