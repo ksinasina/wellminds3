@@ -1454,6 +1454,28 @@ try {
     name: 'ICC Admin', email: 'admin@interbeingcare.com',
     role: 'super_admin', demo: true
   }));
+
+  // DEMO SHIELD: intercept fetch() so API 401s from the fake "demo" token don't clear the session
+  // and bounce the user to the login screen.
+  (function () {
+    if (window.__demoFetchPatched) return;
+    window.__demoFetchPatched = true;
+    var origFetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      return origFetch(input, init).then(function (resp) {
+        try {
+          var url = typeof input === 'string' ? input : (input && input.url) || '';
+          if (resp && resp.status === 401 && url.indexOf('/api/') !== -1) {
+            return new Response('{"ok":true,"data":null,"_demo":true}', {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' }
+            });
+          }
+        } catch (e) { /* fall through */ }
+        return resp;
+      });
+    };
+  })();
 } catch (e) { /* storage blocked */ }
 </script>
 <script>
