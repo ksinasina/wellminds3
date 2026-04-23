@@ -1728,14 +1728,17 @@ The {{company_name}} Team</textarea></div>
 
 <script>
 /* === DEMO AUTO-LOGIN — bypass sign-in for public demo === */
-if (!localStorage.getItem('icc_user')) {
+try {
+  // Always force demo user on load so stale state from prior attempts doesn't trigger auth flow
   localStorage.setItem('icc_user', JSON.stringify({
     id: 'demo-1', firstName: 'Alex', lastName: 'Johnson',
     email: 'alex.johnson@demo.interbeing.care', role: 'admin',
     company_id: 1, department: 'Engineering',
     title: 'Senior Software Engineer', demo: true
   }));
-}
+  // Set a demo token sentinel so any token-gated UI shows, but demo:true flag skips /auth/me
+  localStorage.setItem('icc_token', 'demo');
+} catch (e) { /* storage blocked */ }
 </script>
 <script>
 /* =============== CONFIG & STATE =============== */
