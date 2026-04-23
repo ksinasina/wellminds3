@@ -1727,6 +1727,17 @@ The {{company_name}} Team</textarea></div>
 <div class="toast" id="toast"></div>
 
 <script>
+/* === DEMO AUTO-LOGIN — bypass sign-in for public demo === */
+if (!localStorage.getItem('icc_user')) {
+  localStorage.setItem('icc_user', JSON.stringify({
+    id: 'demo-1', firstName: 'Alex', lastName: 'Johnson',
+    email: 'alex.johnson@demo.interbeing.care', role: 'admin',
+    company_id: 1, department: 'Engineering',
+    title: 'Senior Software Engineer', demo: true
+  }));
+}
+</script>
+<script>
 /* =============== CONFIG & STATE =============== */
 const API_BASE = window.location.origin + '/api';
 const PAGE_TITLES = {

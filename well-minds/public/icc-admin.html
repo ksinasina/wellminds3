@@ -1447,6 +1447,16 @@ tr:hover td{background:var(--n-50)}
 </div>
 
 <script>
+/* === DEMO AUTO-LOGIN — bypass sign-in for public demo === */
+if (!localStorage.getItem('icc_token')) {
+  localStorage.setItem('icc_token', 'demo');
+  localStorage.setItem('icc_user', JSON.stringify({
+    name: 'ICC Admin', email: 'admin@interbeingcare.com',
+    role: 'super_admin', demo: true
+  }));
+}
+</script>
+<script>
 /* ================================================================
    ICC ADMIN PANEL - JAVASCRIPT
    ================================================================ */
